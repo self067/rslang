@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import './s.css';
 
-const STYLES = ['btn--primary', 'btn--outline'];
+const STYLES = ['btn--primary', 'btn--outline', 'btn--test'];
 
 const SIZES = ['btn--medium', 'btn--large'];
 
@@ -18,8 +18,8 @@ export const Button: FC<ButtonProps> = ({
   children,
   type,
   onClick,
-  buttonStyle = 'btn--primary',
-  buttonSize = 'btn--medium',
+  buttonStyle = '',
+  buttonSize = '',
 }) => {
   const checkButtonStyle = STYLES.includes(buttonStyle)
     ? buttonStyle

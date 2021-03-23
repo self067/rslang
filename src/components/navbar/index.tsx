@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Button } from '../button';
 import { Link } from 'react-router-dom';
-import './s.css'
+import './s.css';
 
 export const Navbar: FC = () => {
   const [click, setClick] = useState(false);
@@ -30,6 +30,7 @@ export const Navbar: FC = () => {
         <div className="navbar-container">
           <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
             RS Lang
+            <i className="fab  fa-quinscape" />
           </Link>
           <div className="menu-icon" onClick={handleClick}>
             <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
@@ -42,20 +43,25 @@ export const Navbar: FC = () => {
             </li>
             <li className="nav-item">
               <Link
-                to="/services"
+                to="/dictionary"
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
-                Services
+                Dictionary
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/games" className="nav-links" onClick={closeMobileMenu}>
+                Games
               </Link>
             </li>
             <li className="nav-item">
               <Link
-                to="/products"
+                to="/statistic"
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
-                Products
+                Statistic
               </Link>
             </li>
 
