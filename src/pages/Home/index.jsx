@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyledHome, StyledVideo } from './styled';
-import { Footer } from 'components/footer';
+import { Footer } from '../../components/footer';
 
 function Home() {
   return (

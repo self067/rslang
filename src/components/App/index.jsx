@@ -2,9 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Navbar } from '../navbar';
 import Home from '../../pages/Home';
-import Dictionary from 'pages/Dictionary';
-import Games from 'pages/Games';
-import Statistic from 'pages/Statistic';
+import Dictionary from '../../pages/Dictionary';
+import Games from '../../pages/Games';
+import Statistic from '../../pages/Statistic';
 
 export const App = () => {
   return (
