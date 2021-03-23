@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
-export const StyledHome = styled.section`
-  height: 100vh;
+export const StyledSection = styled.section`
+  margin-top: 90px;
+`;
+
+export const StyledHome = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -16,4 +19,5 @@ export const StyledVideo = styled.video`
   height: 100%;
   position: fixed;
   z-index: -1;
+  margin-top: -100px;
 `;

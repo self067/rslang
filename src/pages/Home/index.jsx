@@ -1,14 +1,17 @@
 import React from 'react';
-import { StyledHome, StyledVideo } from './styled';
+import { StyledHome, StyledVideo, StyledSection } from './styled';
 import { Footer } from '../../components/footer';
+import Cards from '../../components/cards/components/gameCard';
 
 function Home() {
   return (
-    <StyledHome>
+    <StyledSection>
       <StyledVideo src="video/video.mp4" autoPlay loop muted />
-      <h1>ГЛАВНАЯ СТРАНИЦА</h1>
-      <Footer />
-    </StyledHome>
+      <StyledHome>
+        <Cards />
+        <Footer />
+      </StyledHome>
+    </StyledSection>
   );
 }
 
