@@ -80,11 +80,11 @@ export const StyledImg = styled.img`
 `;
 
 export const StyledInfo = styled.div`
-  padding: 20px 30px 30px;
+  padding: 50px 30px 60px;
 `;
 
 export const StyledCardText = styled.p`
   color: var(--grey);
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 24px;
+  text-align: center;
 `;
