@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '../button';
 import { Link } from 'react-router-dom';
 import './s.css';
 
-export const Navbar: FC = () => {
+export const Navbar = () => {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
 

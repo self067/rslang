@@ -1,25 +1,16 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import './s.css';
 
 const STYLES = ['btn--primary', 'btn--outline', 'btn--test'];
 
 const SIZES = ['btn--medium', 'btn--large'];
-
-export interface ButtonProps {
-  type?: 'button' | 'submit' | 'reset';
-  buttonSize?: string;
-  buttonStyle?: string;
-  children?: React.ReactNode;
-  onClick?: () => void;
-}
-
-export const Button: FC<ButtonProps> = ({
+export const Button = ({
   children,
   type,
   onClick,
-  buttonStyle = '',
-  buttonSize = '',
+  buttonStyle,
+  buttonSize,
 }) => {
   const checkButtonStyle = STYLES.includes(buttonStyle)
     ? buttonStyle

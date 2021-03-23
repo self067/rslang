@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import React  from 'react';
 import { StyledFooter, StyledText, StyledLink, StyledLogo } from './styled';
 
-export const Footer: FC = () => {
+export const Footer = () => {
   return (
     <StyledFooter>
       <StyledText>Created by</StyledText>
