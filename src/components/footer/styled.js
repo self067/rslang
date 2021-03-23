@@ -10,7 +10,7 @@ export const StyledFooter = styled.section`
 
 export const StyledText = styled.p`
   font-size: 18px;
-  color: var(--color-light);
+  color: #333;
   margin-right: 10px;
   display: inline-block;
 `;
@@ -23,11 +23,11 @@ export const StyledLink = styled.a`
   &,
   &:after,
   &:visited {
-    color: var(--color-light);
+    color: #333;
     text-decoration: none;
   }
   &:hover {
-    color: var(--color-blue-green);
+    color: #335;
   }
 `;
 
