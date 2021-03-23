@@ -5,6 +5,7 @@ import Home from '../../pages/Home';
 import Dictionary from '../../pages/Dictionary';
 import Games from '../../pages/Games';
 import Statistic from '../../pages/Statistic';
+import SingUp from '../../pages/SingUp';
 
 export const App = () => {
   return (
@@ -16,6 +17,7 @@ export const App = () => {
           <Route path="/dictionary" component={Dictionary} />
           <Route path="/games" component={Games} />
           <Route path="/statistic" component={Statistic} />
+          <Route path="/sign-up" component={SingUp} />
         </Switch>
       </Router>
     </>

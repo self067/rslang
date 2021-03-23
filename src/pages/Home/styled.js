@@ -5,11 +5,9 @@ export const StyledHome = styled.section`
   width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   object-fit: contain;
-  @media (max-width: 800px) {
-    height: 100%;
-  }
 `;
 
 export const StyledVideo = styled.video`
