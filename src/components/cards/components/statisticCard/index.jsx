@@ -23,7 +23,7 @@ const SLink = styled(Link)`
 
 function StatisticCard() {
   return (
-    <>
+    <div>
       <StyledStatContainer>
         <StyledStatRightPart>
           <StyledStatTitle>Твоя статистика обучения</StyledStatTitle>
@@ -50,7 +50,7 @@ function StatisticCard() {
           </Link>
         </StyledStatInfo>
       </StyledStatContainer>
-    </>
+    </div>
   );
 }
 

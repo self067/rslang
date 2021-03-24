@@ -8,6 +8,7 @@ export const StyledTeamCard = styled.div`
   text-align: center;
   margin: 10px;
   padding: 5px;
+  border-radius: 10px;
 `;
 
 export const StyledTeamTitle = styled.p`

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const StyledStatContainer = styled.div`
   background-color: var(--light);
   border-radius: 10px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   display: flex;
   max-width: 100%;
   margin: 20px;
@@ -44,11 +44,11 @@ export const StyledStatProgressContainer = styled.div`
 
 export const StyledStatProgress = styled.div`
   background-color: var(--light-grey);
-  border-radius: 3px;
+  border-radius: 10px;
   height: 5px;
   width: 100%;
   &::after {
-    border-radius: 3px;
+    border-radius: 10px;
     background-color: var(--blue-dark);
     content: '';
     position: absolute;
@@ -69,7 +69,7 @@ export const StyledBttn = styled.button`
   background-color: var(--blue-dark);
   border: 0;
   border-radius: 50px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   color: #fff;
   font-size: 16px;
   padding: 12px 25px;
