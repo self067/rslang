@@ -16,8 +16,8 @@ import styled from 'styled-components';
 const SLink = styled(Link)`
   color: #fff;
   display: inline-block;
-  font-size: 12px;
-  opacity: 0.6;
+  font-size: 1rem;
+  opacity: 0.8;
   margin-top: 30px;
   text-decoration: none;
 `;

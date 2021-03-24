@@ -5,12 +5,14 @@ export const StyledStatContainer = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   display: flex;
   margin: 20px auto;
-  width: 70%;
+  width: 80%;
+  height: 250px;
 `;
 
 export const StyledStatTitle = styled.h2`
   letter-spacing: 1px;
   margin: 10px 0;
+  font-size: 2rem;
 `;
 
 export const StyledStatRightPart = styled.div`
@@ -47,6 +49,7 @@ export const StyledStatProgress = styled.div`
   border-radius: 10px;
   height: 5px;
   width: 100%;
+  margin-bottom: 4px;
   &::after {
     border-radius: 10px;
     background-color: var(--blue-dark);
@@ -60,7 +63,7 @@ export const StyledStatProgress = styled.div`
 `;
 
 export const StyledStatProgressText = styled.span`
-  font-size: 12px;
+  font-size: 1rem;
   letter-spacing: 1px;
 `;
 
@@ -75,5 +78,4 @@ export const StyledBttn = styled.button`
   position: absolute;
   bottom: 30px;
   right: 30px;
-  letter-spacing: 1px;
 `;
