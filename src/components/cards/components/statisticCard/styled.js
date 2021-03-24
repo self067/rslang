@@ -7,6 +7,7 @@ export const StyledStatContainer = styled.div`
   margin: 20px auto;
   width: 80%;
   height: 250px;
+  position: relative;
 `;
 
 export const StyledStatTitle = styled.h2`
@@ -83,7 +84,7 @@ export const StyledBttn = styled.button`
 export const StyledImg = styled.img`
   width: 250px;
   position: absolute;
-  top: 300px;
-  right: 115px;
+  top: 190px;
+  right: -115px;
   z-index: 1;
 `;

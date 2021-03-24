@@ -51,8 +51,8 @@ function StatisticCard() {
             <StyledBttn>Продолжить обучение</StyledBttn>
           </Link>
         </StyledStatInfo>
+        <StyledImg src="images/characters/11.png" alt="character" />
       </StyledStatContainer>
-      {/*<StyledImg src="images/characters/11.png" alt="character" />*/}
     </StyledCards>
   );
 }
