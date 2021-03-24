@@ -13,10 +13,12 @@ export const StyledTeamCard = styled.div`
 export const StyledTeamTitle = styled.p`
   color: var(--grey);
   font-size: 18px;
+  padding-bottom: 10px;
 `;
 export const StyledTeamSubtitle = styled.p`
   color: var(--grey);
   font-size: 16px;
+  padding-bottom: 5px;
 `;
 
 export const StyledLinks = styled.div`

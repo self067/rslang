@@ -16,9 +16,9 @@ function TeamCards() {
         <StyledWrapper>
           <StyledItems>
             <TeamCard
-              name="Oleg Kuzmin"
+              name="Олег Кузьмин"
               src="images/2.jpg"
-              position="Team Lead"
+              position="Тимлид"
               text="Lorem ipsum dolor sit amet, 
                 consectetur adipiscing elit, 
                 sed do eiusmod tempor incididunt ut 
@@ -28,9 +28,9 @@ function TeamCards() {
               email="a.@gmail.com"
             />
             <TeamCard
-              name="Anastasia Tiapkina"
+              name="Анастасия Тяпкина"
               src="images/1.jpg"
-              position="Developer"
+              position="Разработчик"
               text="Lorem ipsum dolor sit amet, 
                 consectetur adipiscing elit, 
                 sed do eiusmod tempor incididunt ut 
@@ -40,26 +40,26 @@ function TeamCards() {
               email="a.@gmail.com"
             />
             <TeamCard
-              name="Rinat Nassibullin"
+              name="Ринат Насибуллин"
               src="images/3.jpg"
-              position="Developer"
+              position="Разработчик"
+              text="Lorem ipsum dolor sit amet, 
+                consectetur adipiscing elit, 
+                sed do eiusmod tempor incididunt ut 
+                labore et dolore magna aliqua."
+              git="https://github.com/nilubisan"
+              discord="https://discord.com/#"
+              email="a.@gmail.com"
+            />
+            <TeamCard
+              name="Влад Кривоконев"
+              src="images/4.jpg"
+              position="Разработчик"
               text="Lorem ipsum dolor sit amet, 
                 consectetur adipiscing elit, 
                 sed do eiusmod tempor incididunt ut 
                 labore et dolore magna aliqua."
               git="https://github.com/darkusss"
-              discord="https://discord.com/#"
-              email="a.@gmail.com"
-            />
-            <TeamCard
-              name="Vlad Kryvokoniev"
-              src="images/4.jpg"
-              position="Developer"
-              text="Lorem ipsum dolor sit amet, 
-                consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut 
-                labore et dolore magna aliqua."
-              git="https://rs.school/index.html"
               discord="https://discord.com/#"
               email="a.@gmail.com"
             />
