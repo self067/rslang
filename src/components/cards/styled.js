@@ -44,7 +44,7 @@ export const StyledItem = styled.span`
 export const StyledFigure = styled.figure`
   position: relative;
   width: 100%;
-  padding-top: 67%;
+  padding-top: 80%;
   overflow: hidden;
   margin: 0;
 
