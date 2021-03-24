@@ -1,57 +1,57 @@
 import React from 'react';
-import CardItem from '../../index';
+import PropTypes from 'prop-types';
 import {
-  StyledCards,
-  StyledTitle,
-  StyledContainer,
-  StyledWrapper,
-  StyledItems,
-} from '../../styled';
+  StyledItem,
+  StyledFigure,
+  StyledInfo,
+  StyledCardText,
+  StyledImg,
+} from './styled';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-function Cards() {
+const SLink = styled(Link)`
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
+  -webkit-filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
+  filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+`;
+
+function CardItem({ name, src, text, path }) {
   return (
-    <StyledCards>
-      <StyledTitle>Прокачай английский, играя!</StyledTitle>
-      <StyledContainer>
-        <StyledWrapper>
-          <StyledItems>
-            <CardItem
-              src="images/savanna.png"
-              text="Те слова, которые мы помним и используем – это наш активный словарный запас или активная лексика. 
-              А слова, которые мы учили, но не смогли вспомнить оперативно – это наш пассивный словарь.
-              Мини-игра “Саванна” – это тренажер по переводу твоего пассивного изученного словаря в активную стадию"
-              name="Саванна"
-              path="/savannaGame"
-            />
-            <CardItem
-              src="images/audio.png"
-              text="Аудирование для многих, пожалуй, самый сложный навык. 
-              Понять иностранную речь бывает очень трудно: половину слов ты не успеваешь расслышать и понять. 
-              Мини-игра Аудиовызов делает развивает восприятие и перевод на слух английских слов. "
-              name="Аудиовызов"
-              path="/audioGame"
-            />
-          </StyledItems>
-          <StyledItems>
-            <CardItem
-              src="images/sprint.png"
-              text="На старт, внимание, марш! Сможешь ли ты найти верный перевод слова?
-              Мини-игра «Спринт» - это тренировка для повторения заученных слов из твоего словаря.
-              За 60 секунд нужно угадать, правильный ли перевод предложен к английскому слову"
-              name="Спринт"
-              path="/sprintGame"
-            />
-            <CardItem
-              src="images/puzzle.png"
-              text="Нужно что-то написать, если мы все же сделаем эту игру)))"
-              name="Своя игра"
-              path="/ourGame"
-            />
-          </StyledItems>
-        </StyledWrapper>
-      </StyledContainer>
-    </StyledCards>
+    <>
+      <StyledItem>
+        <SLink to={path}>
+            <StyledFigure data-category={name}>
+              <StyledImg src={src} />
+            </StyledFigure>
+
+            <StyledInfo>
+              <StyledCardText>{text}</StyledCardText>
+            </StyledInfo>
+        </SLink>
+      </StyledItem>
+    </>
   );
 }
 
-export default Cards;
+CardItem.defaultProps = {
+  name: '',
+  src: '',
+  text: '',
+  path: '/',
+};
+
+CardItem.propTypes = {
+  name: PropTypes.string,
+  src: PropTypes.string,
+  country: PropTypes.string,
+  path: PropTypes.string,
+};
+
+export default CardItem;
