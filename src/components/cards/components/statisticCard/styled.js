@@ -1,14 +1,11 @@
 import styled from 'styled-components';
 
 export const StyledStatContainer = styled.div`
-  background-color: var(--light);
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   display: flex;
-  max-width: 100%;
-  margin: 20px;
-  overflow: hidden;
-  width: 700px;
+  margin: 20px auto;
+  width: 70%;
 `;
 
 export const StyledStatTitle = styled.h2`
@@ -20,7 +17,10 @@ export const StyledStatRightPart = styled.div`
   background-color: var(--blue-dark);
   color: var(--light);
   padding: 30px;
-  max-width: 250px;
+  max-width: 33%;
+  @media (max-width: 700px) {
+    padding: 10px;
+  }
 `;
 
 export const StyledStatInfo = styled.div`
@@ -34,7 +34,7 @@ export const StyledStatProgressContainer = styled.div`
   top: 30px;
   right: 30px;
   text-align: right;
-  width: 350px;
+  width: 80%;
   &:nth-child(2) {
     position: absolute;
     top: 70px;
@@ -60,8 +60,7 @@ export const StyledStatProgress = styled.div`
 `;
 
 export const StyledStatProgressText = styled.span`
-  font-size: 10px;
-  opacity: 0.6;
+  font-size: 12px;
   letter-spacing: 1px;
 `;
 

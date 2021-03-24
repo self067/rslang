@@ -9,6 +9,7 @@ import {
   StyledStatProgressText,
   StyledBttn,
 } from './styled';
+import { StyledCards } from '../../components/gameCard/styled';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -23,7 +24,7 @@ const SLink = styled(Link)`
 
 function StatisticCard() {
   return (
-    <div>
+    <StyledCards>
       <StyledStatContainer>
         <StyledStatRightPart>
           <StyledStatTitle>Твоя статистика обучения</StyledStatTitle>
@@ -50,7 +51,7 @@ function StatisticCard() {
           </Link>
         </StyledStatInfo>
       </StyledStatContainer>
-    </div>
+    </StyledCards>
   );
 }
 

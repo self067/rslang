@@ -11,6 +11,18 @@ export const StyledTeamCard = styled.div`
   border-radius: 10px;
 `;
 
+export const StyledTeamContainer = styled.div`
+  width: 94%;
+  margin: 0 auto 2rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px 20px;
+  @media (max-width: 700px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
 export const StyledTeamTitle = styled.p`
   color: var(--grey);
   font-size: 18px;
@@ -41,8 +53,8 @@ export const StyledTeamLink = styled.a`
 `;
 
 export const StyledTeamImg = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border-radius: 100%;
   margin: 10px auto 10px;
 `;
