@@ -8,6 +8,7 @@ import {
   StyledStatProgress,
   StyledStatProgressText,
   StyledBttn,
+  StyledImg,
 } from './styled';
 import { StyledCards } from '../../components/gameCard/styled';
 import { Link } from 'react-router-dom';
@@ -51,6 +52,7 @@ function StatisticCard() {
           </Link>
         </StyledStatInfo>
       </StyledStatContainer>
+      {/*<StyledImg src="images/characters/11.png" alt="character" />*/}
     </StyledCards>
   );
 }

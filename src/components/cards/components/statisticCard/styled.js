@@ -79,3 +79,11 @@ export const StyledBttn = styled.button`
   bottom: 30px;
   right: 30px;
 `;
+
+export const StyledImg = styled.img`
+  width: 250px;
+  position: absolute;
+  top: 300px;
+  right: 115px;
+  z-index: 1;
+`;
