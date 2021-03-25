@@ -21,6 +21,9 @@ const SLink = styled(Link)`
   opacity: 0.8;
   margin-top: 30px;
   text-decoration: none;
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 `;
 
 function StatisticCard() {

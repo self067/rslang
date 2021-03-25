@@ -14,6 +14,9 @@ export const StyledStatTitle = styled.h2`
   letter-spacing: 1px;
   margin: 10px 0;
   font-size: 2rem;
+  @media (max-width: 768px) {
+    font-size: 1.3rem;
+  }
 `;
 
 export const StyledStatRightPart = styled.div`
@@ -21,7 +24,7 @@ export const StyledStatRightPart = styled.div`
   color: var(--light);
   padding: 30px;
   max-width: 33%;
-  @media (max-width: 700px) {
+  @media (max-width: 768px) {
     padding: 10px;
   }
 `;
@@ -66,19 +69,36 @@ export const StyledStatProgress = styled.div`
 export const StyledStatProgressText = styled.span`
   font-size: 1rem;
   letter-spacing: 1px;
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    letter-spacing: 0.8px;
+  }
 `;
 
 export const StyledBttn = styled.button`
   background-color: var(--blue-dark);
-  border: 0;
-  border-radius: 50px;
+  color: var(--light);
+  transition: all 0.3s ease-out;
+  border-radius: 10px;
+  letter-spacing: 1px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  color: #fff;
-  font-size: 16px;
-  padding: 12px 25px;
+  outline: none;
+  padding: 15px 20px;
+  font-size: 20px;
   position: absolute;
   bottom: 30px;
   right: 30px;
+  &:hover {
+    transition: all 0.3s ease-out;
+    background: var(--light);
+    color: var(--grey);
+    transition: 0.5s;
+    border: 1px solid var(--blue-dark);
+  }
+  @media (max-width: 768px) {
+    padding: 15px 10px;
+    font-size: 16px;
+  }
 `;
 
 export const StyledImg = styled.img`
@@ -87,4 +107,7 @@ export const StyledImg = styled.img`
   top: 190px;
   right: -115px;
   z-index: 1;
+  @media (max-width: 960px) {
+    display: none;
+  }
 `;
