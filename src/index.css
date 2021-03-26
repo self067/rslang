@@ -1,9 +1,10 @@
 :root {
   --black: rgb(0, 0, 0);
   --grey: rgb(51, 51, 51);
+  --light-grey: rgb(221, 221, 221);
   --light: rgb(255, 255, 255);
   --blue-light: rgb(38, 144, 185);
-  --blue-dark: rgb(15, 48, 87);
+  --blue-dark: rgb(42, 38, 95);
 }
 
 button,

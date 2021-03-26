@@ -1,16 +1,16 @@
-import React  from 'react';
+import React from 'react';
 import { StyledFooter, StyledText, StyledLink, StyledLogo } from './styled';
 
 export const Footer = () => {
   return (
     <StyledFooter>
-      <StyledText>Created by</StyledText>
+      <StyledText>Создатели проекта:</StyledText>
       <StyledLink
         href="https://github.com/self067"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Oleg Kuzmin
+        Олег Кузьмин
       </StyledLink>
 
       <StyledLink
@@ -18,21 +18,21 @@ export const Footer = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        Anastasia Tiapkina
+        Анастасия Тяпкина
       </StyledLink>
       <StyledLink
         href="https://github.com/nilubisan"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Rinat Nassibullin
+        Ринат Насибуллин
       </StyledLink>
       <StyledLink
         href="https://github.com/darkusss"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Vlad Kryvokoniev
+        Влад Кривоконев
       </StyledLink>
       <StyledText>2021</StyledText>
       <StyledLink
