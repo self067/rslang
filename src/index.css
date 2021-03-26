@@ -1,0 +1,31 @@
+:root {
+  --black: rgb(0, 0, 0);
+  --grey: rgb(51, 51, 51);
+  --light: rgb(255, 255, 255);
+  --blue-light: rgb(38, 144, 185);
+  --blue-dark: rgb(15, 48, 87);
+}
+
+button,
+button:active,
+button:focus,
+audio,
+video {
+  outline: none;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
