@@ -1,10 +1,14 @@
 import React from 'react';
+import { StyledContainer, StyledVideo, StyledSection } from '../styled';
 
 function Dictionary() {
   return (
-    <>
-      <h1>Электронный учебник со словарём</h1>
-    </>
+    <StyledSection>
+      <StyledVideo src="video/background.mp4" autoPlay loop muted />
+      <StyledContainer>
+        <h1>Электронный учебник со словарём</h1>
+      </StyledContainer>
+    </StyledSection>
   );
 }
 

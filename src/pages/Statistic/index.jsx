@@ -1,10 +1,14 @@
 import React from 'react';
+import { StyledContainer, StyledVideo, StyledSection } from '../styled';
 
 function Statistic() {
   return (
-    <>
-      <h1>Cтраница статистики</h1>
-    </>
+    <StyledSection>
+      <StyledVideo src="video/tree.mp4" autoPlay loop muted />
+      <StyledContainer>
+        <h1>Cтраница статистики</h1>
+      </StyledContainer>
+    </StyledSection>
   );
 }
 

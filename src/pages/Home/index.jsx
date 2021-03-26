@@ -1,14 +1,23 @@
 import React from 'react';
-import { StyledHome, StyledVideo } from './styled';
+import { StyledContainer, StyledVideo, StyledSection } from '../styled';
 import { Footer } from '../../components/footer';
+import GameCards from '../../components/cards/components/gameCard/cards';
+import TeamCards from '../../components/cards/components/teamCard/cards';
+import StatisticCard from '../../components/cards/components/statisticCard';
+import Promo from '../../components/promo';
 
 function Home() {
   return (
-    <StyledHome>
+    <StyledSection>
       <StyledVideo src="video/video.mp4" autoPlay loop muted />
-      <h1>ГЛАВНАЯ СТРАНИЦА</h1>
-      <Footer />
-    </StyledHome>
+      <Promo />
+      <StyledContainer>
+        <StatisticCard />
+        <GameCards />
+        <TeamCards />
+        <Footer />
+      </StyledContainer>
+    </StyledSection>
   );
 }
 

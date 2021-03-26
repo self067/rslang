@@ -38,7 +38,7 @@ export const Navbar = () => {
           <ul className={click ? 'nav-menu active' : 'nav-menu'}>
             <li className="nav-item">
               <Link to="/" className="nav-links" onClick={closeMobileMenu}>
-                Home
+                Главная
               </Link>
             </li>
             <li className="nav-item">
@@ -47,12 +47,12 @@ export const Navbar = () => {
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
-                Dictionary
+                Учебник
               </Link>
             </li>
             <li className="nav-item">
               <Link to="/games" className="nav-links" onClick={closeMobileMenu}>
-                Games
+                Мини-игры
               </Link>
             </li>
             <li className="nav-item">
@@ -61,7 +61,7 @@ export const Navbar = () => {
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
-                Statistic
+                Статистика
               </Link>
             </li>
 
@@ -71,7 +71,7 @@ export const Navbar = () => {
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
-                <Button buttonStyle="btn--outline">SIGN UP</Button>
+                <Button buttonStyle="btn--light">Вход</Button>
               </Link>
             </li>
           </ul>
