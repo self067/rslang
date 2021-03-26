@@ -5,6 +5,10 @@
   --light: rgb(255, 255, 255);
   --blue-light: rgb(38, 144, 185);
   --blue-dark: rgb(42, 38, 95);
+
+  --color-submit: var(--blue-light);
+  --color-submit-hover: var(--blue-dark);
+  --select-border: #777;
 }
 
 button,
