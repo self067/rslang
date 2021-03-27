@@ -33,7 +33,7 @@ function StatisticCard() {
         <StyledStatRightPart>
           <StyledStatTitle>Твоя статистика обучения</StyledStatTitle>
           <SLink to="/statistic">
-            Посмотреть всю статистику <i class="fas fa-chevron-right"></i>
+            Посмотреть всю статистику <i className="fas fa-chevron-right"></i>
           </SLink>
         </StyledStatRightPart>
         <StyledStatInfo>

@@ -5,46 +5,50 @@ import useUserInfo from 'hooks/useUserInfo';
 import PropTypes from 'prop-types';
 import ModalWindow from '../ModalWindow';
 
-const sessionName = 'rslangauth-g105';
+const sessionName = process.env.REACT_APP_SESSION_NAME;
 const apiurl = process.env.REACT_APP_APIURL;
 
 export const Auth = () => {
   const [isModalOpen, handleModal] = useModalHandler();
   const [userInfo, setUserInfo] = useUserInfo();
-  // console.log(userInfo, setUserInfo);
+  console.log(userInfo);
 
   useEffect(() => {
     setUserInfo(JSON.parse(sessionStorage.getItem(sessionName)));
   }, [setUserInfo]);
 
   const logoutUser = (e) => {
-    const body = userInfo.info?.email || '';
-    const atoken = userInfo.auth_token || '';
-    sessionStorage.removeItem('travelauth');
+    const body = userInfo.email || '';
+    const atoken = userInfo.token || '';
+    sessionStorage.removeItem(sessionName);
     setUserInfo(null);
 
-    fetch(apiurl + '/users/logout', {
-      method: 'POST',
-
-      headers: {
-        'Content-type': 'Application/json',
-        Authorization: 'Bearer ' + atoken,
-      },
-      body: JSON.stringify(body),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log('43=', result);
-      })
-      .catch((error) => console.error('catch: ', error));
+    // fetch(apiurl + '/users/logout', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-type': 'Application/json',
+    //     Authorization: 'Bearer ' + atoken,
+    //   },
+    //   body: JSON.stringify(body),
+    // })
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //     console.log('43=', result);
+    //   })
+    //   .catch((error) => console.error('catch: ', error));
   };
 
   return (
     <>
       {userInfo ? (
-        <Button onClick={logoutUser}>
+        <Button
+          onClick={() => {
+            handleModal();
+            logoutUser();
+          }}
+        >
           LOG OUT
-          <img src={userInfo.info?.avatar} alt="auth" />
+          <img src={userInfo.avatar} alt="auth" />
         </Button>
       ) : (
         <Button onClick={handleModal}>LOG IN</Button>

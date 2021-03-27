@@ -1,29 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '../button';
 import { Link } from 'react-router-dom';
 import './styles.css';
 import { Auth } from '../Auth';
 
 export const Navbar = () => {
   const [click, setClick] = useState(false);
-  const [button, setButton] = useState(true);
-
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
-
-  const showButton = () => {
-    if (window.innerWidth <= 850) {
-      setButton(false);
-    } else {
-      setButton(true);
-    }
-  };
-
-  useEffect(() => {
-    showButton();
-  }, []);
-
-  window.addEventListener('resize', showButton);
 
   return (
     <>

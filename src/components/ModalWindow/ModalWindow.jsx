@@ -11,36 +11,35 @@ import {
 } from './ModalWindow.styles';
 import useUserInfo from 'hooks/useUserInfo';
 
+const sessionName = process.env.REACT_APP_SESSIONNAME;
 const apiurl = process.env.REACT_APP_APIURL;
+console.log(apiurl);
+console.log(sessionName);
 
-let auth_token = '';
-
-const ModalWindow = ({
-  open,
-  onClose,
-  // userInfo,
-  // setUserInfo,
-}) => {
+const ModalWindow = ({ open, onClose }) => {
   const [userInfo, setUserInfo] = useUserInfo();
-  console.log([userInfo, setUserInfo]);
-
+  console.log(userInfo);
+  console.log(apiurl);
+  console.log(sessionName);
   const loginUser = (email, password) => {
     const body = { email, password };
-    fetch(apiurl + '/users/login', {
+    fetch(apiurl + '/signin', {
       method: 'POST',
       headers: {
+        Accept: 'application/json',
         'Content-type': 'Application/json',
       },
       body: JSON.stringify(body),
     })
       .then((response) => response.json())
       .then((result) => {
-        if (!result.auth_token) {
+        console.log(result);
+        if (!result.token) {
           throw new Error(result.error);
         }
-        auth_token = result.auth_token;
-        sessionStorage.setItem('rslang105', JSON.stringify(result));
-        // setUserInfo(result);
+        console.log(sessionName);
+        sessionStorage.setItem(sessionName, JSON.stringify(result));
+        setUserInfo(result);
         setError('');
         onClose();
       })
@@ -52,7 +51,7 @@ const ModalWindow = ({
 
   const registerUser = (name, email, password, avatar) => {
     const body = { name, email, password, avatar };
-    fetch(apiurl + '/users/register', {
+    fetch(apiurl + '/users', {
       method: 'POST',
       headers: {
         'Content-type': 'Application/json',
@@ -61,14 +60,13 @@ const ModalWindow = ({
     })
       .then((response) => response.json())
       .then((result) => {
-        if (!result.auth_token) {
+        console.log(result);
+        if (!result.id) {
           throw new Error(result.error);
         }
-        auth_token = result.auth_token;
-        sessionStorage.setItem('travelauth', JSON.stringify(result));
-        // setUserInfo(result);
-        setError('');
-        onClose();
+        loginUser(email, password);
+        // setError('');
+        // onClose();
       })
       .catch((error) => {
         console.error('catch: ', error);
