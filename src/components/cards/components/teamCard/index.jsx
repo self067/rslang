@@ -19,21 +19,21 @@ function TeamCard({ name, src, text, git, discord, email, position }) {
         <StyledTeamSubtitle>{text}</StyledTeamSubtitle>
         <StyledLinks>
           <StyledTeamLink href={git} target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-github-square"></i>
+            <i className="fab fa-github-square"></i>
           </StyledTeamLink>
           <StyledTeamLink
             href={discord}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <i class="fab fa-discord"></i>
+            <i className="fab fa-discord"></i>
           </StyledTeamLink>
           <StyledTeamLink
             href={'mailto:' + email}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <i class="fas fa-envelope"></i>
+            <i className="fas fa-envelope"></i>
           </StyledTeamLink>
         </StyledLinks>
       </StyledTeamCard>

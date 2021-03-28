@@ -1,28 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '../button';
 import { Link } from 'react-router-dom';
 import './styles.css';
+import { Auth } from '../Auth';
 
 export const Navbar = () => {
   const [click, setClick] = useState(false);
-  const [button, setButton] = useState(true);
-
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
-
-  const showButton = () => {
-    if (window.innerWidth <= 850) {
-      setButton(false);
-    } else {
-      setButton(true);
-    }
-  };
-
-  useEffect(() => {
-    showButton();
-  }, []);
-
-  window.addEventListener('resize', showButton);
 
   return (
     <>
@@ -65,14 +49,8 @@ export const Navbar = () => {
               </Link>
             </li>
 
-            <li>
-              <Link
-                to="/sign-up"
-                className="nav-links"
-                onClick={closeMobileMenu}
-              >
-                <Button buttonStyle="btn--light">Вход</Button>
-              </Link>
+            <li className="nav-item">
+              <Auth buttonStyle="btn--outline" onClick={closeMobileMenu} />
             </li>
           </ul>
         </div>

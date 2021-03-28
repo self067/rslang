@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Navbar } from '../navbar';
 import Home from '../../pages/Home';
@@ -8,8 +8,12 @@ import Statistic from '../../pages/Statistic';
 import SingUp from '../../pages/SingUp';
 
 export const App = () => {
+  // const [userInfo, setUserInfo] = useState(null);
+
+  const [userInfo, setUserInfo] = useState(null);
+  const UserContext = createContext([userInfo, setUserInfo]);
   return (
-    <>
+    <UserContext.Provider value={1}>
       <Router>
         <Navbar />
         <Switch>
@@ -20,7 +24,7 @@ export const App = () => {
           <Route path="/sign-up" component={SingUp} />
         </Switch>
       </Router>
-    </>
+    </UserContext.Provider>
   );
 };
 

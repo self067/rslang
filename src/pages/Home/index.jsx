@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyledContainer, StyledVideo, StyledSection } from '../styled';
-import { Footer } from '../../components/footer';
-import GameCards from '../../components/cards/components/gameCard/cards';
-import TeamCards from '../../components/cards/components/teamCard/cards';
-import StatisticCard from '../../components/cards/components/statisticCard';
-import Promo from '../../components/promo';
+import { Footer } from 'components/footer';
+import GameCards from 'components/cards/components/gameCard/cards';
+import TeamCards from 'components/cards/components/teamCard/cards';
+import StatisticCard from 'components/cards/components/statisticCard';
+import Promo from 'components/promo';
 
 function Home() {
   return (
