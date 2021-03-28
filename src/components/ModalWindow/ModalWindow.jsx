@@ -9,18 +9,11 @@ import {
   Overlay,
   StyledModalWindow,
 } from './ModalWindow.styles';
-import useUserInfo from 'hooks/useUserInfo';
 
 const sessionName = process.env.REACT_APP_SESSIONNAME;
 const apiurl = process.env.REACT_APP_APIURL;
-console.log(apiurl);
-console.log(sessionName);
 
-const ModalWindow = ({ open, onClose }) => {
-  const [userInfo, setUserInfo] = useUserInfo();
-  console.log(userInfo);
-  console.log(apiurl);
-  console.log(sessionName);
+const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
   const loginUser = (email, password) => {
     const body = { email, password };
     fetch(apiurl + '/signin', {
@@ -94,7 +87,7 @@ const ModalWindow = ({ open, onClose }) => {
 
   const onSubmitRegistr = (e) => {
     e.preventDefault();
-    registerUser('user', email, password, avatarImg);
+    registerUser(username, email, password, avatarImg);
   };
 
   const onSubmitLogout = (e) => {

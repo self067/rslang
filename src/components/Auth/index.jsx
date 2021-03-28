@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'components/button';
 import useModalHandler from 'hooks/useModalHandler';
 import useUserInfo from 'hooks/useUserInfo';
 import PropTypes from 'prop-types';
 import ModalWindow from '../ModalWindow';
+import { Avatar, AuthButton } from './styled';
 
-const sessionName = process.env.REACT_APP_SESSION_NAME;
+const sessionName = process.env.REACT_APP_SESSIONNAME;
 const apiurl = process.env.REACT_APP_APIURL;
 
 export const Auth = () => {
@@ -15,41 +16,27 @@ export const Auth = () => {
 
   useEffect(() => {
     setUserInfo(JSON.parse(sessionStorage.getItem(sessionName)));
+    console.log('useEf');
   }, [setUserInfo]);
 
   const logoutUser = (e) => {
-    const body = userInfo.email || '';
-    const atoken = userInfo.token || '';
     sessionStorage.removeItem(sessionName);
     setUserInfo(null);
-
-    // fetch(apiurl + '/users/logout', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-type': 'Application/json',
-    //     Authorization: 'Bearer ' + atoken,
-    //   },
-    //   body: JSON.stringify(body),
-    // })
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //     console.log('43=', result);
-    //   })
-    //   .catch((error) => console.error('catch: ', error));
   };
 
   return (
     <>
       {userInfo ? (
-        <Button
+        <AuthButton
           onClick={() => {
-            handleModal();
+            // handleModal();
             logoutUser();
           }}
         >
-          LOG OUT
-          <img src={userInfo.avatar} alt="auth" />
-        </Button>
+          <Avatar src={userInfo.avatar} alt="auth" />
+          <div>{userInfo.name}</div>
+          {/* LOG OUT */}
+        </AuthButton>
       ) : (
         <Button onClick={handleModal}>LOG IN</Button>
       )}
