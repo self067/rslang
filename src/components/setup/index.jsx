@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Button } from '../button';
 import {
   SModal,
@@ -11,10 +12,8 @@ import {
   StyledImg,
 } from './styled';
 
-const ModalSetup = () => {
+const ModalSetup = ({ translate, setTranslate, showBttn, setShowBttn }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [translate, setTranslate] = useState(true);
-  const [showBttn, setShowBttn] = useState(true);
 
   function handleOpenModal() {
     setModalIsOpen(true);
@@ -23,6 +22,7 @@ const ModalSetup = () => {
   function handleCloseModal() {
     setModalIsOpen(false);
   }
+
   return (
     <>
       <Button
@@ -70,3 +70,17 @@ const ModalSetup = () => {
 };
 
 export default ModalSetup;
+
+ModalSetup.defaultProps = {
+  showBttn: true,
+  setShowBttn: () => {},
+  translate: true,
+  setTranslate: () => {},
+};
+
+ModalSetup.propTypes = {
+  showBttn: PropTypes.bool,
+  setShowBttn: PropTypes.func,
+  translate: PropTypes.bool,
+  setTranslate: PropTypes.func,
+};

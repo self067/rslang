@@ -2,8 +2,8 @@ import Modal from 'react-modal';
 import styled, { keyframes } from 'styled-components';
 
 const animate = keyframes`
-  from {bottom: 300px; opacity:0}
-  to {bottom:0; opacity:1}
+  from {top: -300px; opacity:0}
+  to {top: 100px; opacity:1}
 `;
 
 export const SModal = styled(Modal)`
@@ -11,7 +11,7 @@ export const SModal = styled(Modal)`
   top: 15%;
   left: 25%;
   width: 50%;
-  background: linear-gradient(90deg, #fff 0%, #3545 100%);
+  background: linear-gradient(90deg, var(--blue-light) 0%, var(--light) 100%);
   border: 1px solid #fff;
   animation-name: ${animate};
   animation-duration: 0.5s;

@@ -8,6 +8,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ReactPaginate from 'react-paginate';
 import './styles.css';
 import ModalSetup from '../../components/setup';
+import { StyledLoader } from '../../components/loader';
 
 function Dictionary() {
   const [card, setCard] = useState(null);
@@ -16,6 +17,8 @@ function Dictionary() {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(0);
   const [group, setGroup] = useState(0);
+  const [translate, setTranslate] = useState(true);
+  const [showBttn, setShowBttn] = useState(true);
   const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
   const fetchDataLink = `${baseUrl}words?group=${group}&page=${page.toString()}`;
   const skillLevels = [
@@ -26,6 +29,7 @@ function Dictionary() {
     'Upper-intermediate',
     'Advanced',
   ];
+
   useEffect(() => {
     fetch(fetchDataLink)
       .then((res) => res.json())
@@ -33,7 +37,6 @@ function Dictionary() {
         (result) => {
           setIsLoaded(true);
           setItems(result);
-          console.log(result);
         },
         (error) => {
           setIsLoaded(true);
@@ -44,7 +47,7 @@ function Dictionary() {
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
-    return null;
+    return <StyledLoader>Loading...</StyledLoader>;
   } else {
     return (
       <StyledSection>
@@ -52,7 +55,12 @@ function Dictionary() {
         <StyledContainer>
           <StyledInner>
             <StyledTitle>Электронный учебник</StyledTitle>
-            <ModalSetup />
+            <ModalSetup
+              translate={translate}
+              setTranslate={setTranslate}
+              showBttn={showBttn}
+              setShowBttn={setShowBttn}
+            />
           </StyledInner>
 
           <div className="cards__wrapper">
@@ -85,6 +93,8 @@ function Dictionary() {
                 return (
                   <WordCard
                     card={card}
+                    translate={translate}
+                    showBttn={showBttn}
                     setCard={setCard}
                     word={item.word}
                     transcription={item.transcription}
