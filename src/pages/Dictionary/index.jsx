@@ -32,11 +32,8 @@ function Dictionary() {
 
   useEffect(() => {
     setTranslate(JSON.parse(localStorage.getItem('setupTranslate')));
-  }, [translate]);
-
-  useEffect(() => {
     setShowBttn(JSON.parse(localStorage.getItem('setupBttn')));
-  }, [showBttn]);
+  }, [translate, showBttn]);
 
   useEffect(() => {
     fetch(fetchDataLink)
@@ -78,7 +75,6 @@ function Dictionary() {
               }}
             >
               <div className="tabs-header">
-                {' '}
                 Сложность - {skillLevels[group]}
               </div>
               <TabList>

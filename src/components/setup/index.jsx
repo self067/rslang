@@ -25,10 +25,8 @@ const ModalSetup = ({ translate, setTranslate, showBttn, setShowBttn }) => {
 
   useEffect(() => {
     localStorage.setItem('setupTranslate', JSON.stringify(translate));
-  }, [translate]);
-  useEffect(() => {
     localStorage.setItem('setupBttn', JSON.stringify(showBttn));
-  }, [showBttn]);
+  }, [translate, showBttn]);
 
   return (
     <>
