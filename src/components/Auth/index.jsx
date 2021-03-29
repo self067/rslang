@@ -29,13 +29,11 @@ export const Auth = () => {
       {userInfo ? (
         <AuthButton
           onClick={() => {
-            // handleModal();
             logoutUser();
           }}
         >
           <Avatar src={userInfo.avatar} alt="auth" />
           <div>{userInfo.name}</div>
-          {/* LOG OUT */}
         </AuthButton>
       ) : (
         <Button onClick={handleModal}>LOG IN</Button>
