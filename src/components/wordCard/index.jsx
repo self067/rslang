@@ -105,12 +105,18 @@ const WordCard = ({
               <div className="card__translation">{translation}</div>
             ) : null}
             <h3 className="card__subtitle"> Значение: </h3>
-            <p className="card__text">{meaningText}</p>
+            <p
+              dangerouslySetInnerHTML={{ __html: meaningText }}
+              className="card__text"
+            />
             {translate ? (
               <p className="card__text">{meaningTextTranslated}</p>
             ) : null}
             <h3 className="card__subtitle"> Пример: </h3>
-            <p className="card__text">{textExample}</p>
+            <p
+              dangerouslySetInnerHTML={{ __html: textExample }}
+              className="card__text"
+            />
             {translate ? (
               <p className="card__text">{textExampleTranslated}</p>
             ) : null}
