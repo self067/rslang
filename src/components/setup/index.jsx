@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '../button';
 import {
@@ -22,6 +22,13 @@ const ModalSetup = ({ translate, setTranslate, showBttn, setShowBttn }) => {
   function handleCloseModal() {
     setModalIsOpen(false);
   }
+
+  useEffect(() => {
+    localStorage.setItem('setupTranslate', JSON.stringify(translate));
+  }, [translate]);
+  useEffect(() => {
+    localStorage.setItem('setupBttn', JSON.stringify(showBttn));
+  }, [showBttn]);
 
   return (
     <>

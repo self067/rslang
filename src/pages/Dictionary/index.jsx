@@ -31,6 +31,14 @@ function Dictionary() {
   ];
 
   useEffect(() => {
+    setTranslate(JSON.parse(localStorage.getItem('setupTranslate')));
+  }, [translate]);
+
+  useEffect(() => {
+    setShowBttn(JSON.parse(localStorage.getItem('setupBttn')));
+  }, [showBttn]);
+
+  useEffect(() => {
     fetch(fetchDataLink)
       .then((res) => res.json())
       .then(
