@@ -271,3 +271,12 @@
     width: calc(200% + 30px);
   }
 }
+
+b {
+  font-weight: 700;
+}
+
+i {
+  font-weight: 700;
+  font-style: italic;
+}
