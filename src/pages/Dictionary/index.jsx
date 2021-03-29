@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import WordCard from '../../components/wordCard';
 import { StyledContainer, StyledVideo, StyledSection } from '../styled';
+
+import { StyledInner, StyledTitle } from './styled';
+
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ReactPaginate from 'react-paginate';
 import './styles.css';
+import ModalSetup from '../../components/setup';
 
 function Dictionary() {
   const [card, setCard] = useState(null);
@@ -29,6 +33,7 @@ function Dictionary() {
         (result) => {
           setIsLoaded(true);
           setItems(result);
+          console.log(result);
         },
         (error) => {
           setIsLoaded(true);
@@ -43,9 +48,13 @@ function Dictionary() {
   } else {
     return (
       <StyledSection>
-        <StyledVideo src="video/background.mp4" autoPlay loop muted />
+        <StyledVideo src="video/video.mp4" autoPlay loop muted />
         <StyledContainer>
-          <h1>Электронный учебник со словарём</h1>
+          <StyledInner>
+            <StyledTitle>Электронный учебник</StyledTitle>
+            <ModalSetup />
+          </StyledInner>
+
           <div className="cards__wrapper">
             <Tabs
               onSelect={(index) => {

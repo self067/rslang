@@ -1,0 +1,72 @@
+import React, { useState } from 'react';
+import { Button } from '../button';
+import {
+  SModal,
+  ModalTitle,
+  ModalInfo,
+  ModalSubtitle,
+  SButton,
+  SI,
+  SInput,
+  StyledImg,
+} from './styled';
+
+const ModalSetup = () => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [translate, setTranslate] = useState(true);
+  const [showBttn, setShowBttn] = useState(true);
+
+  function handleOpenModal() {
+    setModalIsOpen(true);
+  }
+
+  function handleCloseModal() {
+    setModalIsOpen(false);
+  }
+  return (
+    <>
+      <Button
+        buttonStyle="btn--light"
+        buttonSize="btn--middle"
+        onClick={handleOpenModal}
+      >
+        <i className="fas fa-cog" />
+      </Button>
+      <SModal
+        isOpen={modalIsOpen}
+        contentLabel="Setup Modal"
+        onRequestClose={handleCloseModal}
+        ariaHideApp={false}
+      >
+        <SButton onClick={handleCloseModal}>
+          <SI className="fas fa-times" />
+        </SButton>
+
+        <ModalTitle>Настройки учебника</ModalTitle>
+        <ModalInfo>
+          <ModalSubtitle>
+            Переводить слова и значения
+            <SInput
+              type="checkbox"
+              checked={translate}
+              onChange={() => setTranslate(!translate)}
+              id="checkbox1"
+            />
+          </ModalSubtitle>
+          <ModalSubtitle>
+            Показывать кнопки
+            <SInput
+              type="checkbox"
+              checked={showBttn}
+              onChange={() => setShowBttn(!showBttn)}
+              id="checkbox2"
+            />
+          </ModalSubtitle>
+        </ModalInfo>
+        <StyledImg src="images/characters/13.png" alt="character" />
+      </SModal>
+    </>
+  );
+};
+
+export default ModalSetup;
