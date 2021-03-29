@@ -197,6 +197,8 @@
 .card__text {
   margin: 5px 0 0 15px;
   font-size: 1rem;
+  letter-spacing: 0.6px;
+  font-weight: 400;
 }
 .js-collapser {
   position: absolute;
@@ -268,4 +270,13 @@
   .card__expander {
     width: calc(200% + 30px);
   }
+}
+
+b {
+  font-weight: 700;
+}
+
+i {
+  font-weight: 700;
+  font-style: italic;
 }

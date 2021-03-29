@@ -17,6 +17,8 @@ const WordCard = ({
   wordSoundSrc,
   exampleSoundSrc,
   meaningSoundSrc,
+  translate,
+  showBttn,
 }) => {
   const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
   const [openedCard, setOpenedCard] = useState(false);
@@ -99,21 +101,37 @@ const WordCard = ({
             </div>
 
             <div className="card__transcription">{transcription}</div>
-            <div className="card__translation">{translation}</div>
+            {translate ? (
+              <div className="card__translation">{translation}</div>
+            ) : null}
             <h3 className="card__subtitle"> Значение: </h3>
-            <p className="card__text">{meaningText}</p>
-            <p className="card__text">{meaningTextTranslated}</p>
+            <p
+              dangerouslySetInnerHTML={{ __html: meaningText }}
+              className="card__text"
+            />
+            {translate ? (
+              <p className="card__text">{meaningTextTranslated}</p>
+            ) : null}
             <h3 className="card__subtitle"> Пример: </h3>
-            <p className="card__text">{textExample}</p>
-            <p className="card__text">{textExampleTranslated}</p>
+            <p
+              dangerouslySetInnerHTML={{ __html: textExample }}
+              className="card__text"
+            />
+            {translate ? (
+              <p className="card__text">{textExampleTranslated}</p>
+            ) : null}
             <i className="card__close-btn" onClick={toggleCardState}>
               {CloseIcon}
             </i>
           </div>
-          <div className="card__section">
-            <button className="card__add-to-btn blue">В сложные слова</button>
-            <button className="card__add-to-btn red">В удаленные слова</button>
-          </div>
+          {showBttn ? (
+            <div className="card__section">
+              <button className="card__add-to-btn blue">В сложные слова</button>
+              <button className="card__add-to-btn red">
+                В удаленные слова
+              </button>
+            </div>
+          ) : null}
         </div>
       )}
     </div>
@@ -134,6 +152,8 @@ WordCard.defaultProps = {
   wordSoundSrc: '',
   exampleSoundSrc: '',
   meaningSoundSrc: '',
+  translate: true,
+  showBttn: true,
 };
 
 WordCard.propTypes = {
@@ -150,5 +170,7 @@ WordCard.propTypes = {
   wordSoundSrc: PropTypes.string,
   exampleSoundSrc: PropTypes.string,
   meaningSoundSrc: PropTypes.string,
+  translate: PropTypes.bool,
+  showBttn: PropTypes.bool,
 };
 export default WordCard;

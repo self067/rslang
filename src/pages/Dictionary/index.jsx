@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import WordCard from '../../components/wordCard';
 import { StyledContainer, StyledVideo, StyledSection } from '../styled';
+
+import { StyledInner, StyledTitle } from './styled';
+
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ReactPaginate from 'react-paginate';
 import './styles.css';
+import ModalSetup from '../../components/setup';
+import { StyledLoader } from '../../components/loader';
 
 function Dictionary() {
   const [card, setCard] = useState(null);
@@ -12,6 +17,8 @@ function Dictionary() {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(0);
   const [group, setGroup] = useState(0);
+  const [translate, setTranslate] = useState(true);
+  const [showBttn, setShowBttn] = useState(true);
   const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
   const fetchDataLink = `${baseUrl}words?group=${group}&page=${page.toString()}`;
   const skillLevels = [
@@ -22,6 +29,12 @@ function Dictionary() {
     'Upper-intermediate',
     'Advanced',
   ];
+
+  useEffect(() => {
+    setTranslate(JSON.parse(localStorage.getItem('setupTranslate')));
+    setShowBttn(JSON.parse(localStorage.getItem('setupBttn')));
+  }, [translate, showBttn]);
+
   useEffect(() => {
     fetch(fetchDataLink)
       .then((res) => res.json())
@@ -39,13 +52,22 @@ function Dictionary() {
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
-    return null;
+    return <StyledLoader>Loading...</StyledLoader>;
   } else {
     return (
       <StyledSection>
-        <StyledVideo src="video/background.mp4" autoPlay loop muted />
+        <StyledVideo src="video/video.mp4" autoPlay loop muted />
         <StyledContainer>
-          <h1>Электронный учебник со словарём</h1>
+          <StyledInner>
+            <StyledTitle>Электронный учебник</StyledTitle>
+            <ModalSetup
+              translate={translate}
+              setTranslate={setTranslate}
+              showBttn={showBttn}
+              setShowBttn={setShowBttn}
+            />
+          </StyledInner>
+
           <div className="cards__wrapper">
             <Tabs
               onSelect={(index) => {
@@ -53,7 +75,6 @@ function Dictionary() {
               }}
             >
               <div className="tabs-header">
-                {' '}
                 Сложность - {skillLevels[group]}
               </div>
               <TabList>
@@ -76,6 +97,8 @@ function Dictionary() {
                 return (
                   <WordCard
                     card={card}
+                    translate={translate}
+                    showBttn={showBttn}
                     setCard={setCard}
                     word={item.word}
                     transcription={item.transcription}
