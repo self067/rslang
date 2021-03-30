@@ -53,7 +53,7 @@ const ModalSetup = ({ isChecked, setIsChecked }) => {
     {
       key: 'transcription',
       name: 'transcription',
-      title: 'Показывать транскрипцию',
+      title: 'Показывать транскрипцию слова',
     },
   ];
 

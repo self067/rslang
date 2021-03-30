@@ -1,4 +1,17 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+export const SLink = styled(Link)`
+  color: #fff;
+  display: inline-block;
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-top: 30px;
+  text-decoration: none;
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+`;
 
 export const StyledStatContainer = styled.div`
   border-radius: 10px;

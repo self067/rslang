@@ -25,7 +25,7 @@ function Promo() {
           практики. Присоединяйся!
         </PromoSubtitle>
         <PromoBttn>
-          <Link to="/dictionary" className="nav-links">
+          <Link to="/dictionary">
             <Button buttonStyle="btn--light" buttonSize="btn--large">
               Начать обучение
             </Button>

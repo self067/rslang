@@ -22,6 +22,7 @@ export const SModal = styled(Modal)`
 export const ModalInfo = styled.div`
   display: flex;
   flex-direction: column;
+  text-align: center;
 `;
 
 export const ModalTitle = styled.h3`
