@@ -17,6 +17,11 @@ export const SModal = styled(Modal)`
   animation-duration: 0.5s;
   text-align: center;
   outline: none;
+  @media (max-width: 960px) {
+    top: 15%;
+    left: 10%;
+    width: 80%;
+  }
 `;
 
 export const ModalInfo = styled.div`

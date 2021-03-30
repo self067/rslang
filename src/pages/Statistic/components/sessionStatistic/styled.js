@@ -33,6 +33,9 @@ export const StyledInfoContainer = styled.div`
   flex-direction: column;
   margin-top: 3rem;
   text-align: end;
+  @media (max-width: 768px) {
+    margin-top: 5rem;
+  }
 `;
 
 export const StyledInfoText = styled.p`

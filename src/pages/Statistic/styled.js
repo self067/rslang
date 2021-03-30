@@ -10,4 +10,8 @@ export const StyledChartContainer = styled.div`
   height: 100%;
   background-color: var(--light);
   padding: 2rem;
+  @media (max-width: 960px) {
+    flex-direction: column;
+    padding: 0;
+  }
 `;
