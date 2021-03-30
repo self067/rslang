@@ -1,12 +1,4 @@
 .navbar {
-  /* background: #fff;
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2rem;
-  position: sticky; */
-
   background: none;
   height: 80px;
   width: 100%;
@@ -86,11 +78,7 @@
   display: none;
 }
 
-@media screen and (max-width: 850px) {
-  .NavbarItems {
-    position: relative;
-  }
-
+@media screen and (max-width: 1080px) {
   .nav-menu {
     display: flex;
     flex-direction: column;

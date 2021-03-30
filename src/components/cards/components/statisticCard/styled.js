@@ -27,8 +27,11 @@ export const StyledStatTitle = styled.h2`
   letter-spacing: 1px;
   margin: 10px 0;
   font-size: 2rem;
+  @media (max-width: 960px) {
+    font-size: 1.5rem;
+  }
   @media (max-width: 768px) {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
 `;
 

@@ -6,8 +6,7 @@ export const PromoContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2);*/
-  @media (max-width: 768px) {
+  @media (max-width: 1280px) {
     height: 100%;
   }
 `;
@@ -34,7 +33,8 @@ export const PromoTitle = styled.h1`
     font-size: 2rem;
   }
   @media (max-width: 768px) {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    margin: 3rem 0 1rem;
   }
 `;
 
@@ -70,6 +70,7 @@ export const PromoItem = styled.div`
   align-items: center;
   text-align: center;
   @media (max-width: 768px) {
+    width: 150px;
     margin: 20px 20px;
   }
 `;
