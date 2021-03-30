@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import WordCard from '../../components/wordCard';
-import { StyledContainer, StyledVideo, StyledSection } from '../styled';
+import {
+  StyledSection,
+  StyledContainer,
+  StyledVideo,
+  StyledTitle,
+} from '../styled';
 
-import { StyledInner, StyledTitle } from './styled';
+import { StyledInner } from './styled';
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ReactPaginate from 'react-paginate';

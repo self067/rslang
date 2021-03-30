@@ -37,6 +37,7 @@ export const StyledStatRightPart = styled.div`
   color: var(--light);
   padding: 30px;
   max-width: 33%;
+  border-radius: 10px;
   @media (max-width: 768px) {
     padding: 10px;
   }

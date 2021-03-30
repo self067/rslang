@@ -1,5 +1,6 @@
 import React from 'react';
 import { Chart } from 'react-charts';
+import { StyledChart } from './styled';
 
 function StatChart() {
   const data = React.useMemo(
@@ -37,14 +38,9 @@ function StatChart() {
   );
 
   return (
-    <div
-      style={{
-        width: '400px',
-        height: '300px',
-      }}
-    >
+    <StyledChart>
       <Chart data={data} axes={axes} />
-    </div>
+    </StyledChart>
   );
 }
 
