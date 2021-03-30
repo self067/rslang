@@ -82,11 +82,10 @@ export const PromoIcon = styled.i`
 export const PromoIconTitle = styled.h5`
   color: var(--light);
   font-size: 1rem;
-  margin: 1rem 0 1.5rem;
+  margin: 0.5rem 0 0.5rem;
   letter-spacing: 0.9px;
   @media (max-width: 768px) {
     font-size: 0.8rem;
-    margin: 0.5rem 0 0.5rem;
   }
 `;
 
