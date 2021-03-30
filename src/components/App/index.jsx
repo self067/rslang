@@ -8,8 +8,6 @@ import Statistic from '../../pages/Statistic';
 import SingUp from '../../pages/SingUp';
 
 export const App = () => {
-  // const [userInfo, setUserInfo] = useState(null);
-
   const [userInfo, setUserInfo] = useState(null);
   const UserContext = createContext([userInfo, setUserInfo]);
   return (
@@ -27,5 +25,3 @@ export const App = () => {
     </UserContext.Provider>
   );
 };
-
-// TODO: add Route path='/sign-up' component={SignUp}

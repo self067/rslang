@@ -7,7 +7,6 @@ import {
   StyledStatTitle,
   StyledStatProgressContainer,
   StyledStatProgress,
-  StyledImg,
 } from 'components/cards/components/statisticCard/styled';
 
 import {
@@ -18,6 +17,7 @@ import {
   StyledInfoText,
   StyledInfoValue,
   StyledInfoLine,
+  StyledImg,
 } from './styled';
 
 function SessionStatistic() {
@@ -70,6 +70,7 @@ function SessionStatistic() {
       <StyledStatRightPart>
         <StyledStatTitle>Твоя статистика обучения</StyledStatTitle>
         <StyledStatSubTitle>Сегодня</StyledStatSubTitle>
+        <StyledImg src="images/characters/15.png" alt="character" />
       </StyledStatRightPart>
       <StyledStatInfo>
         <StyledStatProgressContainer>
@@ -85,7 +86,6 @@ function SessionStatistic() {
           </Link>
         </StyledInfoContainer>
       </StyledStatInfo>
-      <StyledImg src="images/characters/11.png" alt="character" />
     </StyledStatContainer>
   );
 }

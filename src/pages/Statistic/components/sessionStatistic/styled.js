@@ -53,3 +53,14 @@ export const StyledInfoLine = styled.hr`
   height: 1px;
   margin: 5px 0;
 `;
+
+export const StyledImg = styled.img`
+  width: 250px;
+  position: absolute;
+  top: 140px;
+  left: 80px;
+  z-index: 1;
+  @media (max-width: 960px) {
+    display: none;
+  }
+`;

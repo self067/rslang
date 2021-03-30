@@ -3,58 +3,66 @@ import TeamCard from '../index';
 import { StyledCards, StyledTitle } from '../../gameCard/styled';
 import { StyledTeamContainer } from '../styled';
 function TeamCards() {
+  const team = [
+    {
+      name: 'Олег Кузьмин',
+      git: 'https://github.com/self067',
+      src: 'images/2.jpg',
+      position: 'Тимлид',
+      text:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+
+      discord: 'https://discord.com/#',
+      email: 'a.@gmail.com',
+    },
+    {
+      name: ' Анастасия Тяпкина',
+      git: 'https://github.com/StasyTyapkina',
+      src: 'images/1.jpg',
+      position: 'Разработчик',
+      text:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      discord: 'https://discord.com/#',
+      email: 'a.@gmail.com',
+    },
+    {
+      name: ' Ринат Насибуллин',
+      git: 'https://github.com/nilubisan',
+      src: 'images/3.jpg',
+      position: 'Разработчик',
+      text:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      discord: 'https://discord.com/#',
+      email: 'a.@gmail.com',
+    },
+    {
+      name: 'Влад Кривоконев',
+      git: 'https://github.com/darkusss',
+      src: 'images/4.jpg',
+      position: 'Разработчик',
+      text:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      discord: 'https://discord.com/#',
+      email: 'a.@gmail.com',
+    },
+  ];
+
   return (
     <StyledCards>
       <StyledTitle>Наша команда</StyledTitle>
       <StyledTeamContainer>
-        <TeamCard
-          name="Олег Кузьмин"
-          src="images/2.jpg"
-          position="Тимлид"
-          text="Lorem ipsum dolor sit amet, 
-                consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut 
-                labore et dolore magna aliqua."
-          git="https://github.com/self067"
-          discord="https://discord.com/#"
-          email="a.@gmail.com"
-        />
-        <TeamCard
-          name="Анастасия Тяпкина"
-          src="images/1.jpg"
-          position="Разработчик"
-          text="Lorem ipsum dolor sit amet, 
-                consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut 
-                labore et dolore magna aliqua."
-          git="https://github.com/StasyTyapkina"
-          discord="https://discord.com/#"
-          email="a.@gmail.com"
-        />
-        <TeamCard
-          name="Ринат Насибуллин"
-          src="images/3.jpg"
-          position="Разработчик"
-          text="Lorem ipsum dolor sit amet, 
-                consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut 
-                labore et dolore magna aliqua."
-          git="https://github.com/nilubisan"
-          discord="https://discord.com/#"
-          email="a.@gmail.com"
-        />
-        <TeamCard
-          name="Влад Кривоконев"
-          src="images/4.jpg"
-          position="Разработчик"
-          text="Lorem ipsum dolor sit amet, 
-                consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut 
-                labore et dolore magna aliqua."
-          git="https://github.com/darkusss"
-          discord="https://discord.com/#"
-          email="a.@gmail.com"
-        />
+        {team.map((item, index) => (
+          <TeamCard
+            key={index}
+            name={item.name}
+            src={item.src}
+            position={item.position}
+            text={item.text}
+            git={item.git}
+            discord={item.discord}
+            email={item.email}
+          />
+        ))}
       </StyledTeamContainer>
     </StyledCards>
   );
