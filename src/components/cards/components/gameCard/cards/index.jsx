@@ -39,6 +39,7 @@ function GameCards() {
       <StyledContainer>
         {games.map((item, index) => (
           <GameCard
+            key={index}
             src={item.src}
             text={item.text}
             name={item.name}

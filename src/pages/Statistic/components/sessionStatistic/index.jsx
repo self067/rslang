@@ -53,14 +53,14 @@ function SessionStatistic() {
 
   const todayInfo = useMemo(
     () =>
-      todayStatInfo.map(({ title, value, index }) => (
-        <>
+      todayStatInfo.map((item, index) => (
+        <span key={index}>
           <StyledInfoText key={index}>
-            {title}
-            <StyledInfoValue>{value}</StyledInfoValue>
+            {item.title}
+            <StyledInfoValue>{item.value}</StyledInfoValue>
           </StyledInfoText>
           <StyledInfoLine />
-        </>
+        </span>
       )),
     [todayStatInfo]
   );
