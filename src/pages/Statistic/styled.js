@@ -56,3 +56,11 @@ export const StyledInfoText = styled.p`
 export const StyledInfoValue = styled.span`
   padding-left: 10px;
 `;
+
+export const StyledInfoLine = styled.hr`
+  border: none;
+  background-color: var(--blue-light);
+  color: var(--blue-light-rgba);
+  height: 1px;
+  margin: 5px 0;
+`;

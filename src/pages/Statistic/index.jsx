@@ -18,10 +18,11 @@ import {
   StyledInfoContainer,
   StyledInfoText,
   StyledInfoValue,
+  StyledInfoLine,
 } from './styled';
 import { Button } from '../../components/button';
-
 import { Link } from 'react-router-dom';
+import StatChart from './components/charts';
 
 function Statistic() {
   const todayStatInfo = useMemo(
@@ -35,19 +36,19 @@ function Statistic() {
         value: /*Math.floor((rightAnswers * 100) / learnedWords) ||*/ 0,
       },
       {
-        title: 'Cамая длинная серия правильных ответов в игре"Саванна"',
+        title: 'Комбо правильных ответов в игре"Саванна"',
         value: /*longestSeriesAnswers ||*/ 0,
       },
       {
-        title: 'Cамая длинная серия правильных ответов в игре "Аудиовызов"',
+        title: 'Комбо правильных ответов в игре "Аудиовызов"',
         value: 0,
       },
       {
-        title: 'Cамая длинная серия правильных ответов в игре "Спринт"',
+        title: 'Комбо правильных ответов в игре "Спринт"',
         value: 0,
       },
       {
-        title: 'Cамая длинная серия правильных ответов в игре "Своя игра"',
+        title: 'Комбо правильных ответов в игре "Своя игра"',
         value: 0,
       },
     ],
@@ -57,11 +58,14 @@ function Statistic() {
   const todayInfo = useMemo(
     () =>
       todayStatInfo.map(({ title, value, index }) => (
-        <StyledInfoText key={index}>
-          {title}
+        <>
+          <StyledInfoText key={index}>
+            {title}
 
-          <StyledInfoValue>{value}</StyledInfoValue>
-        </StyledInfoText>
+            <StyledInfoValue>{value}</StyledInfoValue>
+          </StyledInfoText>
+          <StyledInfoLine />
+        </>
       )),
     [todayStatInfo]
   );
@@ -91,6 +95,10 @@ function Statistic() {
             </StyledInfoContainer>
           </StyledStatInfo>
           {/*<StyledImg src="images/characters/11.png" alt="character" />*/}
+        </StyledStatContainer>
+        <StyledStatContainer>
+          <StatChart />
+          <StatChart />
         </StyledStatContainer>
       </StyledContainer>
     </StyledSection>
