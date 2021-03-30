@@ -1,12 +1,19 @@
 import React from 'react';
-import { StyledContainer, StyledVideo, StyledSection } from '../styled';
+import {
+  StyledSection,
+  StyledContainer,
+  StyledVideo,
+  StyledTitle,
+} from '../styled';
+import GameCards from 'components/cards/components/gameCard/cards';
 
 function Games() {
   return (
     <StyledSection>
       <StyledVideo src="video/video.mp4" autoPlay loop muted />
       <StyledContainer>
-        <h1>Мини-игры "Саванна", "Аудиовызов", "Спринт", "Своя игра"</h1>
+        <StyledTitle>Выбери игру</StyledTitle>
+        <GameCards />
       </StyledContainer>
     </StyledSection>
   );
