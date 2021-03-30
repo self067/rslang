@@ -89,8 +89,8 @@ export const SInput = styled.input`
 export const StyledImg = styled.img`
   width: 250px;
   position: absolute;
-  top: 250px;
-  right: -227px;
+  top: -15px;
+  right: -222px;
   z-index: 1;
   @media (max-width: 960px) {
     display: none;

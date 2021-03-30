@@ -17,8 +17,15 @@ function Dictionary() {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(0);
   const [group, setGroup] = useState(0);
-  const [translate, setTranslate] = useState(true);
-  const [showBttn, setShowBttn] = useState(true);
+
+  const [isChecked, setIsChecked] = useState({
+    wordTranslate: true,
+    definitionTranslate: true,
+    sentenceTranslate: true,
+    transcription: true,
+    difficultWords: true,
+    deleteWords: true,
+  });
   const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
   const fetchDataLink = `${baseUrl}words?group=${group}&page=${page.toString()}`;
   const skillLevels = [
@@ -31,9 +38,11 @@ function Dictionary() {
   ];
 
   useEffect(() => {
-    setTranslate(JSON.parse(localStorage.getItem('setupTranslate')));
-    setShowBttn(JSON.parse(localStorage.getItem('setupBttn')));
-  }, [translate, showBttn]);
+    const setup = localStorage.getItem('setup');
+    if (setup) {
+      setIsChecked(JSON.parse(setup));
+    }
+  }, []);
 
   useEffect(() => {
     fetch(fetchDataLink)
@@ -60,12 +69,7 @@ function Dictionary() {
         <StyledContainer>
           <StyledInner>
             <StyledTitle>Электронный учебник</StyledTitle>
-            <ModalSetup
-              translate={translate}
-              setTranslate={setTranslate}
-              showBttn={showBttn}
-              setShowBttn={setShowBttn}
-            />
+            <ModalSetup setIsChecked={setIsChecked} isChecked={isChecked} />
           </StyledInner>
 
           <div className="cards__wrapper">
@@ -97,8 +101,7 @@ function Dictionary() {
                 return (
                   <WordCard
                     card={card}
-                    translate={translate}
-                    showBttn={showBttn}
+                    isChecked={isChecked}
                     setCard={setCard}
                     word={item.word}
                     transcription={item.transcription}
