@@ -12,7 +12,7 @@ import {
   StyledImg,
 } from './styled';
 
-const ModalSetup = ({ translate, setTranslate, showBttn, setShowBttn }) => {
+const ModalSetup = ({ isChecked, setIsChecked }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   function handleOpenModal() {
@@ -24,9 +24,51 @@ const ModalSetup = ({ translate, setTranslate, showBttn, setShowBttn }) => {
   }
 
   useEffect(() => {
-    localStorage.setItem('setupTranslate', JSON.stringify(translate));
-    localStorage.setItem('setupBttn', JSON.stringify(showBttn));
-  }, [translate, showBttn]);
+    localStorage.setItem('setup', JSON.stringify(isChecked));
+  });
+
+  const handleChange = ({ target: { name, checked } }) => {
+    setIsChecked({
+      ...isChecked,
+      [name]: checked,
+    });
+  };
+
+  const checkboxTranslation = [
+    {
+      key: 'wordTranslate',
+      name: 'wordTranslate',
+      title: 'Показывать перевод слова',
+    },
+    {
+      key: 'definitionTranslate',
+      name: 'definitionTranslate',
+      title: 'Показывать перевод значения',
+    },
+    {
+      key: 'sentenceTranslate',
+      name: 'sentenceTranslate',
+      title: 'Показывать перевод примера',
+    },
+    {
+      key: 'transcription',
+      name: 'transcription',
+      title: 'Показывать транскрипцию слова',
+    },
+  ];
+
+  const checkboxShowBttn = [
+    {
+      key: 'difficultWords',
+      name: 'difficultWords',
+      title: 'Перемещать в сложные слова',
+    },
+    {
+      key: 'deleteWords',
+      name: 'deleteWords',
+      title: 'Перемещать в удаленные слова',
+    },
+  ];
 
   return (
     <>
@@ -49,24 +91,31 @@ const ModalSetup = ({ translate, setTranslate, showBttn, setShowBttn }) => {
 
         <ModalTitle>Настройки учебника</ModalTitle>
         <ModalInfo>
-          <ModalSubtitle>
-            Переводить слова и значения
-            <SInput
-              type="checkbox"
-              checked={translate}
-              onChange={() => setTranslate(!translate)}
-              id="checkbox1"
-            />
-          </ModalSubtitle>
-          <ModalSubtitle>
-            Показывать кнопки
-            <SInput
-              type="checkbox"
-              checked={showBttn}
-              onChange={() => setShowBttn(!showBttn)}
-              id="checkbox2"
-            />
-          </ModalSubtitle>
+          {checkboxTranslation.map((item, index) => (
+            <ModalSubtitle key={index}>
+              {item.title}
+              <SInput
+                type="checkbox"
+                key={item.key}
+                name={item.name}
+                checked={isChecked[item.name]}
+                onChange={handleChange}
+              />
+            </ModalSubtitle>
+          ))}
+
+          {checkboxShowBttn.map((item, index) => (
+            <ModalSubtitle key={index}>
+              {item.title}
+              <SInput
+                type="checkbox"
+                key={item.key}
+                name={item.name}
+                checked={isChecked[item.name]}
+                onChange={handleChange}
+              />
+            </ModalSubtitle>
+          ))}
         </ModalInfo>
         <StyledImg src="images/characters/13.png" alt="character" />
       </SModal>
@@ -77,15 +126,11 @@ const ModalSetup = ({ translate, setTranslate, showBttn, setShowBttn }) => {
 export default ModalSetup;
 
 ModalSetup.defaultProps = {
-  showBttn: true,
-  setShowBttn: () => {},
-  translate: true,
-  setTranslate: () => {},
+  isChecked: {},
+  setIsChecked: () => {},
 };
 
 ModalSetup.propTypes = {
-  showBttn: PropTypes.bool,
-  setShowBttn: PropTypes.func,
-  translate: PropTypes.bool,
-  setTranslate: PropTypes.func,
+  isChecked: PropTypes.object,
+  setIsChecked: PropTypes.func,
 };

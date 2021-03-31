@@ -20,3 +20,15 @@ export const StyledVideo = styled.video`
   z-index: -1;
   margin-top: -100px;
 `;
+
+export const StyledTitle = styled.h1`
+  color: var(--light);
+  font-size: 3rem;
+  margin: 2rem 1rem 2rem;
+  @media (max-width: 960px) {
+    font-size: 2rem;
+  }
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+`;

@@ -17,7 +17,7 @@ export const StyledTeamContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px 20px;
-  @media (max-width: 700px) {
+  @media (max-width: 960px) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }

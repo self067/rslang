@@ -17,11 +17,17 @@ export const SModal = styled(Modal)`
   animation-duration: 0.5s;
   text-align: center;
   outline: none;
+  @media (max-width: 960px) {
+    top: 15%;
+    left: 10%;
+    width: 80%;
+  }
 `;
 
 export const ModalInfo = styled.div`
   display: flex;
   flex-direction: column;
+  text-align: center;
 `;
 
 export const ModalTitle = styled.h3`
@@ -89,8 +95,8 @@ export const SInput = styled.input`
 export const StyledImg = styled.img`
   width: 250px;
   position: absolute;
-  top: 250px;
-  right: -227px;
+  top: -15px;
+  right: -222px;
   z-index: 1;
   @media (max-width: 960px) {
     display: none;

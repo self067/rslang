@@ -1,4 +1,13 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+export const SLink = styled(Link)`
+  display: flex;
+  flex-flow: column;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  text-decoration: none;
+`;
 
 export const StyledCards = styled.section`
   background: #fff;

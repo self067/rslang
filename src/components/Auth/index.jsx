@@ -38,7 +38,7 @@ export const Auth = () => {
           {/* LOG OUT */}
         </AuthButton>
       ) : (
-        <Button onClick={handleModal}>LOG IN</Button>
+        <Button onClick={handleModal}>Вход</Button>
       )}
 
       <ModalWindow

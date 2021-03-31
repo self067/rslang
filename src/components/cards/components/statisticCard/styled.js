@@ -1,4 +1,17 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+export const SLink = styled(Link)`
+  color: #fff;
+  display: inline-block;
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-top: 30px;
+  text-decoration: none;
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+`;
 
 export const StyledStatContainer = styled.div`
   border-radius: 10px;
@@ -14,8 +27,11 @@ export const StyledStatTitle = styled.h2`
   letter-spacing: 1px;
   margin: 10px 0;
   font-size: 2rem;
+  @media (max-width: 960px) {
+    font-size: 1.5rem;
+  }
   @media (max-width: 768px) {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
 `;
 
@@ -24,6 +40,7 @@ export const StyledStatRightPart = styled.div`
   color: var(--light);
   padding: 30px;
   max-width: 33%;
+  border-radius: 10px;
   @media (max-width: 768px) {
     padding: 10px;
   }

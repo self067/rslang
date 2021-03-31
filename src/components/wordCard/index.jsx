@@ -17,8 +17,7 @@ const WordCard = ({
   wordSoundSrc,
   exampleSoundSrc,
   meaningSoundSrc,
-  translate,
-  showBttn,
+  isChecked,
 }) => {
   const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
   const [openedCard, setOpenedCard] = useState(false);
@@ -100,8 +99,11 @@ const WordCard = ({
               </i>
             </div>
 
-            <div className="card__transcription">{transcription}</div>
-            {translate ? (
+            {isChecked['transcription'] ? (
+              <div className="card__transcription">{transcription}</div>
+            ) : null}
+
+            {isChecked['wordTranslate'] ? (
               <div className="card__translation">{translation}</div>
             ) : null}
             <h3 className="card__subtitle"> Значение: </h3>
@@ -109,7 +111,7 @@ const WordCard = ({
               dangerouslySetInnerHTML={{ __html: meaningText }}
               className="card__text"
             />
-            {translate ? (
+            {isChecked['definitionTranslate'] ? (
               <p className="card__text">{meaningTextTranslated}</p>
             ) : null}
             <h3 className="card__subtitle"> Пример: </h3>
@@ -117,21 +119,24 @@ const WordCard = ({
               dangerouslySetInnerHTML={{ __html: textExample }}
               className="card__text"
             />
-            {translate ? (
+            {isChecked['sentenceTranslate'] ? (
               <p className="card__text">{textExampleTranslated}</p>
             ) : null}
             <i className="card__close-btn" onClick={toggleCardState}>
               {CloseIcon}
             </i>
           </div>
-          {showBttn ? (
-            <div className="card__section">
+
+          <div className="card__section">
+            {isChecked['difficultWords'] ? (
               <button className="card__add-to-btn blue">В сложные слова</button>
+            ) : null}
+            {isChecked['deleteWords'] ? (
               <button className="card__add-to-btn red">
                 В удаленные слова
               </button>
-            </div>
-          ) : null}
+            ) : null}
+          </div>
         </div>
       )}
     </div>
@@ -152,8 +157,7 @@ WordCard.defaultProps = {
   wordSoundSrc: '',
   exampleSoundSrc: '',
   meaningSoundSrc: '',
-  translate: true,
-  showBttn: true,
+  isChecked: {},
 };
 
 WordCard.propTypes = {
@@ -170,7 +174,6 @@ WordCard.propTypes = {
   wordSoundSrc: PropTypes.string,
   exampleSoundSrc: PropTypes.string,
   meaningSoundSrc: PropTypes.string,
-  translate: PropTypes.bool,
-  showBttn: PropTypes.bool,
+  isChecked: PropTypes.object,
 };
 export default WordCard;

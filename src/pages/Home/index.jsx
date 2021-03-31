@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyledContainer, StyledVideo, StyledSection } from '../styled';
+import { StyledSection, StyledContainer, StyledVideo } from '../styled';
 import { Footer } from 'components/footer';
 import GameCards from 'components/cards/components/gameCard/cards';
 import TeamCards from 'components/cards/components/teamCard/cards';

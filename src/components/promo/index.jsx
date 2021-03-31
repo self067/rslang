@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from '../button';
+import { Link } from 'react-router-dom';
 import {
   PromoContainer,
   PromoContent,
@@ -24,9 +25,11 @@ function Promo() {
           практики. Присоединяйся!
         </PromoSubtitle>
         <PromoBttn>
-          <Button buttonStyle="btn--light" buttonSize="btn--large">
-            Начать обучение
-          </Button>
+          <Link to="/dictionary">
+            <Button buttonStyle="btn--light" buttonSize="btn--large">
+              Начать обучение
+            </Button>
+          </Link>
           <a
             href="https://youtu.be/sn-S82mF_gw"
             target="_blank"
