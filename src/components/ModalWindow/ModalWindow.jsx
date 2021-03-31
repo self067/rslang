@@ -51,9 +51,17 @@ const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
       },
       body: JSON.stringify(body),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status && response.status !== 200) {
+          setError(response.statusText);
+          console.log(response);
+          return;
+        }
+        response.json();
+      })
       .then((result) => {
         console.log(result);
+        if (!result) return;
         if (!result.id) {
           throw new Error(result.error);
         }

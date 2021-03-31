@@ -4,13 +4,13 @@ import { SprintWrap } from './styled.js';
 export const Sprint = () => {
   return (
     <SprintWrap>
-      <Score />
+      {/* <Score />
       <Timer />
 
       <ButtonsBlock>
         <Button>Неверно</Button>
         <Button>Верно</Button>
-      </ButtonsBlock>
+      </ButtonsBlock> */}
     </SprintWrap>
   );
 };
