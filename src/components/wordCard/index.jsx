@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles.css';
-import { AudioIcon, CloseIcon } from '../FontAwesomeIcons/FontAwesomeIcons';
+import {
+  SoundOnIcon,
+  SoundOffIcon,
+  CloseIcon,
+} from '../FontAwesomeIcons/FontAwesomeIcons';
 import PropTypes from 'prop-types';
 import useSound from 'use-sound';
 const WordCard = ({
@@ -23,8 +27,11 @@ const WordCard = ({
   const [playWordSound, wordSound] = useSound(baseUrl + wordSoundSrc);
   const [playMeaningSound, meaningSound] = useSound(baseUrl + meaningSoundSrc);
   const [playExampleSound, exampleSound] = useSound(baseUrl + exampleSoundSrc);
-  const [isAudioStopped, stopAudio] = useState(false);
+  const [isAudioPlaying, playAudio] = useState(false);
+  const [timeoutId1, setTimeoutId1] = useState();
+  const [timeoutId2, setTimeoutId2] = useState();
   let cardClassName = 'card';
+
   if (word === card) {
     cardClassName += ' is-expanded';
   } else if (card !== null) {
@@ -44,28 +51,36 @@ const WordCard = ({
     }
   }
 
-  function audioClickHandler() {
-    if (
-      wordSound.isPlaying ||
-      meaningSound.isPlaying ||
-      exampleSound.isPlaying
-    ) {
-      stopAudio(true);
-      wordSound.stop();
-      meaningSound.stop();
-      exampleSound.stop();
-      console.log(isAudioStopped);
-    } else {
-      playWordSound();
-      setTimeout(() => {
-        playMeaningSound();
-      }, wordSound.duration + 500);
-
-      setTimeout(() => {
-        playExampleSound();
-      }, wordSound.duration + meaningSound.duration + 500);
-    }
+  function turnOffSound() {
+    clearTimeout(timeoutId1);
+    clearTimeout(timeoutId2);
+    wordSound.stop();
+    meaningSound.stop();
+    exampleSound.stop();
   }
+
+  useEffect(() => {
+    if (!isAudioPlaying) {
+      turnOffSound();
+    } else {
+      setTimeoutId1(
+        setTimeout(() => {
+          playMeaningSound();
+        }, wordSound.duration + 500)
+      );
+
+      setTimeoutId2(
+        setTimeout(() => {
+          playExampleSound();
+        }, wordSound.duration + meaningSound.duration + 500)
+      );
+      playWordSound();
+    }
+  }, [isAudioPlaying]);
+
+  useEffect(() => {
+    turnOffSound();
+  }, [card]);
 
   return (
     <div className={cardClassName}>
@@ -91,10 +106,10 @@ const WordCard = ({
               <i
                 className="card__audio-btn"
                 onClick={() => {
-                  audioClickHandler();
+                  playAudio(!isAudioPlaying);
                 }}
               >
-                {AudioIcon}
+                {isAudioPlaying ? SoundOnIcon : SoundOffIcon}
               </i>
             </div>
 
