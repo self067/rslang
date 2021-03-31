@@ -30,7 +30,7 @@ const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
         if (!result.token) {
           throw new Error(result.error);
         }
-        console.log(sessionName);
+
         sessionStorage.setItem(sessionName, JSON.stringify(result));
         setUserInfo(result);
         setError('');
@@ -51,19 +51,30 @@ const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
       },
       body: JSON.stringify(body),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          setError('');
+          return response.json();
+        } else if (response.status === 417) {
+          setError('Email already exist');
+          return { error: response.status + response.statusText };
+        } else {
+          setError(response.statusText);
+          console.log(response);
+          return { error: response.status + response.statusText };
+        }
+      })
       .then((result) => {
         console.log(result);
+        if (!result) return;
         if (!result.id) {
           throw new Error(result.error);
         }
         loginUser(email, password);
-        // setError('');
-        // onClose();
       })
       .catch((error) => {
         console.error('catch: ', error);
-        setError(error.message);
       });
   };
 
