@@ -26,7 +26,11 @@ const WordCard = ({
   const [openedCard, setOpenedCard] = useState(false);
   const [playWordSound, wordSound] = useSound(baseUrl + wordSoundSrc);
   const [playMeaningSound, meaningSound] = useSound(baseUrl + meaningSoundSrc);
-  const [playExampleSound, exampleSound] = useSound(baseUrl + exampleSoundSrc);
+  const [playExampleSound, exampleSound] = useSound(baseUrl + exampleSoundSrc, {
+    onend: () => {
+      playAudio(false);
+    },
+  });
   const [isAudioPlaying, playAudio] = useState(false);
   const [timeoutId1, setTimeoutId1] = useState();
   const [timeoutId2, setTimeoutId2] = useState();
