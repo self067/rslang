@@ -80,6 +80,7 @@ function Dictionary() {
           <div className="cards__wrapper">
             <Tabs
               onSelect={(index) => {
+                setCard(null);
                 setGroup(index);
               }}
             >
@@ -130,6 +131,7 @@ function Dictionary() {
                 pageRangeDisplayed={2}
                 marginPagesDisplayed={3}
                 onPageChange={(page) => {
+                  setCard(null);
                   setPage(page.selected);
                 }}
               />
