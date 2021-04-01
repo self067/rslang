@@ -12,11 +12,9 @@ const apiurl = process.env.REACT_APP_APIURL;
 export const Auth = () => {
   const [isModalOpen, handleModal] = useModalHandler();
   const [userInfo, setUserInfo] = useUserInfo();
-  console.log(userInfo);
 
   useEffect(() => {
     setUserInfo(JSON.parse(sessionStorage.getItem(sessionName)));
-    console.log('useEf');
   }, [setUserInfo]);
 
   const logoutUser = (e) => {
