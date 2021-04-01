@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
-import { RSvgTimer } from '../components/Timer/RSVGTimer';
-import { Score, SprintSection, ButtonsBlock, Button } from './styled';
+import { Timer } from '../components/Timer';
+import {
+  Pane,
+  Score,
+  SprintSection,
+  ButtonsBlock,
+  NoButton,
+  YesButton,
+} from './styled';
 
 export const Sprint = () => {
   const [score, setScore] = useState(0);
@@ -9,12 +16,13 @@ export const Sprint = () => {
     <SprintSection>
       <Score>{score}</Score>
 
-      <RSvgTimer />
-
-      <ButtonsBlock>
-        <Button>Неверно</Button>
-        <Button>Верно</Button>
-      </ButtonsBlock>
+      <Timer />
+      <Pane>
+        <ButtonsBlock>
+          <NoButton>Неверно</NoButton>
+          <YesButton>Верно</YesButton>
+        </ButtonsBlock>
+      </Pane>
     </SprintSection>
   );
 };

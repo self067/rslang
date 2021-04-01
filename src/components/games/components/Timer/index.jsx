@@ -2,18 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import moment from 'moment';
 import { TimerSVG } from './TimerSVG';
 
-export interface ITimerProps {
-  outerColor?: string;
-  innerColor?: string;
-  countdownColor?: string;
-  displayCountdown?: boolean;
-  timerDuration?: any;
-  resetTimerRequested?: boolean;
-  resetTimer?: any;
-  timerCount?: number;
-  completeTimer?: any;
-}
-
 function useInterval(callback, runTimer) {
   const savedCallback = useRef();
   useEffect(() => {
@@ -31,7 +19,7 @@ function useInterval(callback, runTimer) {
   }, [runTimer]);
 }
 
-export const RSvgTimer: FC<ITimerProps> = ({
+export const Timer = ({
   outerColor,
   innerColor,
   countdownColor,
@@ -41,9 +29,9 @@ export const RSvgTimer: FC<ITimerProps> = ({
   resetTimer,
   timerCount,
   completeTimer,
-}: ITimerProps) => {
-  timerCount = timerCount || 5;
-  // State variables
+}) => {
+  timerCount = timerCount || 7;
+
   let [draw, setDraw] = useState('');
   let [timerIsRunning, setTimerIsRunning] = useState(false);
   let [counterText, setcounterText] = useState('');
@@ -54,10 +42,26 @@ export const RSvgTimer: FC<ITimerProps> = ({
   const goalTimeMilliseconds = timerCount * 1000;
   const degrees = 360 / (timerCount * 1000);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  //  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
+    const getcounterText = () => {
+      const isTimerPositive = duration > goalTimeMilliseconds;
+      const getTimerDuration = () => {
+        return moment
+          .duration(
+            isTimerPositive
+              ? duration - goalTimeMilliseconds
+              : goalTimeMilliseconds - duration
+          )
+          .asMilliseconds();
+      };
+      let roundedMilliseconds = Math.round(getTimerDuration() / 1000) * 1000;
+      let prefix = isTimerPositive && roundedMilliseconds > 0 ? '+' : '';
+      return `${prefix}${moment.utc(roundedMilliseconds).format('mm:ss')}`;
+    };
+
     setcounterText(getcounterText());
-  });
+  }, [duration, goalTimeMilliseconds]);
 
   useInterval(() => {
     if (resetTimerRequested) {
@@ -66,15 +70,14 @@ export const RSvgTimer: FC<ITimerProps> = ({
   }, resetTimerRequested);
 
   useInterval(() => {
-    // Moments are used to correct drift from JavaScript's setInterval
     setDuration(elapsedTime + moment(new Date()).diff(moment(startDateMoment)));
     if (duration <= goalTimeMilliseconds) {
       setDraw(drawCoord(duration * degrees));
     } else {
-      completeTimer(true);
+      setTimerIsRunning(false);
       setDraw(drawCoord(359.99));
+      if (completeTimer) completeTimer(true);
     }
-    // Inform the parent component of the current timer duration
     if (timerDuration) timerDuration(duration);
   }, timerIsRunning);
 
@@ -93,39 +96,22 @@ export const RSvgTimer: FC<ITimerProps> = ({
     setDuration(0);
     setElapsedTime(0);
     setDraw(drawCoord(360));
-    // Call the callback functions on the parent component
     if (completeTimer) completeTimer(false);
     if (resetTimer) resetTimer();
   };
 
-  // Wizardry - for which credit must go to the source: https://jsfiddle.net/prafuitu/xRmGV/
-  const drawCoord = (degrees: number) => {
+  const drawCoord = (degrees) => {
     let radius = 60;
     let radians = (degrees * Math.PI) / 180;
     let offset = 10;
     let rX = radius + offset + Math.sin(radians) * radius;
     let rY = radius + offset - Math.cos(radians) * radius;
     let dir = degrees > 180 ? 1 : 0;
-    // prettier-ignore
-    let coord = `M${radius + offset},${radius + offset} L${radius + offset},${offset} A${radius},${radius} 0 ${dir},1 ${rX},${rY}`
-    return coord;
-  };
 
-  const getcounterText = () => {
-    // This function is not great - complexity is due to counting up once timer goal is reached
-    const isTimerPositive = duration > goalTimeMilliseconds;
-    const getTimerDuration = () => {
-      return moment
-        .duration(
-          isTimerPositive
-            ? duration - goalTimeMilliseconds
-            : goalTimeMilliseconds - duration
-        )
-        .asMilliseconds();
-    };
-    let roundedMilliseconds = Math.round(getTimerDuration() / 1000) * 1000;
-    let prefix = isTimerPositive && roundedMilliseconds > 0 ? '+' : '';
-    return `${prefix}${moment.utc(roundedMilliseconds).format('mm:ss')}`;
+    let coord = `M${radius + offset},${radius + offset} L${
+      radius + offset
+    },${offset} A${radius},${radius} 0 ${dir},1 ${rX},${rY}`;
+    return coord;
   };
 
   return (
@@ -142,11 +128,4 @@ export const RSvgTimer: FC<ITimerProps> = ({
       />
     </div>
   );
-};
-
-RSvgTimer.defaultProps = {
-  outerColor: '#282828',
-  innerColor: '#ffffff',
-  countdownColor: '#00b6e0',
-  displayCountdown: true,
 };

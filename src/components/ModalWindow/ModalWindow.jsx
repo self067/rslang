@@ -101,11 +101,6 @@ const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
     registerUser(username, email, password, avatarImg);
   };
 
-  const onSubmitLogout = (e) => {
-    e.preventDefault();
-    // logoutUser('seltor1@gmail.com');
-  };
-
   const onOutClick = (e) => {
     const curRef = insideRef.current;
     if (curRef && !curRef.contains(e.target)) {

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Button } from 'components/button';
 
 export const Avatar = styled.img`
   width: 50px;
