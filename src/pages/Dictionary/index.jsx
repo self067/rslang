@@ -83,6 +83,7 @@ function Dictionary() {
                 setCard(null);
                 setGroup(index);
               }}
+              selectedTabClassName={'level-color__' + group}
             >
               <div className="tabs-header">
                 Сложность - {skillLevels[group]}
@@ -120,6 +121,7 @@ function Dictionary() {
                     wordSoundSrc={item.audio}
                     meaningSoundSrc={item.audioMeaning}
                     exampleSoundSrc={item.audioExample}
+                    cardColorStyle={'level-color__' + group}
                     key={item.word}
                   />
                 );
