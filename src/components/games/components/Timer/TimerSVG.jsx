@@ -3,23 +3,23 @@ import { StyledTimerSVG } from './styled';
 
 export const TimerSVG = ({
   clickStart,
-  countdownColor = 'red',
-  displayCountdown = true,
-  draw = 30,
-  innerColor = 'yellow',
-  outerColor = 'green',
-  timerIsRunning = true,
-  timerText = 'timer',
+  countdownColor,
+  displayCountdown,
+  draw,
+  innerColor,
+  outerColor,
+  timerIsRunning,
+  timerText,
 }) => {
   const [counter, setCounter] = React.useState(60);
-  React.useEffect(() => {
-    counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
-    counter !== 'Time Over' &&
-      setTimeout(
-        () => setCounter(counter > 1 ? counter - 1 : 'Time Over'),
-        1000
-      );
-  }, [counter]);
+  // React.useEffect(() => {
+  //   counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+  //   counter !== 'Time Over' &&
+  //     setTimeout(
+  //       () => setCounter(counter > 1 ? counter - 1 : 'Time Over'),
+  //       1000
+  //     );
+  // }, [counter]);
 
   return (
     <div>

@@ -4,15 +4,18 @@ import { TimerSVG } from './TimerSVG';
 
 function useInterval(callback, runTimer) {
   const savedCallback = useRef();
+
   useEffect(() => {
     savedCallback.current = callback;
   }, [callback]);
+
   useEffect(() => {
     function tick() {
       savedCallback.current();
     }
     if (runTimer) {
-      let id = setInterval(tick, 1);
+      let id = setInterval(tick, 100);
+      console.log('setInterval ', id);
       return () => clearInterval(id);
     }
     return undefined;
@@ -30,7 +33,7 @@ export const Timer = ({
   timerCount,
   completeTimer,
 }) => {
-  timerCount = timerCount || 7;
+  timerCount = timerCount || 60;
 
   let [draw, setDraw] = useState('');
   let [timerIsRunning, setTimerIsRunning] = useState(false);
@@ -85,6 +88,7 @@ export const Timer = ({
     setElapsedTime(duration);
     setStartDateMoment(moment(new Date()));
     setTimerIsRunning(true);
+    console.log(duration);
   };
 
   const pause = () => {
