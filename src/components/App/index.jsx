@@ -1,11 +1,13 @@
 import React, { createContext, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Navbar } from '../navbar';
+
 import Home from 'pages/Home';
 import Dictionary from 'pages/Dictionary';
 import Games from 'pages/Games';
 import Statistic from 'pages/Statistic';
 import SingUp from 'pages/SingUp';
+import AudioCall from '../games/Audiocall';
 import { Sprint } from 'components/games/Sprint';
 import UserContext from 'components/Auth/UserContext';
 
@@ -22,6 +24,7 @@ export const App = () => {
           <Route path="/sprintGame" component={Sprint} />
           <Route path="/statistic" component={Statistic} />
           <Route path="/sign-up" component={SingUp} />
+          <Route path="/audioGame" component={AudioCall} />
         </Switch>
       </Router>
     </UserContext.Provider>
