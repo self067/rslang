@@ -24,9 +24,22 @@ const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
       },
       body: JSON.stringify(body),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 200) {
+          setError('');
+          return response.json();
+        } else if (response.status === 404) {
+          setError('No such user');
+          return { error: response.status + response.statusText };
+        } else {
+          setError(response.statusText);
+          console.log(response);
+          return { error: response.status + response.statusText };
+        }
+      })
       .then((result) => {
         console.log(result);
+        if (!result) return;
         if (!result.token) {
           throw new Error(result.error);
         }
@@ -38,7 +51,7 @@ const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
       })
       .catch((error) => {
         console.error('catch: ', error);
-        setError(error.message);
+        // setError(error.message);
       });
   };
 
