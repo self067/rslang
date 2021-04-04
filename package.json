@@ -3,13 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/node": "^12.0.0",
-    "@types/react": "^16.9.53",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-router-dom": "^5.1.7",
-    "@types/react-virtualized-auto-sizer": "^1.0.0",
-    "@types/react-window": "^1.8.2",
-    "@types/styled-components": "^5.1.7",
     "i18next": "^19.9.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -18,10 +11,10 @@
     "react-paginate": "^7.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "react-spring": "^9.0.0",
     "react-virtualized-auto-sizer": "^1.0.4",
     "react-window": "^1.8.6",
-    "styled-components": "^5.2.1",
-    "typescript": "^3.9.9"
+    "styled-components": "^5.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -50,9 +43,6 @@
     ]
   },
   "devDependencies": {
-    "@types/react-paginate": "^6.2.1",
-    "@typescript-eslint/eslint-plugin": "^4.14.1",
-    "@typescript-eslint/parser": "^4.14.1",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.3.1",
