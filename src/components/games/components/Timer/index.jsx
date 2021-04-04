@@ -3,21 +3,28 @@ import moment from 'moment';
 import { TimerSVG } from './TimerSVG';
 
 function useInterval(callback, runTimer) {
+  console.log('useInterval ', runTimer);
   const savedCallback = useRef();
 
   useEffect(() => {
+    console.log('useEffect1');
     savedCallback.current = callback;
   }, [callback]);
 
   useEffect(() => {
+    console.log('useEffect2');
     function tick() {
       savedCallback.current();
     }
     if (runTimer) {
-      let id = setInterval(tick, 100);
+      let id = setInterval(tick, 1000);
       console.log('setInterval ', id);
-      return () => clearInterval(id);
+      return () => {
+        console.log('clearInterval', id);
+        clearInterval(id);
+      };
     }
+
     return undefined;
   }, [runTimer]);
 }
@@ -66,11 +73,11 @@ export const Timer = ({
     setcounterText(getcounterText());
   }, [duration, goalTimeMilliseconds]);
 
-  useInterval(() => {
-    if (resetTimerRequested) {
-      reset();
-    }
-  }, resetTimerRequested);
+  // useInterval(() => {
+  //   if (resetTimerRequested) {
+  //     reset();
+  //   }
+  // }, resetTimerRequested);
 
   useInterval(() => {
     setDuration(elapsedTime + moment(new Date()).diff(moment(startDateMoment)));
@@ -97,11 +104,13 @@ export const Timer = ({
 
   const reset = () => {
     setTimerIsRunning(false);
-    setDuration(0);
-    setElapsedTime(0);
-    setDraw(drawCoord(360));
-    if (completeTimer) completeTimer(false);
-    if (resetTimer) resetTimer();
+    // setDuration(0);
+    // setElapsedTime(0);
+    // setDraw(drawCoord(360));
+    // if (completeTimer)
+    // completeTimer(false);
+    // if (resetTimer)
+    // resetTimer();
   };
 
   const drawCoord = (degrees) => {
@@ -128,7 +137,9 @@ export const Timer = ({
         countdownColor={countdownColor}
         timerIsRunning={timerIsRunning}
         displayCountdown={displayCountdown}
-        clickStart={() => (timerIsRunning ? pause() : start())}
+        clickStart={() =>
+          !completeTimer ? (timerIsRunning ? pause() : start()) : null
+        }
       />
     </div>
   );
