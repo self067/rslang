@@ -51,7 +51,6 @@ export const Sprint = () => {
         (result) => {
           setIsLoaded(true);
           setWords(result);
-          console.log(result);
         },
         (error) => {
           setIsLoaded(true);
@@ -108,14 +107,14 @@ export const Sprint = () => {
   const timerDuration = () => {
     console.log('timerDuration');
   };
-  console.log(resetTimerRequested);
-  const word = words ? words[currentWord].word : '';
-  // const wordTranslate = words
-  //   ? words[truth ? currentWord : currentWord].wordTranslate
-  //   : '';
+
+  // console.log(resetTimerRequested, words, wrongWords);
+  const word = words ? words[currentWord]?.word : '';
   const wordTranslate = truth
-    ? words[currentWord].wordTranslate
-    : wrongWords[currentWord].wordTranslate;
+    ? words[currentWord]?.wordTranslate
+    : wrongWords
+    ? wrongWords[currentWord]?.wordTranslate
+    : '';
 
   return error ? (
     <div>Error: {error.message}</div>
