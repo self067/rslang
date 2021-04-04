@@ -39,3 +39,40 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+:root {
+  --black: rgb(0, 0, 0);
+  --grey: rgb(51, 51, 51);
+  --light-grey: rgb(221, 221, 221);
+  --light: rgb(255, 255, 255);
+  --blue-light: rgb(38, 144, 185);
+  --blue-light-rgba: rgba(38, 143, 185, 0.322);
+  --blue-dark: rgb(42, 38, 95);
+
+  --color-submit: var(--blue-light);
+  --color-submit-hover: var(--blue-dark);
+  --select-border: #777;
+}
+
+button,
+button:active,
+button:focus,
+audio,
+video {
+  outline: none;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
