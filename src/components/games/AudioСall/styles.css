@@ -2,15 +2,15 @@
   display: none;
 }
 
+.volumeIcon {
+  width: 100px;
+  height: 100px;
+}
 .volumeIcon:active {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: var(--blue-light-rgba);
 }
 
 .volumeIcon:hover {
   border-radius: 50%;
   cursor: pointer;
-}
-
-wrongAnswer {
-  color: rgba(255, 255, 255, 0.1);
 }

@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Pane, Score, AudioCallSection } from './styled'; //временно взято из Savanna
+import { Pane, Score, AudioCallSection, GameContent } from './styled'; //временно взято из Savanna
 import './styles.css';
 import { Button } from 'components/button';
-
-const audioCorrectAnswer = new Audio('audio/correct.mp3');
-const audioWrongAnswer = new Audio('audio/wrong.mp3');
+import { StyledLoader } from '../../../components/loader';
 
 export default function AudioСall() {
   const [error, setError] = useState(null);
@@ -17,11 +15,13 @@ export default function AudioСall() {
   const [wordsInRound, setWordsInRound] = useState(10);
   const [IsGameOver, setGameOver] = useState(false);
   const [srcImage, setSrcImage] = useState('');
-
-  const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
+  const [isSoundPlay, setIsSoundPlay] = useState(true);
 
   const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
   const fetchDataLink = `${baseUrl}words?group=1&page=1`;
+
+  const audioCorrectAnswer = new Audio('audio/correct.mp3');
+  const audioWrongAnswer = new Audio('audio/wrong.mp3');
 
   useEffect(() => {
     fetch(fetchDataLink)
@@ -36,18 +36,20 @@ export default function AudioСall() {
           setError(error);
         }
       );
-  }, []);
+  }, [fetchDataLink]);
 
   useEffect(() => {
+    const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
     const listOfFiveWords = [...items]
       .sort(() => Math.random() - 0.5)
       .slice(0, 5);
     setWords(listOfFiveWords);
     setRightWord(listOfFiveWords[getRandomInt(5)]);
     setIsAttemptToAnswer(false);
+    setIsSoundPlay(true);
   }, [items]);
 
-  const AttemptToAnswer = (word) => {
+  function AttemptToAnswer(word) {
     if (word.id === rightWord.id) {
       audioCorrectAnswer.play();
       setScore(score + 10);
@@ -56,36 +58,26 @@ export default function AudioСall() {
     }
     setWordsInRound(wordsInRound - 1);
     setIsAttemptToAnswer(true);
-  };
+  }
 
   const playSound = useCallback(() => {
     if (rightWord) {
-      const pronounce = new Audio(`${baseUrl}${rightWord.audio}`);
+      const audioPlay = new Audio(`${baseUrl}${rightWord.audio}`);
       setSrcImage(`${baseUrl}${rightWord.image}`);
-      pronounce.volume = 0.05;
-      pronounce.play();
+      audioPlay.volume = 1;
+      audioPlay.play();
     }
   }, [rightWord]);
 
-  /*if (rightWord && shouldSoundBePlayed) {
+  if (rightWord && isSoundPlay) {
     playSound();
-    setShouldSoundBePlayed(false);
-  }*/
-  /*function turnOffSound() {
-    wordSound.stop();
+    setIsSoundPlay(false);
   }
-
-  useEffect(() => {
-    if (!isAudioPlaying) {
-      turnOffSound();
-    }
-    playWordSound();
-  }, [isAudioPlaying]);*/
 
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
-    return <p>Loading...</p>;
+    return <StyledLoader>Loading...</StyledLoader>;
   } else {
     return (
       <AudioCallSection>
@@ -93,7 +85,7 @@ export default function AudioСall() {
         <Score> Очки:{score} из 100</Score>
 
         <Pane>
-          <div className="cards">
+          <GameContent>
             <img
               className={isAttemptToAnswer ? 'hideImg' : 'volumeIcon'}
               onClick={() => {
@@ -124,7 +116,7 @@ export default function AudioСall() {
                   </p>
                 );
               })}
-          </div>
+          </GameContent>
           <Button
             buttonStyle="btn--light"
             buttonSize="btn--large"

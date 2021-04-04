@@ -5,7 +5,11 @@ export const AudioCallSection = styled.section`
   margin: 100px auto;
   padding: 100px;
   background-color: var(--blue-light-rgba);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
+export const Score = styled.div``;
 
 export const Pane = styled.div`
   width: 100%;
@@ -15,7 +19,11 @@ export const Pane = styled.div`
   background-color: var(--light-grey);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
 `;
 
-export const Score = styled.div``;
+export const GameContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
