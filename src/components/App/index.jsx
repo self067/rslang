@@ -24,7 +24,7 @@ export const App = () => {
           <Route path="/sprintGame" component={Sprint} />
           <Route path="/statistic" component={Statistic} />
           <Route path="/sign-up" component={SingUp} />
-          <Route path="/audioGame" component={AudioCall} />
+          <Route path="/audioGame" component={AudioСall} />
         </Switch>
       </Router>
     </UserContext.Provider>

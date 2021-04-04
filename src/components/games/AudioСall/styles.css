@@ -1,0 +1,16 @@
+.hideImg {
+  display: none;
+}
+
+.volumeIcon:active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.volumeIcon:hover {
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+wrongAnswer {
+  color: rgba(255, 255, 255, 0.1);
+}

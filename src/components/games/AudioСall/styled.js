@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Button } from 'components/button';
 
 export const AudioCallSection = styled.section`
   max-width: 960px;
@@ -17,22 +16,6 @@ export const Pane = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-`;
-
-export const ButtonsBlock = styled.div`
-  padding: 30px;
-  width: 100%;
-  display: flex;
-  /* align-items: flex-end; */
-  align-self: center;
-  justify-content: space-around;
-`;
-export const NoButton = styled(Button)`
-  background-color: red;
-`;
-
-export const YesButton = styled(NoButton)`
-  background-color: green;
 `;
 
 export const Score = styled.div``;
