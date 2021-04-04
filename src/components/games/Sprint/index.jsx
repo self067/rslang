@@ -10,17 +10,20 @@ import {
   YesButton,
 } from './styled';
 
+let curWord = 0;
+
 export const Sprint = () => {
   const [score, setScore] = useState(0);
   const [resetTimerRequested, setResetTimer] = useState(false);
   const [words, setWords] = useState(null);
+  const [wrongWords, setWrongWords] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(Math.floor(Math.random() * 30));
   const [group, setGroup] = useState(0);
   const [error, setError] = useState(null);
   const [currentWord, setCurrentWord] = useState(0);
 
-  const secondPage = page > 15 ? page - 2 : page + 2;
+  const wrongPage = page > 15 ? page - 2 : page + 2;
   const truth = !!Math.floor(Math.random() * 2);
 
   console.log('truth=', truth ? 'true' : 'false');
@@ -29,17 +32,16 @@ export const Sprint = () => {
 
   const apiurl = process.env.REACT_APP_APIURL;
   const wordsUrl = `${apiurl}/words?group=${group}&page=${page}`;
+  const wrongWordsUrl = `${apiurl}/words?group=${group}&page=${wrongPage}`;
 
-  const onLeft = (cr) => {
-    console.log('onLeft', cr);
-    setCurrentWord(cr + 1);
-    // return currentWord + 1;
+  const onLeft = () => {
+    console.log('onLeft', curWord);
+    setCurrentWord(++curWord);
   };
 
-  const onRight = (cr) => {
-    console.log('onRight', cr);
-    setCurrentWord(cr + 1);
-    // return currentWord + 1;
+  const onRight = () => {
+    console.log('onRight', curWord);
+    setCurrentWord(++curWord);
   };
 
   useEffect(() => {
@@ -57,6 +59,21 @@ export const Sprint = () => {
         }
       );
   }, [wordsUrl]);
+
+  useEffect(() => {
+    fetch(wrongWordsUrl)
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setWrongWords(result);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, [wrongWordsUrl]);
 
   useEffect(() => {
     if (resetTimerRequested) setResetTimer(true);
@@ -93,9 +110,12 @@ export const Sprint = () => {
   };
   console.log(resetTimerRequested);
   const word = words ? words[currentWord].word : '';
-  const wordTranslate = words
-    ? words[truth ? currentWord : currentWord].wordTranslate
-    : '';
+  // const wordTranslate = words
+  //   ? words[truth ? currentWord : currentWord].wordTranslate
+  //   : '';
+  const wordTranslate = truth
+    ? words[currentWord].wordTranslate
+    : wrongWords[currentWord].wordTranslate;
 
   return error ? (
     <div>Error: {error.message}</div>
