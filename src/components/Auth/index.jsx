@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Button } from 'components/button';
 import useModalHandler from 'hooks/useModalHandler';
-import useUserInfo from 'hooks/useUserInfo';
 import PropTypes from 'prop-types';
 import ModalWindow from '../ModalWindow';
 import { Avatar, AuthButton } from './styled';
+import UserContext from 'components/Auth/UserContext';
 
 const sessionName = process.env.REACT_APP_SESSIONNAME;
-const apiurl = process.env.REACT_APP_APIURL;
 
 export const Auth = () => {
   const [isModalOpen, handleModal] = useModalHandler();
-  const [userInfo, setUserInfo] = useUserInfo();
-  console.log(userInfo);
+  const { userInfo, setUserInfo } = useContext(UserContext);
 
   useEffect(() => {
+    console.log(useEffect);
     setUserInfo(JSON.parse(sessionStorage.getItem(sessionName)));
-    console.log('useEf');
   }, [setUserInfo]);
 
   const logoutUser = (e) => {

@@ -11,7 +11,7 @@ import {
 import emailIcon from 'components/ModalWindow/images/email.svg';
 import passwordIcon from 'components/ModalWindow/images/lock.svg';
 import { TabsContext } from 'components/ModalWindow/components/Tabs';
-// import useUserInfo from 'hooks/useUserInfo';
+
 
 export default function LoginTab({
   onSubmit,
