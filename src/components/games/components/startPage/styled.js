@@ -83,5 +83,5 @@ export const StyledTextTitle = styled(StyledTitle)`
 `;
 
 export const StyledImg = styled.img`
-  height: 150px;
+  height: 110px;
 `;
