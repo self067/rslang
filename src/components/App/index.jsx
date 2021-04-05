@@ -1,18 +1,18 @@
 import React, { createContext, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Navbar } from '../navbar';
-import Home from '../../pages/Home';
-import Dictionary from '../../pages/Dictionary';
-import Games from '../../pages/Games';
-import Statistic from '../../pages/Statistic';
-import SingUp from '../../pages/SingUp';
+import Home from 'pages/Home';
+import Dictionary from 'pages/Dictionary';
+import Games from 'pages/Games';
+import Statistic from 'pages/Statistic';
+import SingUp from 'pages/SingUp';
 import { Sprint } from 'components/games/Sprint';
+import UserContext from 'components/Auth/UserContext';
 
 export const App = () => {
   const [userInfo, setUserInfo] = useState(null);
-  const UserContext = createContext([userInfo, setUserInfo]);
   return (
-    <UserContext.Provider value={1}>
+    <UserContext.Provider value={{ userInfo, setUserInfo }}>
       <Router>
         <Navbar />
         <Switch>

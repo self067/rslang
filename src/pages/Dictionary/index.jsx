@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import WordCard from '../../components/wordCard';
 import {
   StyledSection,
@@ -14,7 +14,8 @@ import ReactPaginate from 'react-paginate';
 import './styles.css';
 import ModalSetup from '../../components/setup';
 import { StyledLoader } from '../../components/loader';
-import useUserInfo from '../../hooks/useUserInfo';
+import UserContext from 'components/Auth/UserContext';
+
 function Dictionary() {
   const [card, setCard] = useState(null);
   const [error, setError] = useState(null);
@@ -22,7 +23,9 @@ function Dictionary() {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(0);
   const [group, setGroup] = useState(0);
-  const [userInfo] = useUserInfo();
+
+  const { userInfo } = useContext(UserContext);
+
   const [isChecked, setIsChecked] = useState({
     wordTranslate: true,
     definitionTranslate: true,

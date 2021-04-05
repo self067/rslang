@@ -38,7 +38,7 @@ const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
         }
       })
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         if (!result) return;
         if (!result.token) {
           throw new Error(result.error);
