@@ -41,13 +41,3 @@
   margin: 2rem 0 1rem;
   align-items: center;
 }
-
-.react-tabs__tab--selected {
-  background: var(--blue-dark);
-  color: var(--light);
-  outline: none;
-}
-
-.characterImg {
-  height: 150px;
-}

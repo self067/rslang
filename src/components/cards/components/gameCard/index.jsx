@@ -15,7 +15,6 @@ function GameCard({ name, src, text, path }) {
         <StyledFigure data-category={name}>
           <StyledImg src={src} />
         </StyledFigure>
-
         <StyledInfo>
           <StyledCardText>{text}</StyledCardText>
         </StyledInfo>

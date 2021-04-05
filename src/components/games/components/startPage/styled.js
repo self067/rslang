@@ -81,3 +81,7 @@ export const StyledTextTitle = styled(StyledTitle)`
   color: var(--dark);
   padding: 0 1rem;
 `;
+
+export const StyledImg = styled.img`
+  height: 150px;
+`;
