@@ -1,11 +1,10 @@
 import React, { createContext, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Navbar } from '../navbar';
-import Home from '../../pages/Home';
-import Dictionary from '../../pages/Dictionary';
-import Games from '../../pages/Games';
-import Statistic from '../../pages/Statistic';
-import SingUp from '../../pages/SingUp';
+import Home from 'pages/Home';
+import Dictionary from 'pages/Dictionary';
+import Games from 'pages/Games';
+import Statistic from 'pages/Statistic';
 import AudioСallStartPage from '../games/AudioСall'; //открытие игры с выбором уровня сложности
 import AudioСall from '../games/AudioСall/components/AudioCallGame'; //путь к самой игре
 import { Sprint } from 'components/games/Sprint';
@@ -23,7 +22,6 @@ export const App = () => {
           <Route path="/games" component={Games} />
           <Route path="/sprintGame" component={Sprint} />
           <Route path="/statistic" component={Statistic} />
-          <Route path="/sign-up" component={SingUp} />
           <Route path="/audioGameStartPage" component={AudioСallStartPage} />
           <Route path="/audioGame" component={AudioСall} />
         </Switch>
