@@ -3,24 +3,20 @@ import moment from 'moment';
 import { TimerSVG } from './TimerSVG';
 
 function useInterval(callback, runTimer) {
-  console.log('useInterval ', runTimer);
   const savedCallback = useRef();
 
   useEffect(() => {
-    console.log('useEffect1');
     savedCallback.current = callback;
   }, [callback]);
 
   useEffect(() => {
-    console.log('useEffect2');
     function tick() {
       savedCallback.current();
     }
     if (runTimer) {
       let id = setInterval(tick, 1000);
-      console.log('setInterval ', id);
+
       return () => {
-        console.log('clearInterval', id);
         clearInterval(id);
       };
     }
@@ -37,11 +33,9 @@ export const Timer = ({
   timerDuration,
   resetTimerRequested,
   resetTimer,
-  timerCount,
+  timerCount = 60,
   completeTimer,
 }) => {
-  timerCount = timerCount || 60;
-
   let [draw, setDraw] = useState('');
   let [timerIsRunning, setTimerIsRunning] = useState(false);
   let [counterText, setcounterText] = useState('');
@@ -95,7 +89,6 @@ export const Timer = ({
     setElapsedTime(duration);
     setStartDateMoment(moment(new Date()));
     setTimerIsRunning(true);
-    console.log(duration);
   };
 
   const pause = () => {
