@@ -27,6 +27,14 @@ export default function AudioСallStartPage() {
     'Upper-intermediate',
     'Advanced',
   ];
+  const img = [
+    'images/characters/images/1.png',
+    'images/characters/images/2.png',
+    'images/characters/images/3.png',
+    'images/characters/images/4.png',
+    'images/characters/images/5.png',
+    'images/characters/images/6.png',
+  ];
   return (
     <StyledSection>
       <StyledVideo src="video/video.mp4" autoPlay loop muted />
@@ -39,6 +47,7 @@ export default function AudioСallStartPage() {
             }}
           >
             <StyledTabHeader>
+              <img src={img[level]} alt="img" />
               <p>Выберите уровень сложности игры </p>
               {skillLevels[level]}
             </StyledTabHeader>
@@ -75,7 +84,7 @@ export default function AudioСallStartPage() {
             правильный перевод озвученного слова.
           </StyledText>
 
-          <Link to="/audioGame">
+          <Link to="/audioGame" level={level}>
             <Button buttonStyle="btn--dark" buttonSize="btn--large">
               Начать игру
             </Button>

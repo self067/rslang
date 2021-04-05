@@ -11,10 +11,10 @@ import {
 } from './styled';
 import './styles.css';
 import { Button } from 'components/button';
-
+import PropTypes from 'prop-types';
 import { StyledLoader } from '../../../../loader';
 
-export default function AudioСall() {
+export default function AudioСall({ level }) {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
@@ -27,15 +27,18 @@ export default function AudioСall() {
   const [srcImage, setSrcImage] = useState('');
   const [isSoundPlay, setIsSoundPlay] = useState(true);
 
-  const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
-  const fetchDataLink = `${baseUrl}words?group=1&page=1`;
-
   const audioCorrectAnswer = new Audio('audio/correct.mp3');
   const audioWrongAnswer = new Audio('audio/wrong.mp3');
   const audioNoAnswer = new Audio('audio/noAnswer.wav');
+  const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
+
+  const fetchDataLink = (level, page) =>
+    `${baseUrl}words?group=${level}&page=${page}`;
+
+  const [url, setUrl] = useState(fetchDataLink(level, 1));
 
   useEffect(() => {
-    fetch(fetchDataLink)
+    fetch(url)
       .then((res) => res.json())
       .then(
         (result) => {
@@ -47,10 +50,11 @@ export default function AudioСall() {
           setError(error);
         }
       );
-  }, [fetchDataLink]);
+  }, [url]);
+
+  const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
 
   useEffect(() => {
-    const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
     const listOfFiveWords = [...items]
       .sort(() => Math.random() - 0.5)
       .slice(0, 5);
@@ -168,8 +172,7 @@ export default function AudioСall() {
               buttonSize="btn--large"
               onClick={() => {
                 if (isAttemptToAnswer) {
-                  console.log('следующий набор');
-                  //newSetWords();
+                  setUrl(fetchDataLink(level, getRandomInt(30)));
                 } else if (wordsInRound) {
                   audioNoAnswer.play();
                   setIsAttemptToAnswer(true);
@@ -186,3 +189,11 @@ export default function AudioСall() {
     );
   }
 }
+
+AudioСall.defaultProps = {
+  level: '',
+};
+
+AudioСall.propTypes = {
+  level: PropTypes.string,
+};
