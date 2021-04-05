@@ -32,6 +32,7 @@ export default function AudioСall() {
 
   const audioCorrectAnswer = new Audio('audio/correct.mp3');
   const audioWrongAnswer = new Audio('audio/wrong.mp3');
+  const audioNoAnswer = new Audio('audio/noAnswer.wav');
 
   useEffect(() => {
     fetch(fetchDataLink)
@@ -59,7 +60,17 @@ export default function AudioСall() {
     setIsSoundPlay(true);
   }, [items]);
 
+  useEffect(() => {
+    if (wordsInRound === 0) {
+      setGameOver(true);
+    }
+  }, [IsGameOver, wordsInRound]);
+
   function AttemptToAnswer(word) {
+    if (isAttemptToAnswer) {
+      return;
+    }
+
     if (word.id === rightWord.id) {
       audioCorrectAnswer.play();
       setScore(score + 10);
@@ -148,7 +159,7 @@ export default function AudioСall() {
                 if (isAttemptToAnswer) {
                   console.log('следующий набор');
                 } else if (wordsInRound) {
-                  audioWrongAnswer.play();
+                  audioNoAnswer.play();
                   setIsAttemptToAnswer(true);
                   setWordsInRound(wordsInRound - 1);
                 }
