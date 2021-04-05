@@ -1,7 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Pane, Score, AudioCallSection, GameContent } from './styled'; //временно взято из Savanna
+import {
+  Pane, //временно взято из Savanna
+  Score, //временно взято из Savanna
+  AudioCallSection, //временно взято из Savanna
+  GameContent,
+  StyledWordsContainer,
+  StyledWord,
+  StyledAnswerContent,
+  StyledButtonBlock,
+} from './styled';
 import './styles.css';
 import { Button } from 'components/button';
+
 import { StyledLoader } from '../../../components/loader';
 
 export default function AudioСall() {
@@ -99,40 +109,55 @@ export default function AudioСall() {
               src={srcImage}
               alt="meaning_img"
             />
+            <div className={isAttemptToAnswer ? 'answer' : 'answerHide'}>
+              <img
+                onClick={() => playSound()}
+                className="volumeIconSmall"
+                src="images/volume.svg"
+                alt="sound"
+              />
+              <StyledAnswerContent>
+                {rightWord && rightWord.word}
+              </StyledAnswerContent>
+            </div>
 
-            {words &&
-              words.map((word, index) => {
-                return (
-                  <p
-                    className={
-                      word.id !== rightWord.id && isAttemptToAnswer
-                        ? 'wrongAnswer'
-                        : ''
-                    }
-                    key={word.id}
-                    onClick={() => AttemptToAnswer(word)}
-                  >
-                    {index + 1} {word.wordTranslate}
-                  </p>
-                );
-              })}
+            <StyledWordsContainer>
+              {words &&
+                words.map((word, index) => {
+                  return (
+                    <StyledWord
+                      id={
+                        word.id !== rightWord.id && isAttemptToAnswer
+                          ? 'wrongAnswer'
+                          : ''
+                      }
+                      key={word.id}
+                      onClick={() => AttemptToAnswer(word)}
+                    >
+                      {index + 1} {word.wordTranslate}
+                    </StyledWord>
+                  );
+                })}
+            </StyledWordsContainer>
           </GameContent>
-          <Button
-            buttonStyle="btn--light"
-            buttonSize="btn--large"
-            onClick={() => {
-              if (isAttemptToAnswer) {
-                console.log('следующий набор');
-              } else if (wordsInRound) {
-                audioWrongAnswer.play();
-                setIsAttemptToAnswer(true);
-                setWordsInRound(wordsInRound - 1);
-              }
-              !wordsInRound ? setGameOver(true) : setGameOver(false);
-            }}
-          >
-            {isAttemptToAnswer ? 'Дальше' : 'Не знаю'}
-          </Button>
+          <StyledButtonBlock>
+            <Button
+              buttonStyle="btn--light"
+              buttonSize="btn--large"
+              onClick={() => {
+                if (isAttemptToAnswer) {
+                  console.log('следующий набор');
+                } else if (wordsInRound) {
+                  audioWrongAnswer.play();
+                  setIsAttemptToAnswer(true);
+                  setWordsInRound(wordsInRound - 1);
+                }
+                !wordsInRound ? setGameOver(true) : setGameOver(false);
+              }}
+            >
+              {isAttemptToAnswer ? 'Дальше' : 'Не знаю'}
+            </Button>
+          </StyledButtonBlock>
         </Pane>
       </AudioCallSection>
     );
