@@ -110,11 +110,12 @@ export const Sprint = () => {
 
   // console.log(resetTimerRequested, words, wrongWords);
   const word = words ? words[currentWord]?.word : '';
-  const wordTranslate = truth
-    ? words[currentWord]?.wordTranslate
-    : wrongWords
-    ? wrongWords[currentWord]?.wordTranslate
-    : '';
+  const wordTranslate = word;
+  // truth
+  //   ? words[currentWord]?.wordTranslate
+  //   : wrongWords
+  //   ? wrongWords[currentWord]?.wordTranslate
+  //   : '';
 
   return error ? (
     <div>Error: {error.message}</div>
@@ -122,6 +123,100 @@ export const Sprint = () => {
     <StyledLoader>Loading...</StyledLoader>
   ) : (
     <SprintSection>
+      <div class="section">
+        <div class="header">30 000 очков</div>
+        <div class="card">
+          <img
+            src="images/sprint/panda_pl.png"
+            loading="lazy"
+            alt=""
+            class="panda_top"
+          />
+          <div class="wrapper">
+            <div class="boxcolor">
+              <div class="text">+ 80 очков за слово</div>
+              <div class="checkbox">
+                <img
+                  src="images/sprint/CHECK1.png"
+                  loading="lazy"
+                  alt=""
+                  class="image-2"
+                />
+                <img
+                  src="images/sprint/CHECK1.png"
+                  loading="lazy"
+                  alt=""
+                  class="image-2"
+                />
+                <img
+                  src="images/sprint/CHECK1.png"
+                  loading="lazy"
+                  alt=""
+                  class="image-2"
+                />
+              </div>
+            </div>
+            <div class="boxpanda">
+              <img
+                src="images/sprint/panda4.png"
+                loading="lazy"
+                alt=""
+                class="panda"
+              />
+              <img
+                src="images/sprint/panda3.png"
+                loading="lazy"
+                alt=""
+                class="panda"
+              />
+              <img
+                src="images/sprint/panda5.png"
+                loading="lazy"
+                alt=""
+                class="panda"
+              />
+              <img
+                src="images/sprint/panda1.png"
+                loading="lazy"
+                alt=""
+                class="panda"
+              />
+            </div>
+            <div class="boxwords">
+              <div class="text-card">бамбук</div>
+              <div class="text-card">bamboo</div>
+            </div>
+          </div>
+        </div>
+        <div class="buttonbox">
+          <img src="/sprint/arrow_l.png" loading="lazy" alt="" class="arrow" />
+          <a href="#" class="button w-button">
+            верно
+          </a>
+          <img
+            src="images/sprint/CHECK1.png"
+            loading="lazy"
+            alt=""
+            class="image-3"
+          />
+          <a href="#" class="button red w-button">
+            неверно
+          </a>
+          <img
+            src="images/sprint/arrow_r.png"
+            loading="lazy"
+            alt=""
+            class="arrow"
+          />
+        </div>
+        <img
+          src="images/sprint/panda_r.png"
+          loading="lazy"
+          alt=""
+          class="panda_bottom"
+        />
+      </div>
+
       <Score>{score}</Score>
 
       <Timer
