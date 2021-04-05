@@ -47,3 +47,7 @@
   color: var(--light);
   outline: none;
 }
+
+.characterImg {
+  height: 150px;
+}

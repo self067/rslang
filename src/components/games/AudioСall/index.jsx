@@ -47,7 +47,7 @@ export default function AudioСallStartPage() {
             }}
           >
             <StyledTabHeader>
-              <img src={img[level]} alt="img" />
+              <img src={img[level]} alt="img" className="characterImg" />
               <p>Выберите уровень сложности игры </p>
               {skillLevels[level]}
             </StyledTabHeader>

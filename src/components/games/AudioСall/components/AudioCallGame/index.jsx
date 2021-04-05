@@ -14,6 +14,11 @@ import { Button } from 'components/button';
 import PropTypes from 'prop-types';
 import { StyledLoader } from '../../../../loader';
 
+const audioCorrectAnswer = new Audio('audio/correct.mp3');
+const audioWrongAnswer = new Audio('audio/wrong.mp3');
+const audioNoAnswer = new Audio('audio/noAnswer.wav');
+const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
+
 export default function AudioСall({ level }) {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -26,11 +31,6 @@ export default function AudioСall({ level }) {
   const [IsGameOver, setGameOver] = useState(false);
   const [srcImage, setSrcImage] = useState('');
   const [isSoundPlay, setIsSoundPlay] = useState(true);
-
-  const audioCorrectAnswer = new Audio('audio/correct.mp3');
-  const audioWrongAnswer = new Audio('audio/wrong.mp3');
-  const audioNoAnswer = new Audio('audio/noAnswer.wav');
-  const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
 
   const fetchDataLink = (level, page) =>
     `${baseUrl}words?group=${level}&page=${page}`;
