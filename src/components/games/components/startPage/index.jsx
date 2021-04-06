@@ -38,8 +38,8 @@ export default function StartPage({
   const img = [
     'images/characters/images/1.png',
     'images/characters/images/2.png',
-    'images/characters/images/3.png',
     'images/characters/images/4.png',
+    'images/characters/images/3.png',
     'images/characters/images/5.png',
     'images/characters/images/6.png',
   ];

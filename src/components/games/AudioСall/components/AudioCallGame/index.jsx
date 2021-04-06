@@ -1,18 +1,24 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-  Pane, //временно взято из Savanna
-  Score, //временно взято из Savanna
-  AudioCallSection, //временно взято из Savanna
+  Score,
   GameContent,
+  StyledContent,
   StyledWordsContainer,
   StyledWord,
   StyledAnswerContent,
   StyledButtonBlock,
+  StyledDescription,
 } from './styled';
+import {
+  StyledSection,
+  StyledContainer,
+  StyledVideo,
+} from '../../../components/startPage/styled.js';
 import './styles.css';
 import { Button } from 'components/button';
 import PropTypes from 'prop-types';
 import { StyledLoader } from '../../../../loader';
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 
 const audioCorrectAnswer = new Audio('audio/correct.mp3');
 const audioWrongAnswer = new Audio('audio/wrong.mp3');
@@ -20,6 +26,8 @@ const audioNoAnswer = new Audio('audio/noAnswer.wav');
 const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
 
 export default function AudioСall({ level }) {
+  const handle = useFullScreenHandle();
+
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
@@ -111,81 +119,97 @@ export default function AudioСall({ level }) {
     return <StyledLoader>Loading...</StyledLoader>;
   } else {
     return (
-      <AudioCallSection>
-        {IsGameOver ? <p> Game over!!! </p> : null}
-        <p>Выбери правильный перевод слова после воспроизведения аудио</p>
-        <Score> Очки:{score} из 100</Score>
+      <StyledSection>
+        <StyledVideo src="video/video.mp4" autoPlay loop muted />
 
-        <Pane>
-          <GameContent>
-            <img
-              className={isAttemptToAnswer ? 'hideImg' : 'volumeIcon'}
-              onClick={() => {
-                playSound();
-              }}
-              src="images/volume.svg"
-              alt="volume_icon"
-            />
-            <img
-              className={isAttemptToAnswer ? '' : 'hideImg'}
-              src={srcImage}
-              alt="meaning_img"
-            />
-            <div className={isAttemptToAnswer ? 'answer' : 'answerHide'}>
-              <img
-                onClick={() => playSound()}
-                className="volumeIconSmall"
-                src="images/volume.svg"
-                alt="sound"
-              />
-              <StyledAnswerContent>
-                {rightWord && rightWord.word}
-              </StyledAnswerContent>
-            </div>
+        <FullScreen handle={handle}>
+          <StyledContainer>
+            <StyledContent id="fullscreen-component">
+              {IsGameOver ? <p> Game over!!! </p> : null}
+              <button
+                className="fullscreen_bttn"
+                title="Разверни игру на весь экран"
+                onClick={handle.enter}
+              >
+                <i className="fas fa-expand-arrows-alt" />
+              </button>
+              <StyledDescription>
+                Выбери правильный перевод слова после воспроизведения аудио
+              </StyledDescription>
 
-            <StyledWordsContainer>
-              {words &&
-                words.map((word, index) => {
-                  return (
-                    <StyledWord
-                      id={
-                        word.id !== rightWord.id && isAttemptToAnswer
-                          ? 'wrongAnswer'
-                          : ''
-                      }
-                      key={word.id}
-                      onClick={() => AttemptToAnswer(word)}
-                    >
-                      {word.id === rightWord.id && isAttemptToAnswer
-                        ? '☑'
-                        : index + 1}
-                      &nbsp;
-                      {word.wordTranslate}
-                    </StyledWord>
-                  );
-                })}
-            </StyledWordsContainer>
-          </GameContent>
-          <StyledButtonBlock>
-            <Button
-              buttonStyle="btn--light"
-              buttonSize="btn--large"
-              onClick={() => {
-                if (isAttemptToAnswer) {
-                  setUrl(fetchDataLink(level, getRandomInt(30)));
-                } else if (wordsInRound) {
-                  audioNoAnswer.play();
-                  setIsAttemptToAnswer(true);
-                  setWordsInRound(wordsInRound - 1);
-                }
-                !wordsInRound ? setGameOver(true) : setGameOver(false);
-              }}
-            >
-              {isAttemptToAnswer ? 'Дальше' : 'Не знаю'}
-            </Button>
-          </StyledButtonBlock>
-        </Pane>
-      </AudioCallSection>
+              <Score> Очки: {score} из 100</Score>
+
+              <GameContent>
+                <img
+                  className={isAttemptToAnswer ? 'hideImg' : 'volumeIcon'}
+                  onClick={() => {
+                    playSound();
+                  }}
+                  src="images/volume.svg"
+                  alt="volume_icon"
+                />
+                <img
+                  className={isAttemptToAnswer ? '' : 'hideImg'}
+                  src={srcImage}
+                  alt="meaning_img"
+                />
+                <div className={isAttemptToAnswer ? 'answer' : 'answerHide'}>
+                  <img
+                    onClick={() => playSound()}
+                    className="volumeIconSmall"
+                    src="images/volume.svg"
+                    alt="sound"
+                  />
+                  <StyledAnswerContent>
+                    {rightWord && rightWord.word}
+                  </StyledAnswerContent>
+                </div>
+
+                <StyledWordsContainer>
+                  {words &&
+                    words.map((word, index) => {
+                      return (
+                        <StyledWord
+                          id={
+                            word.id !== rightWord.id && isAttemptToAnswer
+                              ? 'wrongAnswer'
+                              : ''
+                          }
+                          key={word.id}
+                          onClick={() => AttemptToAnswer(word)}
+                        >
+                          {word.id === rightWord.id && isAttemptToAnswer
+                            ? '☑'
+                            : index + 1}
+                          &nbsp;
+                          {word.wordTranslate}
+                        </StyledWord>
+                      );
+                    })}
+                </StyledWordsContainer>
+              </GameContent>
+              <StyledButtonBlock>
+                <Button
+                  buttonStyle="btn--light"
+                  buttonSize="btn--large"
+                  onClick={() => {
+                    if (isAttemptToAnswer) {
+                      setUrl(fetchDataLink(level, getRandomInt(30)));
+                    } else if (wordsInRound) {
+                      audioNoAnswer.play();
+                      setIsAttemptToAnswer(true);
+                      setWordsInRound(wordsInRound - 1);
+                    }
+                    !wordsInRound ? setGameOver(true) : setGameOver(false);
+                  }}
+                >
+                  {isAttemptToAnswer ? 'Дальше' : 'Не знаю'}
+                </Button>
+              </StyledButtonBlock>
+            </StyledContent>
+          </StyledContainer>
+        </FullScreen>
+      </StyledSection>
     );
   }
 }
