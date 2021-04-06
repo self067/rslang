@@ -3,8 +3,8 @@ import { Button } from 'components/button';
 
 export const SprintSection = styled.section`
   max-width: 960px;
-  margin: 100px auto;
-  padding: 100px;
+  margin: 0px auto;
+  /* padding: 100px; */
   /* padding-top: 7vh; */
   height: 100vh;
 
@@ -17,7 +17,7 @@ export const SprintSection = styled.section`
 `;
 
 export const Card = styled.div`
-  width: 650px;
+  width: 600px;
   margin-right: auto;
   margin-left: auto;
 `;
@@ -99,6 +99,18 @@ export const TextCard = styled.div`
   text-transform: uppercase;
 `;
 
+export const Img2 = styled.img`
+  width: 25px;
+`;
+
+export const ArrowImg = styled.img`
+  width: 40px;
+`;
+
+export const ResultImg = styled.img`
+  width: 40px;
+  height: 40px;
+`;
 //
 
 //
@@ -115,20 +127,20 @@ export const Pane = styled.div`
   justify-content: flex-end;
 `;
 
-export const ButtonsBlock = styled.div`
-  padding: 30px;
-  width: 100%;
-  display: flex;
-  /* align-items: flex-end; */
-  align-self: center;
-  justify-content: space-around;
-`;
-export const NoButton = styled(Button)`
-  background-color: red;
+export const NoButton = styled.button`
+  color: #fff;
+  padding: 12px 35px;
+  border-radius: 50px;
+  background-color: #f53b0c;
+  font-size: 18px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  /* background-color: red; */
 `;
 
 export const YesButton = styled(NoButton)`
-  background-color: green;
+  background-color: #62c927;
+  /* background-color: green; */
 `;
 
 export const Score = styled.div`

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import moment from 'moment';
+import { TimerWrap } from './styled';
 import { TimerSVG } from './TimerSVG';
 
 function useInterval(callback, runTimer) {
@@ -121,7 +122,7 @@ export const Timer = ({
   };
 
   return (
-    <div style={{ userSelect: 'none', WebkitUserSelect: 'none' }}>
+    <TimerWrap>
       <TimerSVG
         timerText={counterText}
         draw={draw}
@@ -134,6 +135,6 @@ export const Timer = ({
           !completeTimer ? (timerIsRunning ? pause() : start()) : null
         }
       />
-    </div>
+    </TimerWrap>
   );
 };

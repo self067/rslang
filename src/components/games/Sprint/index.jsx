@@ -19,11 +19,17 @@ import {
   WordScore,
   WordsBox,
   TextCard,
+  Img2,
+  ArrowImg,
+  ResultImg,
 } from './styled';
+
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 
 let curWord = 0;
 
 export const Sprint = () => {
+  const handle = useFullScreenHandle();
   const [score, setScore] = useState(0);
   const [resetTimerRequested, setResetTimer] = useState(false);
   const [words, setWords] = useState(null);
@@ -134,92 +140,57 @@ export const Sprint = () => {
     <StyledLoader>Loading...</StyledLoader>
   ) : (
     <SprintSection>
-      <Score>{score}</Score>
+      <FullScreen handle={handle}>
+        <Score>{score}</Score>
 
-      <Card>
-        <PandaTop
-          src="images/sprint/panda_pl.png"
-          loading="lazy"
-          alt=""
-          class="panda_top"
+        <Card>
+          <PandaTop src="images/sprint/panda_pl.png" loading="lazy" alt="" />
+
+          <Wrapper>
+            <BoxColor>
+              <WordScore>+ 80 очков за слово</WordScore>
+              <CheckBoxes>
+                <Img2 src="images/sprint/CHECK1.png" alt="" />
+                <Img2 src="images/sprint/CHECK1.png" alt="" />
+                <Img2 src="images/sprint/CHECK1.png" alt="" />
+              </CheckBoxes>
+            </BoxColor>
+
+            <PandaBox>
+              <PandaImg src="images/sprint/panda4.png" alt="" />
+              <PandaImg src="images/sprint/panda3.png" alt="" />
+              <PandaImg src="images/sprint/panda5.png" alt="" />
+              <PandaImg src="images/sprint/panda1.png" alt="" />
+            </PandaBox>
+            <WordsBox>
+              <TextCard>{word}</TextCard>
+              <TextCard>{wordTranslate}</TextCard>
+            </WordsBox>
+          </Wrapper>
+        </Card>
+
+        <ButtonsBox>
+          <ArrowImg src="images/sprint/arrow_l.png" alt="" />
+          <NoButton onClick={() => onLeft()}>неверно</NoButton>
+          <ResultImg src="images/sprint/CHECK1.png" alt="" />
+          <YesButton onClick={() => onRight()}>верно</YesButton>
+          <ArrowImg src="images/sprint/arrow_r.png" alt="" />
+        </ButtonsBox>
+
+        <PandaBottom src="images/sprint/panda_r.png" alt="" />
+
+        <Timer
+          outerColor="green"
+          innerColor="yellow"
+          countdownColor="red"
+          timerCount={timerCount}
+          displayCountdown={true}
+          timerDuration={timerDuration}
+          resetTimerRequested={resetTimerRequested}
+          resetTimer={resetTimer}
+          completeTimer={completeTimer}
         />
-
-        <Wrapper>
-          <BoxColor>
-            <WordScore>+ 80 очков за слово</WordScore>
-            <CheckBoxes>
-              <img
-                src="images/sprint/CHECK1.png"
-                loading="lazy"
-                alt=""
-                class="image-2"
-              />
-              <img
-                src="images/sprint/CHECK1.png"
-                loading="lazy"
-                alt=""
-                class="image-2"
-              />
-              <img
-                src="images/sprint/CHECK1.png"
-                loading="lazy"
-                alt=""
-                class="image-2"
-              />
-            </CheckBoxes>
-          </BoxColor>
-
-          <PandaBox>
-            <PandaImg src="images/sprint/panda4.png" loading="lazy" alt="" />
-            <PandaImg src="images/sprint/panda3.png" loading="lazy" alt="" />
-            <PandaImg src="images/sprint/panda5.png" loading="lazy" alt="" />
-            <PandaImg src="images/sprint/panda1.png" loading="lazy" alt="" />
-          </PandaBox>
-          <WordsBox>
-            <TextCard>{word}</TextCard>
-            <TextCard>{wordTranslate}</TextCard>
-          </WordsBox>
-        </Wrapper>
-      </Card>
-
-      <ButtonsBox>
-        <NoButton onClick={() => onLeft()}>Неверно</NoButton>
-        <YesButton onClick={() => onRight()}>Верно</YesButton>
-
-        <img src="/sprint/arrow_l.png" loading="lazy" alt="" class="arrow" />
-        <a href="#" class="button w-button">
-          верно
-        </a>
-        <img
-          src="images/sprint/CHECK1.png"
-          loading="lazy"
-          alt=""
-          class="image-3"
-        />
-        <a href="#" class="button red w-button">
-          неверно
-        </a>
-        <img
-          src="images/sprint/arrow_r.png"
-          loading="lazy"
-          alt=""
-          class="arrow"
-        />
-      </ButtonsBox>
-
-      <PandaBottom src="images/sprint/panda_r.png" loading="lazy" alt="" />
-
-      <Timer
-        outerColor="green"
-        innerColor="yellow"
-        countdownColor="red"
-        timerCount={timerCount}
-        displayCountdown={true}
-        timerDuration={timerDuration}
-        resetTimerRequested={resetTimerRequested}
-        resetTimer={resetTimer}
-        completeTimer={completeTimer}
-      />
+      </FullScreen>
     </SprintSection>
   );
 };
