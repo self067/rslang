@@ -67,13 +67,13 @@ export default function StartPage({
               <STab>4</STab>
               <STab>5</STab>
               <STab>6</STab>
-              <TabPanel />
-              <TabPanel />
-              <TabPanel />
-              <TabPanel />
-              <TabPanel />
-              <TabPanel />
             </STabList>
+            <TabPanel />
+            <TabPanel />
+            <TabPanel />
+            <TabPanel />
+            <TabPanel />
+            <TabPanel />
           </Tabs>
 
           <StyledText> {description} </StyledText>

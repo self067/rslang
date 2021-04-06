@@ -22,7 +22,8 @@ import {
 } from './styled';
 
 function SessionStatistic({ userId }) {
-  const fetchDataLink = `https://rslangbe-team105.herokuapp.com/users​/${userId}​/statistics`;
+  const baseUrl = process.env.REACT_APP_APIURL;
+  const fetchDataLink = ` ${baseUrl}/users/${userId}/statistics`;
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
