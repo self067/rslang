@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Tab, TabList } from 'react-tabs';
 
 export const StyledSection = styled.section`
-  margin-top: 90px;
   box-shadow: inset 0 0 0 1000px rgb(0 0 0 / 20%);
 `;
 

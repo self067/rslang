@@ -13,7 +13,7 @@ import {
   StyledSection,
   StyledContainer,
   StyledVideo,
-} from '../../../components/startPage/styled.js';
+} from 'components/games/components/startPage/styled';
 import './styles.css';
 import { Button } from 'components/button';
 import PropTypes from 'prop-types';
@@ -99,8 +99,8 @@ export default function AudioСall({ level }) {
 
   const playSound = useCallback(() => {
     if (rightWord) {
-      const audioPlay = new Audio(`${baseUrl}${rightWord.audio}`);
-      setSrcImage(`${baseUrl}${rightWord.image}`);
+      const audioPlay = new Audio(`${baseUrl}/${rightWord.audio}`);
+      setSrcImage(`${baseUrl}/${rightWord.image}`);
       audioPlay.volume = 1;
       audioPlay.play();
     }
