@@ -36,7 +36,6 @@ export const StyledContainer = styled.div`
 export const StyledFigure = styled.figure`
   position: relative;
   width: 100%;
-  padding-top: 80%;
   overflow: hidden;
   margin: 0;
 
@@ -54,7 +53,6 @@ export const StyledFigure = styled.figure`
 `;
 
 export const StyledImg = styled.img`
-  position: absolute;
   top: 0;
   left: 0;
   display: block;

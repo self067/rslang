@@ -6,6 +6,7 @@
   --blue-light: rgb(38, 144, 185);
   --blue-light-rgba: rgba(38, 143, 185, 0.322);
   --blue-dark: rgb(42, 38, 95);
+  --blue-dark-rgba: rgba(22, 17, 119, 0.664);
 
   --color-submit: var(--blue-light);
   --color-submit-hover: var(--blue-dark);
