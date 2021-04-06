@@ -17,13 +17,13 @@ import {
 import './styles.css';
 import { Button } from 'components/button';
 import PropTypes from 'prop-types';
-import { StyledLoader } from '../../../../loader';
+import { StyledLoader } from 'components/loader';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 
 const audioCorrectAnswer = new Audio('audio/correct.mp3');
 const audioWrongAnswer = new Audio('audio/wrong.mp3');
 const audioNoAnswer = new Audio('audio/noAnswer.wav');
-const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
+const baseUrl = process.env.REACT_APP_APIURL;
 
 export default function AudioСall({ level }) {
   const handle = useFullScreenHandle();
@@ -41,7 +41,7 @@ export default function AudioСall({ level }) {
   const [isSoundPlay, setIsSoundPlay] = useState(true);
 
   const fetchDataLink = (level, page) =>
-    `${baseUrl}words?group=${level}&page=${page}`;
+    `${baseUrl}/words?group=${level}&page=${page}`;
 
   const [url, setUrl] = useState(fetchDataLink(level, 1));
 
