@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { Button } from 'components/button';
 
 export const SprintSection = styled.section`
-  max-width: 960px;
+  position: relative;
+  /* max-width: 960px; */
   margin: 0px auto;
-  /* padding: 100px; */
+  padding: 50px;
   /* padding-top: 7vh; */
-  height: 100vh;
+  /* height: 100vh; */
 
   background-image: url('images/sprint/bg.jpg');
   background-color: var(--blue-light-rgba);

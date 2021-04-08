@@ -21,7 +21,6 @@ function useInterval(callback, runTimer) {
         clearInterval(id);
       };
     }
-
     return undefined;
   }, [runTimer]);
 }
@@ -68,11 +67,11 @@ export const Timer = ({
     setcounterText(getcounterText());
   }, [duration, goalTimeMilliseconds]);
 
-  // useInterval(() => {
-  //   if (resetTimerRequested) {
-  //     reset();
-  //   }
-  // }, resetTimerRequested);
+  useInterval(() => {
+    if (resetTimerRequested) {
+      reset();
+    }
+  }, resetTimerRequested);
 
   useInterval(() => {
     setDuration(elapsedTime + moment(new Date()).diff(moment(startDateMoment)));
@@ -131,8 +130,9 @@ export const Timer = ({
         countdownColor={countdownColor}
         timerIsRunning={timerIsRunning}
         displayCountdown={displayCountdown}
-        clickStart={() =>
-          !completeTimer ? (timerIsRunning ? pause() : start()) : null
+        clickStart={
+          () => (timerIsRunning ? pause() : start())
+          // !completeTimer ? (timerIsRunning ? pause() : start()) : null
         }
       />
     </TimerWrap>

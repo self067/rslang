@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 export const TimerWrap = styled.div`
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 30px;
+  top: 30px;
 `;
 
 export const StyledTimerSVG = styled.svg`
-  width: 70px;
+  width: 120px;
 `;

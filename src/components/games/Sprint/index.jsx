@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Timer } from '../components/Timer';
 import { StyledLoader } from 'components/loader';
 import {
-  Pane,
   Score,
   SprintSection,
   NoButton,
@@ -53,12 +52,28 @@ export const Sprint = () => {
 
   const onLeft = () => {
     console.log('onLeft', curWord);
+    if (!truth) setScore(score + 10);
+
     setCurrentWord(++curWord);
+    console.log(curWord, page);
+    if (curWord > 18) {
+      setPage(page > 28 ? 0 : page + 1);
+      curWord = 0;
+      setCurrentWord(curWord);
+    }
   };
 
   const onRight = () => {
     console.log('onRight', curWord);
+    if (truth) setScore(score + 10);
+
     setCurrentWord(++curWord);
+    console.log(curWord, page);
+    if (curWord > 18) {
+      setPage(page > 28 ? 0 : page + 1);
+      curWord = 0;
+      setCurrentWord(curWord);
+    }
   };
 
   useEffect(() => {
@@ -81,11 +96,11 @@ export const Sprint = () => {
       .then((res) => res.json())
       .then(
         (result) => {
-          setIsLoaded(true);
+          // setIsLoaded(true);
           setWrongWords(result);
         },
         (error) => {
-          setIsLoaded(true);
+          // setIsLoaded(true);
           setError(error);
         }
       );
@@ -127,7 +142,13 @@ export const Sprint = () => {
 
   // console.log(resetTimerRequested, words, wrongWords);
   const word = words ? words[currentWord]?.word : '';
-  const wordTranslate = word;
+  const wordTranslate = truth
+    ? words
+      ? words[currentWord]?.wordTranslate
+      : ''
+    : wrongWords
+    ? wrongWords[currentWord]?.wordTranslate
+    : '';
   // truth
   //   ? words[currentWord]?.wordTranslate
   //   : wrongWords
@@ -180,9 +201,9 @@ export const Sprint = () => {
         <PandaBottom src="images/sprint/panda_r.png" alt="" />
 
         <Timer
-          outerColor="green"
-          innerColor="yellow"
-          countdownColor="red"
+          outerColor="#643949"
+          innerColor="#C3E1C9"
+          countdownColor="#643949"
           timerCount={timerCount}
           displayCountdown={true}
           timerDuration={timerDuration}
