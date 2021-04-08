@@ -37,7 +37,7 @@ export default function AudioСall({ level }) {
   const [words, setWords] = useState(null); // список из 5 слов для игры
   const [rightWord, setRightWord] = useState(null); // произнесенное слово
   const [isAttemptToAnswer, setIsAttemptToAnswer] = useState(false); //ответ пользователя получен
-  const [wordsInRound, setWordsInRound] = useState(10);
+  const [wordsInRound, setWordsInRound] = useState(1);
   const [isGameOver, setGameOver] = useState(false);
   const [srcImage, setSrcImage] = useState('');
   const [isSoundPlay, setIsSoundPlay] = useState(true);
