@@ -3,8 +3,8 @@
 }
 
 .volumeIcon {
-  width: 100px;
-  height: 100px;
+  width: 250px;
+  height: 250px;
 }
 
 .volumeIcon:active {
@@ -36,8 +36,9 @@
 
 .answer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin: 2rem 0 1rem;
+  margin: 2rem 0 2rem 3rem;
   align-items: center;
 }
 

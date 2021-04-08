@@ -8,6 +8,7 @@ import {
   StyledAnswerContent,
   StyledButtonBlock,
   StyledDescription,
+  StyledHideDiv,
 } from './styled';
 import {
   StyledSection,
@@ -168,30 +169,32 @@ export default function AudioСall({ level }) {
               <Score> Очки: {score} из 100</Score>
 
               <GameContent>
-                <img
-                  className={isAttemptToAnswer ? 'hideImg' : 'volumeIcon'}
-                  onClick={() => {
-                    playSound();
-                  }}
-                  src="images/volume.svg"
-                  alt="volume_icon"
-                />
-                <img
-                  className={isAttemptToAnswer ? '' : 'hideImg'}
-                  src={srcImage}
-                  alt="meaning_img"
-                />
-                <div className={isAttemptToAnswer ? 'answer' : 'answerHide'}>
+                <StyledHideDiv>
                   <img
-                    onClick={() => playSound()}
-                    className="volumeIconSmall"
+                    className={isAttemptToAnswer ? 'hideImg' : 'volumeIcon'}
+                    onClick={() => {
+                      playSound();
+                    }}
                     src="images/volume.svg"
-                    alt="sound"
+                    alt="volume_icon"
                   />
-                  <StyledAnswerContent>
-                    {rightWord && rightWord.word}
-                  </StyledAnswerContent>
-                </div>
+                  <img
+                    className={isAttemptToAnswer ? '' : 'hideImg'}
+                    src={srcImage}
+                    alt="meaning_img"
+                  />
+                  <div className={isAttemptToAnswer ? 'answer' : 'answerHide'}>
+                    <img
+                      onClick={() => playSound()}
+                      className="volumeIconSmall"
+                      src="images/volume.svg"
+                      alt="sound"
+                    />
+                    <StyledAnswerContent>
+                      {rightWord && rightWord.word}
+                    </StyledAnswerContent>
+                  </div>
+                </StyledHideDiv>
 
                 <StyledWordsContainer>
                   {words &&
