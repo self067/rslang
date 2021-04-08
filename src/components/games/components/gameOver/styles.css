@@ -1,0 +1,16 @@
+.correct {
+  color: var(--green);
+  padding-right: 5px;
+}
+.wrong {
+  color: var(--red);
+  margin-right: 5px;
+}
+
+.correctTranslate {
+  color: var(--greenRGBA);
+}
+
+.wrongTranslate {
+  color: var(--redRGBA);
+}

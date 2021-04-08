@@ -19,6 +19,7 @@ import { Button } from 'components/button';
 import PropTypes from 'prop-types';
 import { StyledLoader } from 'components/loader';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
+import GameOver from 'components/games/components/gameOver';
 
 const audioCorrectAnswer = new Audio('audio/correct.mp3');
 const audioWrongAnswer = new Audio('audio/wrong.mp3');
@@ -36,9 +37,12 @@ export default function AudioСall({ level }) {
   const [rightWord, setRightWord] = useState(null); // произнесенное слово
   const [isAttemptToAnswer, setIsAttemptToAnswer] = useState(false); //ответ пользователя получен
   const [wordsInRound, setWordsInRound] = useState(10);
-  const [IsGameOver, setGameOver] = useState(false);
+  const [isGameOver, setGameOver] = useState(false);
   const [srcImage, setSrcImage] = useState('');
   const [isSoundPlay, setIsSoundPlay] = useState(true);
+  const [gameOverStat, setGameOverStat] = useState([]);
+  const [rightAnswers, setRightAnswers] = useState(0);
+  const [wrongAnswers, setWrongAnswers] = useState(0);
 
   const fetchDataLink = (level, page) =>
     `${baseUrl}/words?group=${level}&page=${page}`;
@@ -80,7 +84,7 @@ export default function AudioСall({ level }) {
     if (wordsInRound === 0) {
       gameOver();
     }
-  }, [IsGameOver, wordsInRound, gameOver]);
+  }, [isGameOver, wordsInRound, gameOver]);
 
   function AttemptToAnswer(word) {
     if (isAttemptToAnswer) {
@@ -90,8 +94,12 @@ export default function AudioСall({ level }) {
     if (word.id === rightWord.id) {
       audioCorrectAnswer.play();
       setScore(score + 10);
+      setRightAnswers(rightAnswers + 1);
+      getGameOverStat(true);
     } else {
       audioWrongAnswer.play();
+      setWrongAnswers(wrongAnswers + 1);
+      getGameOverStat(false);
     }
     setWordsInRound(wordsInRound - 1);
     setIsAttemptToAnswer(true);
@@ -111,7 +119,21 @@ export default function AudioСall({ level }) {
     setIsSoundPlay(false);
   }
 
-  console.log(wordsInRound);
+  const getGameOverStat = useCallback(
+    (isCorrect) => {
+      setGameOverStat([
+        ...gameOverStat,
+        {
+          word: rightWord.word,
+          id: rightWord.id,
+          audio: rightWord.audio,
+          wordTranslate: rightWord.wordTranslate,
+          isCorrect: isCorrect,
+        },
+      ]);
+    },
+    [gameOverStat, rightWord]
+  );
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -125,7 +147,13 @@ export default function AudioСall({ level }) {
         <FullScreen handle={handle}>
           <StyledContainer>
             <StyledContent id="fullscreen-component">
-              {IsGameOver ? <p> Game over!!! </p> : null}
+              {isGameOver ? (
+                <GameOver
+                  rightAnswers={rightAnswers}
+                  wrongAnswers={wrongAnswers}
+                  gameOverStat={gameOverStat}
+                />
+              ) : null}
               <button
                 className="fullscreen_bttn"
                 title="Разверни игру на весь экран"
@@ -199,6 +227,7 @@ export default function AudioСall({ level }) {
                       audioNoAnswer.play();
                       setIsAttemptToAnswer(true);
                       setWordsInRound(wordsInRound - 1);
+                      getGameOverStat(false);
                     }
                     !wordsInRound ? setGameOver(true) : setGameOver(false);
                   }}

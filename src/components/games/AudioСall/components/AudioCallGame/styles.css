@@ -52,6 +52,12 @@
   top: 0;
   right: 0;
   padding: 3px;
+  background-color: var(--light);
+  border: none;
+}
+.fullscreen_bttn:hover {
+  background-color: var(--blue-light-rgba);
+  border: 1px solid var(--blue-light);
 }
 .fullscreen-enabled .fullscreen_bttn {
   display: none;
