@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useContext } from 'react';
+
 import { Button } from 'components/button';
 import { Link } from 'react-router-dom';
 import { StyledLoader } from 'components/loader';
@@ -20,8 +21,10 @@ import {
   StyledInfoLine,
   StyledImg,
 } from './styled';
+import UserContext from 'components/Auth/UserContext';
 
 function SessionStatistic({ userId }) {
+  const { userInfo } = useContext(UserContext);
   const baseUrl = process.env.REACT_APP_APIURL;
   const fetchDataLink = ` ${baseUrl}/users/${userId}/statistics`;
   const [error, setError] = useState(null);
@@ -44,7 +47,7 @@ function SessionStatistic({ userId }) {
       );
   }, []);
 
-  const todayStatInfo = useMemo(
+  const statInfo = useMemo(
     () => [
       {
         title: 'Выучено слов сегодня:',
@@ -76,7 +79,7 @@ function SessionStatistic({ userId }) {
 
   const todayInfo = useMemo(
     () =>
-      todayStatInfo.map((item, index) => (
+      statInfo.map((item, index) => (
         <div key={index}>
           <StyledInfoText>
             {item.title}
@@ -85,7 +88,7 @@ function SessionStatistic({ userId }) {
           <StyledInfoLine />
         </div>
       )),
-    [todayStatInfo]
+    [statInfo]
   );
 
   if (error) {
