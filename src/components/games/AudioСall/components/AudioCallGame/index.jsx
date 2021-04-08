@@ -137,7 +137,7 @@ export default function AudioСall({ level }) {
   );
 
   useEffect(() => {
-    localStorage.setItem('gameOverStat', JSON.stringify(gameOverStat));
+    sessionStorage.setItem('audioStat', JSON.stringify(rightAnswers));
   });
 
   if (error) {
