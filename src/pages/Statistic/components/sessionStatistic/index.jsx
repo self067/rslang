@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useContext } from 'react';
+
 import { Button } from 'components/button';
 import { Link } from 'react-router-dom';
 import { StyledLoader } from 'components/loader';
@@ -20,15 +21,24 @@ import {
   StyledInfoLine,
   StyledImg,
 } from './styled';
+import UserContext from 'components/Auth/UserContext';
 
-function SessionStatistic({ userId }) {
+function SessionStatistic() {
+  const { userInfo } = useContext(UserContext);
   const baseUrl = process.env.REACT_APP_APIURL;
-  const fetchDataLink = ` ${baseUrl}/users/${userId}/statistics`;
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
-
+  //const fetchDataLink = ` ${baseUrl}/users/${userId}/statistics`;
+  //const [error, setError] = useState(null);
+  //const [isLoaded, setIsLoaded] = useState(false);
+  //const [items, setItems] = useState([]);
+  const [i, setI] = useState([]);
   useEffect(() => {
+    const gameOverStatistick = sessionStorage.getItem('audioStat');
+    if (gameOverStatistick) {
+      setI(JSON.parse(gameOverStatistick));
+    }
+  }, []);
+
+  /*useEffect(() => {
     fetch(fetchDataLink)
       .then((res) => res.json())
       .then(
@@ -42,9 +52,9 @@ function SessionStatistic({ userId }) {
           setError(error);
         }
       );
-  }, []);
+  }, []);*/
 
-  const todayStatInfo = useMemo(
+  const statInfo = useMemo(
     () => [
       {
         title: 'Выучено слов сегодня:',
@@ -76,7 +86,7 @@ function SessionStatistic({ userId }) {
 
   const todayInfo = useMemo(
     () =>
-      todayStatInfo.map((item, index) => (
+      statInfo.map((item, index) => (
         <div key={index}>
           <StyledInfoText>
             {item.title}
@@ -85,38 +95,38 @@ function SessionStatistic({ userId }) {
           <StyledInfoLine />
         </div>
       )),
-    [todayStatInfo]
+    [statInfo]
   );
 
-  if (error) {
+  /*if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
     return <StyledLoader>Loading...</StyledLoader>;
-  } else {
-    return (
-      <StyledStatContainer>
-        <StyledStatRightPart>
-          <StyledStatTitle>Твоя статистика обучения</StyledStatTitle>
-          <StyledStatSubTitle>Сегодня</StyledStatSubTitle>
-          <StyledImg src="images/characters/15.png" alt="character" />
-        </StyledStatRightPart>
-        <StyledStatInfo>
-          <StyledStatProgressContainer>
-            <StyledStatProgress></StyledStatProgress>
-            <StyledInfoText>Выучено слов всего 0 из 3600</StyledInfoText>
-          </StyledStatProgressContainer>
-          <StyledInfoContainer>
-            {todayInfo}
-            <Link to="/dictionary">
-              <Button buttonStyle="btn--dark" buttonSize="btn--large">
-                Продолжить обучение
-              </Button>
-            </Link>
-          </StyledInfoContainer>
-        </StyledStatInfo>
-      </StyledStatContainer>
-    );
-  }
+  } else {*/
+  return (
+    <StyledStatContainer>
+      <StyledStatRightPart>
+        <StyledStatTitle>Твоя статистика обучения</StyledStatTitle>
+        <StyledStatSubTitle>Сегодня</StyledStatSubTitle>
+        <StyledImg src="images/characters/15.png" alt="character" />
+      </StyledStatRightPart>
+      <StyledStatInfo>
+        <StyledStatProgressContainer>
+          <StyledStatProgress></StyledStatProgress>
+          <StyledInfoText>Выучено слов всего {i} из 3600</StyledInfoText>
+        </StyledStatProgressContainer>
+        <StyledInfoContainer>
+          {todayInfo}
+          <Link to="/dictionary">
+            <Button buttonStyle="btn--dark" buttonSize="btn--large">
+              Продолжить обучение
+            </Button>
+          </Link>
+        </StyledInfoContainer>
+      </StyledStatInfo>
+    </StyledStatContainer>
+  );
+  //}
 }
 
 export default SessionStatistic;

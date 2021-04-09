@@ -1,4 +1,3 @@
-
 import styled from 'styled-components';
 
 export const StyledContent = styled.div`
@@ -56,3 +55,7 @@ export const StyledButtonBlock = styled.div`
   margin: 0 auto;
 `;
 
+export const StyledHideDiv = styled.div`
+  display: flex;
+  height: 270px;
+`;

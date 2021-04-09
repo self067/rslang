@@ -10,7 +10,7 @@ function TeamCards() {
       src: 'images/2.jpg',
       position: 'Тимлид',
       text:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'Реализовал мини-игру "Спринт". Работал и поддерживал  бекенд приложения. Реализовал механизм авторизации.',
 
       discord: 'https://discord.com/#',
       email: 'a.@gmail.com',
@@ -21,7 +21,7 @@ function TeamCards() {
       src: 'images/1.jpg',
       position: 'Разработчик',
       text:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'Реализовалa главную страницу приложения, мини-игру "Аудиовызов", страницу статистики и настройки электронного учебника. Разработала дизайн приложения.',
       discord: 'https://discord.com/#',
       email: 'a.@gmail.com',
     },
@@ -30,8 +30,7 @@ function TeamCards() {
       git: 'https://github.com/nilubisan',
       src: 'images/3.jpg',
       position: 'Разработчик',
-      text:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      text: 'Реализовал Электронный учебник RS Lang, мини-игру "Своя Игра".',
       discord: 'https://discord.com/#',
       email: 'a.@gmail.com',
     },
@@ -40,8 +39,7 @@ function TeamCards() {
       git: 'https://github.com/darkusss',
       src: 'images/4.jpg',
       position: 'Разработчик',
-      text:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      text: 'Реализовал мини-игру "Саванна".',
       discord: 'https://discord.com/#',
       email: 'a.@gmail.com',
     },
