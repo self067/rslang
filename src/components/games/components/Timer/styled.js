@@ -7,5 +7,5 @@ export const TimerWrap = styled.div`
 `;
 
 export const StyledTimerSVG = styled.svg`
-  width: 120px;
+  width: 100px;
 `;

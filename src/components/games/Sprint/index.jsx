@@ -38,6 +38,8 @@ export const Sprint = () => {
   const [group, setGroup] = useState(0);
   const [error, setError] = useState(null);
   const [currentWord, setCurrentWord] = useState(0);
+  const [addScore, setAddScore] = useState(10);
+  const [checks, setChecks] = useState(0);
 
   const wrongPage = page > 15 ? page - 2 : page + 2;
   const truth = !!Math.floor(Math.random() * 2);
@@ -50,30 +52,35 @@ export const Sprint = () => {
   const wordsUrl = `${apiurl}/words?group=${group}&page=${page}`;
   const wrongWordsUrl = `${apiurl}/words?group=${group}&page=${wrongPage}`;
 
-  const onLeft = () => {
-    console.log('onLeft', curWord);
-    if (!truth) setScore(score + 10);
-
+  const nextWord = (rig) => {
     setCurrentWord(++curWord);
-    console.log(curWord, page);
-    if (curWord > 18) {
+    if (rig) {
+      if (addScore < 80) setAddScore(addScore * 2);
+      if (checks < 3) setChecks(checks + 1);
+    } else {
+      setAddScore(10);
+      setChecks(0);
+    }
+
+    console.log(score, addScore);
+
+    setScore(score + addScore);
+
+    if (curWord > 19) {
       setPage(page > 28 ? 0 : page + 1);
       curWord = 0;
       setCurrentWord(curWord);
     }
   };
 
-  const onRight = () => {
-    console.log('onRight', curWord);
-    if (truth) setScore(score + 10);
+  const onLeft = () => {
+    console.log('onLeft', curWord, page);
+    nextWord(!truth);
+  };
 
-    setCurrentWord(++curWord);
-    console.log(curWord, page);
-    if (curWord > 18) {
-      setPage(page > 28 ? 0 : page + 1);
-      curWord = 0;
-      setCurrentWord(curWord);
-    }
+  const onRight = () => {
+    console.log('onRight', curWord, page);
+    nextWord(truth);
   };
 
   useEffect(() => {
@@ -96,11 +103,9 @@ export const Sprint = () => {
       .then((res) => res.json())
       .then(
         (result) => {
-          // setIsLoaded(true);
           setWrongWords(result);
         },
         (error) => {
-          // setIsLoaded(true);
           setError(error);
         }
       );
@@ -140,7 +145,6 @@ export const Sprint = () => {
     console.log('timerDuration');
   };
 
-  // console.log(resetTimerRequested, words, wrongWords);
   const word = words ? words[currentWord]?.word : '';
   const wordTranslate = truth
     ? words
@@ -149,11 +153,6 @@ export const Sprint = () => {
     : wrongWords
     ? wrongWords[currentWord]?.wordTranslate
     : '';
-  // truth
-  //   ? words[currentWord]?.wordTranslate
-  //   : wrongWords
-  //   ? wrongWords[currentWord]?.wordTranslate
-  //   : '';
 
   return error ? (
     <div>Error: {error.message}</div>
@@ -169,11 +168,17 @@ export const Sprint = () => {
 
           <Wrapper>
             <BoxColor>
-              <WordScore>+ 80 очков за слово</WordScore>
+              <WordScore>+ {addScore} очков за слово</WordScore>
               <CheckBoxes>
-                <Img2 src="images/sprint/CHECK1.png" alt="" />
-                <Img2 src="images/sprint/CHECK1.png" alt="" />
-                <Img2 src="images/sprint/CHECK1.png" alt="" />
+                {checks > 0 ? (
+                  <>
+                    <Img2 src="images/sprint/CHECK1.png" alt="" />
+                    <Img2 src="images/sprint/CHECK1.png" alt="" />
+                    <Img2 src="images/sprint/CHECK1.png" alt="" />
+                  </>
+                ) : (
+                  <Img2 src="images/sprint/CHECK1.png" alt="" />
+                )}
               </CheckBoxes>
             </BoxColor>
 
