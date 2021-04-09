@@ -3,8 +3,8 @@
 }
 
 .volumeIcon {
-  width: 100px;
-  height: 100px;
+  width: 250px;
+  height: 250px;
 }
 
 .volumeIcon:active {
@@ -36,8 +36,9 @@
 
 .answer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin: 2rem 0 1rem;
+  margin: 2rem 0 2rem 3rem;
   align-items: center;
 }
 
@@ -52,7 +53,15 @@
   top: 0;
   right: 0;
   padding: 3px;
+  background-color: var(--light);
+  border: none;
+}
+.fullscreen_bttn:hover {
+  background-color: var(--blue-light-rgba);
+  border: 1px solid var(--blue-light);
 }
 .fullscreen-enabled .fullscreen_bttn {
   display: none;
 }
+
+
