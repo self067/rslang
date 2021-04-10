@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-  overflow: hidden;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -9,12 +8,13 @@ const Container = styled.div`
   align-items: center;
   position: relative;
 
-  background: #67595e;
+  background: #1abc9c;
 `;
 
 const Words = styled.ul`
-  width: 600px;
+  max-width: 750px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 `;

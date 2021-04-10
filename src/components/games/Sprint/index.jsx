@@ -1,7 +1,7 @@
 import React from 'react';
 import { SprintWrap } from './styled.js';
 
-export const Sprint = () => {
+const Sprint = () => {
   return (
     <SprintWrap>
       {/* <Score />
@@ -14,3 +14,5 @@ export const Sprint = () => {
     </SprintWrap>
   );
 };
+
+export default Sprint;

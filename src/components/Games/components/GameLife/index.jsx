@@ -4,6 +4,7 @@ import deadHeart from '../../images/dead-heart.svg';
 import { HeartsContainer } from './styled';
 
 function Index({ totalLives = 5, currentNumberOfLives = 5 }) {
+  console.log(currentNumberOfLives);
   const hearts = Array.from({ length: totalLives }, (_, num) => num).map(
     (num) => {
       const redHeartAllowed = num < currentNumberOfLives;
