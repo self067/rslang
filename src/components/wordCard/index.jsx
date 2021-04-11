@@ -30,6 +30,7 @@ const WordCard = ({
   pageNumber,
   setPageReload,
   pageReload,
+  isHard,
 }) => {
   const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
   const [openedCard, setOpenedCard] = useState(false);
@@ -159,9 +160,11 @@ const WordCard = ({
               >
                 {isAudioPlaying ? SoundOnIcon : SoundOffIcon}
               </i>
-              <i className="card__hard-word-icon" title="Сложное слово">
-                {HardWordIcon}
-              </i>
+              {isHard ? (
+                <i className="card__hard-word-icon" title="Сложное слово">
+                  {HardWordIcon}
+                </i>
+              ) : null}
             </div>
 
             {isChecked['transcription'] ? (
@@ -216,7 +219,6 @@ const WordCard = ({
                 id="addToDeletedBtn"
                 className="card__add-to-btn red"
                 onClick={(e) => {
-                  console.log(e.target.id);
                   setSentCardInfo({
                     id: id,
                     isDeleted: true,
@@ -224,7 +226,7 @@ const WordCard = ({
                   setTimeout(() => {
                     toggleCardState();
                     setPageReload(!pageReload);
-                  }, 2000);
+                  }, 1000);
                 }}
               >
                 В удаленные слова
@@ -255,6 +257,7 @@ WordCard.defaultProps = {
   isChecked: {},
   wordDifficulty: 0,
   pageNumber: '',
+  isHard: false,
 };
 
 WordCard.propTypes = {
@@ -275,5 +278,6 @@ WordCard.propTypes = {
   isChecked: PropTypes.object,
   wordDifficulty: PropTypes.number,
   pageNumber: PropTypes.number,
+  isHard: PropTypes.bool,
 };
 export default WordCard;

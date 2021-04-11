@@ -125,11 +125,18 @@ function Dictionary() {
   } else {
     const cardsContainer = items.map((item) => {
       let isDel = false;
-      let deletedWords;
+      let isHard = false;
+      let deletedWords, hardWords;
       if (userInfo && Object.keys(deletedUserWords).length > 0) {
         deletedWords = deletedUserWords['0']['paginatedResults'];
         deletedWords.forEach((wordItem) => {
           if (wordItem['_id'] === item.id) isDel = true;
+        });
+      }
+      if (userInfo && Object.keys(hardUserWords).length > 0) {
+        hardWords = hardUserWords['0']['paginatedResults'];
+        hardWords.forEach((wordItem) => {
+          if (wordItem['_id'] === item.id) isHard = true;
         });
       }
       return isDel ? null : (
@@ -152,6 +159,7 @@ function Dictionary() {
           cardColorStyle={'level-color__' + group}
           wordDifficulty={group}
           pageNumber={page}
+          isHard={isHard}
           key={item.word}
           setPageReload={setPageReload}
           pageReload={pageReload}
