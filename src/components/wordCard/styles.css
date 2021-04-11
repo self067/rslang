@@ -162,15 +162,37 @@
   vertical-align: center;
   cursor: pointer;
 }
+
+.card__hard-word-icon {
+  display: inline-flex;
+  vertical-align: center;
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  color: red;
+}
+
+.hidden {
+  display: none;
+}
 .card__close-btn {
+  color: #fff !important;
   cursor: pointer;
   position: absolute;
   right: 20px;
   top: 5px;
 }
+
+.card__close-btn .fa-times {
+  color: #ffffff;
+}
+
 @media (max-width: 900px) {
   .card__close-btn {
     right: 10px;
+  }
+  .fa-times {
+    color: #ffffff !important;
   }
 }
 .card__transcription {
