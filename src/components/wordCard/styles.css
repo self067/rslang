@@ -4,6 +4,7 @@
 .card {
   margin: 15px;
   width: calc((100% / 4) - 30px);
+  min-width: 262px;
   transition: all 0.2s ease-in-out;
 }
 @media screen and (max-width: 991px) {

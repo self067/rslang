@@ -8,7 +8,6 @@ import {
 } from '../styled';
 
 import { StyledInner } from './styled';
-
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ReactPaginate from 'react-paginate';
 import './styles.css';
@@ -68,7 +67,7 @@ function Dictionary() {
         }
       );
     if (userInfo) {
-      const filterUrl = `${baseUrl}users/${userInfo['userId']}/aggregatedWords?filter=`;
+      const filterUrl = `${baseUrl}users/${userInfo['userId']}/aggregatedWords?wordsPerPage=20&filter=`;
       const filterDeletedWords = {
         $and: [
           {
@@ -117,7 +116,7 @@ function Dictionary() {
           }
         );
     }
-  }, [fetchDataLink, pageReload]);
+  }, [fetchDataLink, pageReload, page, isLoaded, userInfo, group]);
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
@@ -129,6 +128,7 @@ function Dictionary() {
       let deletedWords, hardWords;
       if (userInfo && Object.keys(deletedUserWords).length > 0) {
         deletedWords = deletedUserWords['0']['paginatedResults'];
+
         deletedWords.forEach((wordItem) => {
           if (wordItem['_id'] === item.id) isDel = true;
         });
@@ -139,6 +139,7 @@ function Dictionary() {
           if (wordItem['_id'] === item.id) isHard = true;
         });
       }
+      console.log(isDel);
       return isDel ? null : (
         <WordCard
           id={item.id}
@@ -204,10 +205,12 @@ function Dictionary() {
             <div className="cards">{cardsContainer}</div>
             <div className="pagination">
               <ReactPaginate
+                forcePage={page}
                 pageCount={30}
                 pageRangeDisplayed={2}
                 marginPagesDisplayed={3}
                 onPageChange={(page) => {
+                  console.log(page);
                   setCard(null);
                   setPage(page.selected);
                 }}

@@ -100,9 +100,8 @@ const WordCard = ({
 
   useEffect(() => {
     if (sentCardInfo && userInfo) {
-      console.log(sentCardInfo);
-      console.log(`page - ${pageNumber.toString()}`);
       const url = `https://rslangbe-team105.herokuapp.com/users/${userInfo.userId}/words/${sentCardInfo['id']}`;
+      console.log(`url on usEffect - ${url}`);
       const data = JSON.stringify({
         difficulty: wordDifficulty.toString(),
         optional: {
@@ -111,6 +110,8 @@ const WordCard = ({
           page: pageNumber.toString(),
         },
       });
+      console.log(`data in useEffect - `);
+      console.log(data);
       const options = {
         method: 'POST',
         headers: {
@@ -119,19 +120,20 @@ const WordCard = ({
         },
         body: data,
       };
-      console.log(data);
+      console.log(`options in useEffect - `);
+      console.log(options);
       fetch(url, options).then((data) => {
         if (!data.ok) {
           throw new Error(data.statusText);
         }
-        // console.log(data);
       });
     }
-  }, [sentCardInfo]);
+  }, [sentCardInfo, pageNumber, userInfo, wordDifficulty]);
+
   return (
     <div className={cardClassName}>
       <div
-        className={'card__inner js-expander' + ` ${cardColorStyle}`}
+        className={`card__inner js-expander ${cardColorStyle}`}
         onClick={toggleCardState}
       >
         <span>{word}</span>
