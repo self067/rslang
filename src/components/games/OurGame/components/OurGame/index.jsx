@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
+
 import {
-  Score,
   GameContent,
-  StyledContent,
   StyledWordsContainer,
-  StyledWord,
   StyledAnswerContent,
   StyledButtonBlock,
   StyledDescription,
   StyledHideDiv,
-} from './styled';
+} from 'components/games/AudioСall/components/AudioCallGame/styled';
+import { StyledContent, StyledInput, Score } from './styled';
 import {
   StyledSection,
   StyledContainer,
@@ -165,7 +164,7 @@ export default function OurGame({ level }) {
                 <i className="fas fa-expand-arrows-alt" />
               </button>
               <StyledDescription>
-                Выбери правильный перевод слова после воспроизведения аудио
+                Напиши слово, которое услышал.
               </StyledDescription>
 
               <Score> Очки: {score} из 100</Score>
@@ -177,7 +176,7 @@ export default function OurGame({ level }) {
                     onClick={() => {
                       playSound();
                     }}
-                    src="images/volume.svg"
+                    src="images/volume_dark.png"
                     alt="volume_icon"
                   />
                   <img
@@ -189,27 +188,31 @@ export default function OurGame({ level }) {
                     <img
                       onClick={() => playSound()}
                       className="volumeIconSmall"
-                      src="images/volume.svg"
+                      src="images/volume_dark.png"
                       alt="sound"
                     />
                     <StyledAnswerContent>
-                      {rightWord && rightWord.word}
+                      {rightWord && rightWord.word} <br />
                       {rightWord && rightWord.transcription}
                     </StyledAnswerContent>
                   </div>
                 </StyledHideDiv>
 
                 <StyledWordsContainer>
-                  <label className="header-name">
-                    <input
+                  <label>
+                    <StyledInput
                       onChange={(e) => setValue(e.target.value)}
+                      autoFocus
+                      autoComplete="off"
+                      type="text"
                       value={value}
-                      placeholder="Untitled"
+                      placeholder="Напишите слово, которое услышал"
+                      required
                     />
                   </label>
                   <Button
                     buttonStyle="btn--light"
-                    buttonSize="btn--large"
+                    buttonSize="btn--medium"
                     onClick={() => AttemptToAnswer(value)}
                   >
                     Проверить
@@ -223,12 +226,14 @@ export default function OurGame({ level }) {
                   onClick={() => {
                     if (isAttemptToAnswer) {
                       setUrl(fetchDataLink(level, getRandomInt(30)));
+                      setValue('');
                     } else if (wordsInRound) {
                       audioNoAnswer.play();
                       setIsAttemptToAnswer(true);
                       setWordsInRound(wordsInRound - 1);
                       getGameOverStat(false);
                       setWrongAnswers(wrongAnswers + 1);
+                      setValue('');
                     }
                     !wordsInRound ? setGameOver(true) : setGameOver(false);
                   }}
