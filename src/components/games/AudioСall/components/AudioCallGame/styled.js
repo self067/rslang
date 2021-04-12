@@ -4,7 +4,7 @@ export const StyledContent = styled.div`
   max-width: 1120px;
   width: 100%;
   text-align: center;
-  background: url('images/1111.png') center no-repeat;
+  background: url('images/backgrounds/1111.png') center no-repeat;
   background-size: cover;
   position: relative;
 `;

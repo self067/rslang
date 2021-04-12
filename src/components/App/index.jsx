@@ -8,6 +8,8 @@ import Statistic from 'pages/Statistic';
 import AudioСallStartPage from '../games/AudioСall'; //открытие игры с выбором уровня сложности
 import AudioСall from '../games/AudioСall/components/AudioCallGame'; //путь к самой игре
 import { Sprint } from 'components/games/Sprint';
+import OurGameStartPage from '../games/OurGame'; //открытие игры с выбором уровня сложности
+import OurGame from '../games/OurGame/components/OurGame'; //путь к самой игре
 import UserContext from 'components/Auth/UserContext';
 
 export const App = () => {
@@ -24,6 +26,8 @@ export const App = () => {
           <Route path="/statistic" component={Statistic} />
           <Route path="/audioGameStartPage" component={AudioСallStartPage} />
           <Route path="/audioGame" component={AudioСall} />
+          <Route path="/ourGameStartPage" component={OurGameStartPage} />
+          <Route path="/ourGame" component={OurGame} />
         </Switch>
       </Router>
     </UserContext.Provider>
