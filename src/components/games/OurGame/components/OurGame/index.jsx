@@ -42,6 +42,7 @@ export default function OurGame({ level }) {
   const [isSoundPlay, setIsSoundPlay] = useState(true);
   const [gameOverStat, setGameOverStat] = useState([]);
   const [rightAnswers, setRightAnswers] = useState(0);
+  const [rightAnswersChain, setRightAnswersChain] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
   const [value, setValue] = useState('');
 
@@ -94,10 +95,12 @@ export default function OurGame({ level }) {
       setScore(score + 10);
       setRightAnswers(rightAnswers + 1);
       getGameOverStat(true);
+      setRightAnswersChain(rightAnswersChain + 1);
     } else {
       audioWrongAnswer.play();
       setWrongAnswers(wrongAnswers + 1);
       getGameOverStat(false);
+      setRightAnswersChain(0);
     }
     setWordsInRound(wordsInRound - 1);
     setIsAttemptToAnswer(true);
@@ -134,7 +137,10 @@ export default function OurGame({ level }) {
   );
 
   useEffect(() => {
-    sessionStorage.setItem('audioStat', JSON.stringify(rightAnswers));
+    sessionStorage.setItem(
+      'ourGameStat',
+      JSON.stringify([rightAnswers, rightAnswersChain])
+    );
   });
 
   if (error) {
