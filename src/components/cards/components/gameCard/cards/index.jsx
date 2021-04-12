@@ -29,7 +29,7 @@ function GameCards() {
       name: 'Своя игра',
       src: 'images/puzzle.png',
       text: 'Нужно что-то написать, если мы все же сделаем эту игру.',
-      path: '/ourGame',
+      path: '/ourGameStartPage',
     },
   ];
 
