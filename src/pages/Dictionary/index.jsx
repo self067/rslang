@@ -23,7 +23,7 @@ function Dictionary() {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(0);
   const [group, setGroup] = useState(0);
-  const [deletedUserWords, setDeletedUserWords] = useState({});
+  const [deletedUserWords, setDeletedUserWords] = useState(null);
   const [hardUserWords, setHardUserWords] = useState({});
   const { userInfo } = useContext(UserContext);
   const [pageReload, setPageReload] = useState(false);
@@ -68,6 +68,7 @@ function Dictionary() {
       );
     if (userInfo) {
       const filterUrl = `${baseUrl}users/${userInfo['userId']}/aggregatedWords?wordsPerPage=20&filter=`;
+
       const filterDeletedWords = {
         $and: [
           {
@@ -87,6 +88,7 @@ function Dictionary() {
         ],
       };
       const delWordsUrl = `${filterUrl}${JSON.stringify(filterDeletedWords)}`;
+
       const hardWordsUrl = `${filterUrl}${JSON.stringify(filterHardWords)}`;
       const options = {
         method: 'GET',
@@ -95,10 +97,12 @@ function Dictionary() {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
+
       fetch(delWordsUrl, options)
         .then((res) => res.json())
         .then(
           (words) => {
+            console.log(delWordsUrl);
             setDeletedUserWords(words);
           },
           (error) => {
@@ -122,51 +126,57 @@ function Dictionary() {
   } else if (!isLoaded) {
     return <StyledLoader>Loading...</StyledLoader>;
   } else {
-    const cardsContainer = items.map((item) => {
-      let isDel = false;
-      let isHard = false;
-      let deletedWords, hardWords;
-      if (userInfo && Object.keys(deletedUserWords).length > 0) {
-        deletedWords = deletedUserWords['0']['paginatedResults'];
+    console.log(deletedUserWords);
+    const cardsContainer =
+      userInfo && !deletedUserWords ? (
+        <StyledLoader>Loading...</StyledLoader>
+      ) : (
+        items.map((item) => {
+          let isDel = false;
+          let isHard = false;
+          let deletedWords, hardWords;
+          if (userInfo && Object.keys(deletedUserWords).length > 0) {
+            deletedWords = deletedUserWords['0']['paginatedResults'];
 
-        deletedWords.forEach((wordItem) => {
-          if (wordItem['_id'] === item.id) isDel = true;
-        });
-      }
-      if (userInfo && Object.keys(hardUserWords).length > 0) {
-        hardWords = hardUserWords['0']['paginatedResults'];
-        hardWords.forEach((wordItem) => {
-          if (wordItem['_id'] === item.id) isHard = true;
-        });
-      }
-      console.log(isDel);
-      return isDel ? null : (
-        <WordCard
-          id={item.id}
-          card={card}
-          isChecked={isChecked}
-          setCard={setCard}
-          word={item.word}
-          transcription={item.transcription}
-          translation={item.wordTranslate}
-          meaningText={item.textMeaning}
-          meaningTextTranslated={item.textMeaningTranslate}
-          textExample={item.textExample}
-          textExampleTranslated={item.textExampleTranslate}
-          imageSrc={baseUrl + item.image}
-          wordSoundSrc={item.audio}
-          meaningSoundSrc={item.audioMeaning}
-          exampleSoundSrc={item.audioExample}
-          cardColorStyle={'level-color__' + group}
-          wordDifficulty={group}
-          pageNumber={page}
-          isHard={isHard}
-          key={item.word}
-          setPageReload={setPageReload}
-          pageReload={pageReload}
-        />
+            deletedWords.forEach((wordItem) => {
+              if (wordItem['_id'] === item.id) isDel = true;
+            });
+          }
+          if (userInfo && Object.keys(hardUserWords).length > 0) {
+            hardWords = hardUserWords['0']['paginatedResults'];
+            hardWords.forEach((wordItem) => {
+              if (wordItem['_id'] === item.id) isHard = true;
+            });
+          }
+
+          return isDel ? null : (
+            <WordCard
+              id={item.id}
+              card={card}
+              isChecked={isChecked}
+              setCard={setCard}
+              word={item.word}
+              transcription={item.transcription}
+              translation={item.wordTranslate}
+              meaningText={item.textMeaning}
+              meaningTextTranslated={item.textMeaningTranslate}
+              textExample={item.textExample}
+              textExampleTranslated={item.textExampleTranslate}
+              imageSrc={baseUrl + item.image}
+              wordSoundSrc={item.audio}
+              meaningSoundSrc={item.audioMeaning}
+              exampleSoundSrc={item.audioExample}
+              cardColorStyle={'level-color__' + group}
+              wordDifficulty={group}
+              pageNumber={page}
+              isHard={isHard}
+              key={item.word}
+              setPageReload={setPageReload}
+              pageReload={pageReload}
+            />
+          );
+        })
       );
-    });
     return (
       <StyledSection>
         <StyledVideo src="video/video.mp4" autoPlay loop muted />
@@ -180,6 +190,7 @@ function Dictionary() {
             <Tabs
               onSelect={(index) => {
                 setCard(null);
+                if (userInfo) setDeletedUserWords(null);
                 setGroup(index);
               }}
               selectedTabClassName={'level-color__' + group}
@@ -210,8 +221,9 @@ function Dictionary() {
                 pageRangeDisplayed={2}
                 marginPagesDisplayed={3}
                 onPageChange={(page) => {
-                  console.log(page);
+                  console.log(page.selected);
                   setCard(null);
+                  if (userInfo) setDeletedUserWords(null);
                   setPage(page.selected);
                 }}
               />

@@ -3,6 +3,7 @@
 .cards__wrapper {
   margin: 30px auto;
   max-width: 1200px;
+  min-width: 87%;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 10px;
 }

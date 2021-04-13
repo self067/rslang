@@ -100,7 +100,6 @@
   overflow: visible;
   margin-top: 30px;
   opacity: 1;
-  z-index: 1;
 }
 .card.is-expanded:hover .card__inner {
   transform: scale(1);
@@ -110,7 +109,6 @@
   opacity: 0.5;
 }
 .card.is-inactive:hover .card__inner {
-  background-color: #949fb0;
   transform: scale(1);
 }
 .card__image-inner {
