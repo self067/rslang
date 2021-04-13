@@ -4,7 +4,10 @@ import { Container, Words, Word, SpecialWord } from './SavannaGame.styled';
 import GameLife from '../GameLife';
 import Stone from './components/Stone';
 import GameLoader from '../GameLoader';
-import throttleFunction from 'hooks/useThrottling';
+import throttleFunction from 'utils/throttleFunction';
+
+const TIME_TO_CHANGE_WORDS = 1500;
+const URL = process.env.REACT_APP_APIURL;
 
 // example getRandomInt(5)
 // number range from 0 to 4 inclusively
@@ -16,39 +19,53 @@ const getSpecificWords = (wordOffsetValue) => {
   let currentWordOffsetValue = 0;
 
   return (words) => {
-    if (!words) return { partOfWordsToShowOnScreen: null, guessWord: null };
+    const fallbackValue = { partOfWordsToShowOnScreen: null, guessWord: null };
+    if (!words) return fallbackValue;
     const partOfWordsToShowOnScreen = words.slice(currentWordOffsetValue, wordOffsetValue + currentWordOffsetValue);
+    if (currentWordOffsetValue === 20) currentWordOffsetValue = 0;
     const rand = getRandomInt(wordOffsetValue);
     const guessWord = partOfWordsToShowOnScreen[rand];
     currentWordOffsetValue += wordOffsetValue;
+    if (!partOfWordsToShowOnScreen.length && !guessWord) return fallbackValue;
     return { partOfWordsToShowOnScreen, guessWord };
   };
 }
 
-const foo = getSpecificWords(5);
+const getWordsToGuessFrom = getSpecificWords(5);
 const throttle = throttleFunction(1000);
 
-const Index = () => {
+const Index = ({ level }) => {
+  const [isFirstRender, setIsFirstRender] = useState(false);
   const [stopTimer, setStopTimer] = useState(false);
   const [lives, setLives] = useState(5);
   const [wordsList, setWordList] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFailedToFetch, setIsFailedToFetch] = useState(false);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(-1);
   const [{ partOfWordsToShowOnScreen, guessWord }, setSelectedWords] = useState({ partOfWordsToShowOnScreen: null, guessWord: null });
   const [chosenButton, setChosenButton] = useState(false);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_APIURL}/words?group=0&page=1`)
+    fetch(`${URL}/words?group=${level}&page=1`)
       .then((res) => res.json())
       .then((words) => setWordList(words))
       .catch(() => setIsFailedToFetch(true))
-      .finally(() => setIsLoaded(true));
+      .finally(() => {
+        setIsLoaded(true);
+        setIsFirstRender(true);
+      });
   }, []);
 
   const onFinishTimer = () => {
     setStopTimer(true);
   };
+  //
+  // useEffect(() => {
+  //   console.log(wordsList);
+  //   return () => {
+  //     console.log(wordsList, 'unmount');
+  //   }
+  // }, [wordsList]);
 
   const { x } = useSpring({
     pause: !stopTimer,
@@ -58,7 +75,7 @@ const Index = () => {
     onRest: ({ finished }) => {
       if (finished) {
         setLives((lives) => lives - 1);
-        setScore((score) => score - 20);
+        setScore((score) => score === -1 ? -20 : score - 20);
       }
     }
   });
@@ -67,26 +84,39 @@ const Index = () => {
 
   const checkWord = ({ id }) => {
     return () => {
-      throttle(() => {
-        if (id === guessWord?.id) {
-          setScore((score) => score + 20);
-        } else {
-          setLives((lives) => lives - 1);
-          setScore((score) => score - 20);
-        }
-      });
+        throttle(() => {
+          if (id === guessWord?.id) {
+            setScore((score) => score === -1 ? 20 : score + 20);
+          } else {
+            setLives((lives) => lives - 1);
+            setScore((score) => score === -1 ? -20 : score - 20);
+          }
+        });
 
-      if (!chosenButton) {
-        setChosenButton(id);
-      }
+        if (!chosenButton) {
+          setChosenButton(id);
+        }
     };
   };
 
   useEffect(() => {
     if (wordsList?.length > 0) {
-      setSelectedWords(foo(wordsList));
+      setSelectedWords(getWordsToGuessFrom(wordsList));
     }
   }, [wordsList]);
+
+  useEffect(() => {
+    if (isFirstRender && wordsList?.length > 0 && (partOfWordsToShowOnScreen === null && guessWord === null) && lives > 0) {
+      fetch(`${URL}/words?group=${level}&page=2`)
+        .then((res) => res.json())
+        .then((words) => setWordList(words))
+        .catch(() => setIsFailedToFetch(true))
+        .finally(() => {
+          setIsLoaded(true);
+          setIsFirstRender(false);
+        });
+    }
+  }, [isFirstRender, wordsList, partOfWordsToShowOnScreen, guessWord, lives]);
 
   useEffect(() => {
     x.start({
@@ -97,20 +127,14 @@ const Index = () => {
   }, [partOfWordsToShowOnScreen, x]);
 
   useEffect(() => {
-    if (score !== 0) {
+    if (score !== -1) {
       const ref = setTimeout(() => {
-        setSelectedWords(foo(wordsList));
-      }, 1500);
+        setSelectedWords(getWordsToGuessFrom(wordsList));
+      }, TIME_TO_CHANGE_WORDS);
 
-      return () => {
-        clearTimeout(ref);
-      }
+      return () => clearTimeout(ref);
     }
   }, [score, wordsList]);
-
-  useEffect(() => {
-    console.log(chosenButton);
-  }, [chosenButton]);
 
   if (isFailedToFetch) {
     return <Container>Что-то пошло не так! Попробуйте перезагрузить страницу :)</Container>;

@@ -1,6 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useContext } from 'react';
+
 import { Button } from 'components/button';
 import { Link } from 'react-router-dom';
+import { StyledLoader } from 'components/loader';
 
 import {
   StyledStatRightPart,
@@ -19,9 +21,40 @@ import {
   StyledInfoLine,
   StyledImg,
 } from './styled';
+import UserContext from 'components/Auth/UserContext';
 
 function SessionStatistic() {
-  const todayStatInfo = useMemo(
+  const { userInfo } = useContext(UserContext);
+  const baseUrl = process.env.REACT_APP_APIURL;
+  //const fetchDataLink = ` ${baseUrl}/users/${userId}/statistics`;
+  //const [error, setError] = useState(null);
+  //const [isLoaded, setIsLoaded] = useState(false);
+  //const [items, setItems] = useState([]);
+  const [i, setI] = useState([]);
+  useEffect(() => {
+    const gameOverStatistick = sessionStorage.getItem('audioStat');
+    if (gameOverStatistick) {
+      setI(JSON.parse(gameOverStatistick));
+    }
+  }, []);
+
+  /*useEffect(() => {
+    fetch(fetchDataLink)
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setItems(result);
+          console.log(items);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      );
+  }, []);*/
+
+  const statInfo = useMemo(
     () => [
       {
         title: 'Выучено слов сегодня:',
@@ -53,7 +86,7 @@ function SessionStatistic() {
 
   const todayInfo = useMemo(
     () =>
-      todayStatInfo.map((item, index) => (
+      statInfo.map((item, index) => (
         <div key={index}>
           <StyledInfoText>
             {item.title}
@@ -62,9 +95,14 @@ function SessionStatistic() {
           <StyledInfoLine />
         </div>
       )),
-    [todayStatInfo]
+    [statInfo]
   );
 
+  /*if (error) {
+    return <div>Error: {error.message}</div>;
+  } else if (!isLoaded) {
+    return <StyledLoader>Loading...</StyledLoader>;
+  } else {*/
   return (
     <StyledStatContainer>
       <StyledStatRightPart>
@@ -75,7 +113,7 @@ function SessionStatistic() {
       <StyledStatInfo>
         <StyledStatProgressContainer>
           <StyledStatProgress></StyledStatProgress>
-          <StyledInfoText>Выучено слов всего 0 из 3600</StyledInfoText>
+          <StyledInfoText>Выучено слов всего {i} из 3600</StyledInfoText>
         </StyledStatProgressContainer>
         <StyledInfoContainer>
           {todayInfo}
@@ -88,6 +126,7 @@ function SessionStatistic() {
       </StyledStatInfo>
     </StyledStatContainer>
   );
+  //}
 }
 
 export default SessionStatistic;

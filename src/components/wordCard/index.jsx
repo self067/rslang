@@ -22,6 +22,7 @@ const WordCard = ({
   exampleSoundSrc,
   meaningSoundSrc,
   isChecked,
+  cardColorStyle,
 }) => {
   const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
   const [openedCard, setOpenedCard] = useState(false);
@@ -89,7 +90,10 @@ const WordCard = ({
 
   return (
     <div className={cardClassName}>
-      <div className="card__inner js-expander" onClick={toggleCardState}>
+      <div
+        className={'card__inner js-expander' + ` ${cardColorStyle}`}
+        onClick={toggleCardState}
+      >
         <span>{word}</span>
       </div>
       {openedCard && (

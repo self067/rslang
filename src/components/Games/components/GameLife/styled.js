@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const HeartsContainer = styled.div`
   position: fixed;
-  top: 10px;
+  top: 100px;
   right: 50px;
   display: flex;
   width: 300px;

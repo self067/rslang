@@ -17,7 +17,6 @@
   }
 }
 .card:hover .card__inner {
-  background-color: #1abc9c;
   transform: scale(1.05);
 }
 .card__inner {
@@ -25,7 +24,6 @@
   padding: 30px;
   position: relative;
   cursor: pointer;
-  background-color: #949fb0;
   color: #eceef1;
   font-size: 1.5em;
   text-transform: uppercase;
@@ -78,9 +76,7 @@
   margin-top: 0;
   opacity: 0;
 }
-.card.is-expanded .card__inner {
-  background-color: #1abc9c;
-}
+
 .card.is-expanded .card__inner:after {
   content: '';
   opacity: 1;
@@ -279,4 +275,28 @@ b {
 i {
   font-weight: 700;
   font-style: italic;
+}
+
+.level-color__0 {
+  background-color: rgba(65,32,169,0.7);
+}
+
+.level-color__1 {
+  background-color: rgba(0,0,255,0.6);
+}
+
+.level-color__2 {
+  background-color: rgb(26,188,156);
+}
+
+.level-color__3 {
+  background-color: rgba(79,55,80,0.9);
+}
+
+.level-color__4 {
+  background-color: #F86F15;
+}
+
+.level-color__5 {
+  background-color: rgba(159,21,102,0.8);
 }

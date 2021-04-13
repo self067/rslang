@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import WordCard from '../../components/wordCard';
 import {
   StyledSection,
@@ -14,6 +14,7 @@ import ReactPaginate from 'react-paginate';
 import './styles.css';
 import ModalSetup from '../../components/setup';
 import { StyledLoader } from '../../components/loader';
+import UserContext from 'components/Auth/UserContext';
 
 function Dictionary() {
   const [card, setCard] = useState(null);
@@ -22,6 +23,8 @@ function Dictionary() {
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(0);
   const [group, setGroup] = useState(0);
+
+  const { userInfo } = useContext(UserContext);
 
   const [isChecked, setIsChecked] = useState({
     wordTranslate: true,
@@ -68,6 +71,32 @@ function Dictionary() {
   } else if (!isLoaded) {
     return <StyledLoader>Loading...</StyledLoader>;
   } else {
+    const cardsContainer = userInfo ? (
+      <div> User's set of card</div>
+    ) : (
+      items.map((item) => {
+        return (
+          <WordCard
+            card={card}
+            isChecked={isChecked}
+            setCard={setCard}
+            word={item.word}
+            transcription={item.transcription}
+            translation={item.wordTranslate}
+            meaningText={item.textMeaning}
+            meaningTextTranslated={item.textMeaningTranslate}
+            textExample={item.textExample}
+            textExampleTranslated={item.textExampleTranslate}
+            imageSrc={baseUrl + item.image}
+            wordSoundSrc={item.audio}
+            meaningSoundSrc={item.audioMeaning}
+            exampleSoundSrc={item.audioExample}
+            cardColorStyle={'level-color__' + group}
+            key={item.word}
+          />
+        );
+      })
+    );
     return (
       <StyledSection>
         <StyledVideo src="video/video.mp4" autoPlay loop muted />
@@ -83,6 +112,7 @@ function Dictionary() {
                 setCard(null);
                 setGroup(index);
               }}
+              selectedTabClassName={'level-color__' + group}
             >
               <div className="tabs-header">
                 Сложность - {skillLevels[group]}
@@ -102,29 +132,7 @@ function Dictionary() {
               <TabPanel />
               <TabPanel />
             </Tabs>
-            <div className="cards">
-              {items.map((item) => {
-                return (
-                  <WordCard
-                    card={card}
-                    isChecked={isChecked}
-                    setCard={setCard}
-                    word={item.word}
-                    transcription={item.transcription}
-                    translation={item.wordTranslate}
-                    meaningText={item.textMeaning}
-                    meaningTextTranslated={item.textMeaningTranslate}
-                    textExample={item.textExample}
-                    textExampleTranslated={item.textExampleTranslate}
-                    imageSrc={baseUrl + item.image}
-                    wordSoundSrc={item.audio}
-                    meaningSoundSrc={item.audioMeaning}
-                    exampleSoundSrc={item.audioExample}
-                    key={item.word}
-                  />
-                );
-              })}
-            </div>
+            <div className="cards">{cardsContainer}</div>
             <div className="pagination">
               <ReactPaginate
                 pageCount={30}

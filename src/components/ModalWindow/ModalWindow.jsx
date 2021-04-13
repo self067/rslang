@@ -24,9 +24,20 @@ const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
       },
       body: JSON.stringify(body),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 200) {
+          setError('');
+          return response.json();
+        } else if (response.status === 404) {
+          setError('No such user');
+          return { error: response.status + response.statusText };
+        } else {
+          setError(response.statusText);
+          return { error: response.status + response.statusText };
+        }
+      })
       .then((result) => {
-        console.log(result);
+        if (!result) return;
         if (!result.token) {
           throw new Error(result.error);
         }
@@ -38,7 +49,6 @@ const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
       })
       .catch((error) => {
         console.error('catch: ', error);
-        setError(error.message);
       });
   };
 
@@ -52,7 +62,6 @@ const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
       body: JSON.stringify(body),
     })
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           setError('');
           return response.json();
@@ -61,12 +70,10 @@ const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
           return { error: response.status + response.statusText };
         } else {
           setError(response.statusText);
-          console.log(response);
           return { error: response.status + response.statusText };
         }
       })
       .then((result) => {
-        console.log(result);
         if (!result) return;
         if (!result.id) {
           throw new Error(result.error);
@@ -99,11 +106,6 @@ const ModalWindow = ({ open, onClose, userInfo, setUserInfo }) => {
   const onSubmitRegistr = (e) => {
     e.preventDefault();
     registerUser(username, email, password, avatarImg);
-  };
-
-  const onSubmitLogout = (e) => {
-    e.preventDefault();
-    // logoutUser('seltor1@gmail.com');
   };
 
   const onOutClick = (e) => {
