@@ -14,7 +14,7 @@ import {
   StyledContainer,
   StyledVideo,
 } from 'components/games/components/startPage/styled';
-import './styles.css';
+import 'components/games/AudioСall/components/AudioCallGame/styles.css';
 import { Button } from 'components/button';
 import PropTypes from 'prop-types';
 import { StyledLoader } from 'components/loader';

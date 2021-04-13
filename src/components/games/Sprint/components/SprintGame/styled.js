@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/components/games/Sprint/styled.js
 import styled from 'styled-components';
 
 export const SprintSection = styled.section`
@@ -155,3 +156,44 @@ export const Score = styled.div`
   text-transform: uppercase;
   text-shadow: 0 0 4px #000;
 `;
+=======
+import styled from 'styled-components';
+import { Button } from 'components/button';
+
+export const SprintSection = styled.section`
+  max-width: 960px;
+  margin: 100px auto;
+  padding: 100px;
+
+  background-color: var(--blue-light-rgba);
+`;
+
+export const Pane = styled.div`
+  width: 600px;
+  height: 400px;
+  margin: auto;
+  color: var(--blue-dark);
+  background-color: var(--light-grey);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`;
+
+export const ButtonsBlock = styled.div`
+  padding: 30px;
+  width: 100%;
+  display: flex;
+  /* align-items: flex-end; */
+  align-self: center;
+  justify-content: space-around;
+`;
+export const NoButton = styled(Button)`
+  background-color: red;
+`;
+
+export const YesButton = styled(NoButton)`
+  background-color: green;
+`;
+
+export const Score = styled.div``;
+>>>>>>> 5e86db8... feat: add stat data and sprint start page:src/components/games/Sprint/components/SprintGame/styled.js
