@@ -22,6 +22,10 @@ import {
   ArrowImg,
   ResultImg,
 } from './styled';
+import {
+  StyledSection,
+  StyledVideo,
+} from 'components/games/components/startPage/styled';
 
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 
@@ -159,64 +163,67 @@ export default function Sprint({ level }) {
   ) : !isLoaded ? (
     <StyledLoader>Loading...</StyledLoader>
   ) : (
-    <SprintSection>
-      <FullScreen handle={handle}>
-        <Score>{score}</Score>
+    <StyledSection>
+      <StyledVideo src="video/video.mp4" autoPlay loop muted />
+      <SprintSection>
+        <FullScreen handle={handle}>
+          <Score>{score}</Score>
 
-        <Card>
-          <PandaTop src="images/sprint/panda_pl.png" loading="lazy" alt="" />
+          <Card>
+            <PandaTop src="images/sprint/panda_pl.png" loading="lazy" alt="" />
 
-          <Wrapper>
-            <BoxColor>
-              <WordScore>+ {addScore} очков за слово</WordScore>
-              <CheckBoxes>
-                {checks > 0 ? (
-                  <>
+            <Wrapper>
+              <BoxColor>
+                <WordScore>+ {addScore} очков за слово</WordScore>
+                <CheckBoxes>
+                  {checks > 0 ? (
+                    <>
+                      <Img2 src="images/sprint/CHECK1.png" alt="" />
+                      <Img2 src="images/sprint/CHECK1.png" alt="" />
+                      <Img2 src="images/sprint/CHECK1.png" alt="" />
+                    </>
+                  ) : (
                     <Img2 src="images/sprint/CHECK1.png" alt="" />
-                    <Img2 src="images/sprint/CHECK1.png" alt="" />
-                    <Img2 src="images/sprint/CHECK1.png" alt="" />
-                  </>
-                ) : (
-                  <Img2 src="images/sprint/CHECK1.png" alt="" />
-                )}
-              </CheckBoxes>
-            </BoxColor>
+                  )}
+                </CheckBoxes>
+              </BoxColor>
 
-            <PandaBox>
-              <PandaImg src="images/sprint/panda4.png" alt="" />
-              <PandaImg src="images/sprint/panda3.png" alt="" />
-              <PandaImg src="images/sprint/panda5.png" alt="" />
-              <PandaImg src="images/sprint/panda1.png" alt="" />
-            </PandaBox>
-            <WordsBox>
-              <TextCard>{word}</TextCard>
-              <TextCard>{wordTranslate}</TextCard>
-            </WordsBox>
-          </Wrapper>
-        </Card>
+              <PandaBox>
+                <PandaImg src="images/sprint/panda4.png" alt="" />
+                <PandaImg src="images/sprint/panda3.png" alt="" />
+                <PandaImg src="images/sprint/panda5.png" alt="" />
+                <PandaImg src="images/sprint/panda1.png" alt="" />
+              </PandaBox>
+              <WordsBox>
+                <TextCard>{word}</TextCard>
+                <TextCard>{wordTranslate}</TextCard>
+              </WordsBox>
+            </Wrapper>
+          </Card>
 
-        <ButtonsBox>
-          <ArrowImg src="images/sprint/arrow_l.png" alt="" />
-          <NoButton onClick={() => onLeft()}>неверно</NoButton>
-          <ResultImg src="images/sprint/CHECK1.png" alt="" />
-          <YesButton onClick={() => onRight()}>верно</YesButton>
-          <ArrowImg src="images/sprint/arrow_r.png" alt="" />
-        </ButtonsBox>
+          <ButtonsBox>
+            <ArrowImg src="images/sprint/arrow_l.png" alt="" />
+            <NoButton onClick={() => onLeft()}>неверно</NoButton>
+            <ResultImg src="images/sprint/CHECK1.png" alt="" />
+            <YesButton onClick={() => onRight()}>верно</YesButton>
+            <ArrowImg src="images/sprint/arrow_r.png" alt="" />
+          </ButtonsBox>
 
-        <PandaBottom src="images/sprint/panda_r.png" alt="" />
+          <PandaBottom src="images/sprint/panda_r.png" alt="" />
 
-        <Timer
-          outerColor="#643949"
-          innerColor="#C3E1C9"
-          countdownColor="#643949"
-          timerCount={timerCount}
-          displayCountdown={true}
-          timerDuration={timerDuration}
-          resetTimerRequested={resetTimerRequested}
-          resetTimer={resetTimer}
-          completeTimer={completeTimer}
-        />
-      </FullScreen>
-    </SprintSection>
+          <Timer
+            outerColor="#643949"
+            innerColor="#C3E1C9"
+            countdownColor="#643949"
+            timerCount={timerCount}
+            displayCountdown={true}
+            timerDuration={timerDuration}
+            resetTimerRequested={resetTimerRequested}
+            resetTimer={resetTimer}
+            completeTimer={completeTimer}
+          />
+        </FullScreen>
+      </SprintSection>
+    </StyledSection>
   );
 }
