@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import UserContext from '../Auth/UserContext';
 import './styles.css';
 import {
   SoundOnIcon,
   SoundOffIcon,
   CloseIcon,
+  HardWordIcon,
 } from '../FontAwesomeIcons/FontAwesomeIcons';
 import PropTypes from 'prop-types';
 import useSound from 'use-sound';
 const WordCard = ({
+  id,
   transcription,
   translation,
   word,
@@ -23,6 +26,11 @@ const WordCard = ({
   meaningSoundSrc,
   isChecked,
   cardColorStyle,
+  wordDifficulty,
+  pageNumber,
+  setPageReload,
+  pageReload,
+  isHard,
 }) => {
   const baseUrl = 'https://rslangbe-team105.herokuapp.com/';
   const [openedCard, setOpenedCard] = useState(false);
@@ -36,6 +44,8 @@ const WordCard = ({
   const [isAudioPlaying, playAudio] = useState(false);
   const [timeoutId1, setTimeoutId1] = useState();
   const [timeoutId2, setTimeoutId2] = useState();
+  const { userInfo } = useContext(UserContext);
+  const [sentCardInfo, setSentCardInfo] = useState(null);
   let cardClassName = 'card';
 
   if (word === card) {
@@ -88,10 +98,42 @@ const WordCard = ({
     turnOffSound();
   }, [card]);
 
+  useEffect(() => {
+    if (sentCardInfo && userInfo) {
+      const url = `https://rslangbe-team105.herokuapp.com/users/${userInfo.userId}/words/${sentCardInfo['id']}`;
+      console.log(`url on usEffect - ${url}`);
+      const data = JSON.stringify({
+        difficulty: wordDifficulty.toString(),
+        optional: {
+          isDeleted: sentCardInfo.isDeleted ? sentCardInfo.isDeleted : false,
+          isHard: sentCardInfo.isHard ? sentCardInfo.isHard : false,
+          page: pageNumber.toString(),
+        },
+      });
+      console.log(`data in useEffect - `);
+      console.log(data);
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+        body: data,
+      };
+      console.log(`options in useEffect - `);
+      console.log(options);
+      fetch(url, options).then((data) => {
+        if (!data.ok) {
+          throw new Error(data.statusText);
+        }
+      });
+    }
+  }, [sentCardInfo, pageNumber, userInfo, wordDifficulty]);
+
   return (
     <div className={cardClassName}>
       <div
-        className={'card__inner js-expander' + ` ${cardColorStyle}`}
+        className={`card__inner js-expander ${cardColorStyle}`}
         onClick={toggleCardState}
       >
         <span>{word}</span>
@@ -120,6 +162,11 @@ const WordCard = ({
               >
                 {isAudioPlaying ? SoundOnIcon : SoundOffIcon}
               </i>
+              {isHard ? (
+                <i className="card__hard-word-icon" title="Сложное слово">
+                  {HardWordIcon}
+                </i>
+              ) : null}
             </div>
 
             {isChecked['transcription'] ? (
@@ -151,11 +198,39 @@ const WordCard = ({
           </div>
 
           <div className="card__section">
-            {isChecked['difficultWords'] ? (
-              <button className="card__add-to-btn blue">В сложные слова</button>
+            {isChecked['difficultWords'] && userInfo ? (
+              <button
+                className="card__add-to-btn blue"
+                id="addToHardBtn"
+                onClick={(e) => {
+                  setSentCardInfo({
+                    id: id,
+                    isHard: true,
+                  });
+                  setTimeout(() => {
+                    toggleCardState();
+                    setPageReload(!pageReload);
+                  }, 2000);
+                }}
+              >
+                В сложные слова
+              </button>
             ) : null}
-            {isChecked['deleteWords'] ? (
-              <button className="card__add-to-btn red">
+            {isChecked['deleteWords'] && userInfo ? (
+              <button
+                id="addToDeletedBtn"
+                className="card__add-to-btn red"
+                onClick={(e) => {
+                  setSentCardInfo({
+                    id: id,
+                    isDeleted: true,
+                  });
+                  setTimeout(() => {
+                    toggleCardState();
+                    setPageReload(!pageReload);
+                  }, 1000);
+                }}
+              >
                 В удаленные слова
               </button>
             ) : null}
@@ -167,6 +242,7 @@ const WordCard = ({
 };
 
 WordCard.defaultProps = {
+  id: '',
   transcription: '',
   translation: '',
   word: '',
@@ -181,9 +257,13 @@ WordCard.defaultProps = {
   exampleSoundSrc: '',
   meaningSoundSrc: '',
   isChecked: {},
+  wordDifficulty: 0,
+  pageNumber: '',
+  isHard: false,
 };
 
 WordCard.propTypes = {
+  id: PropTypes.string,
   transcription: PropTypes.string,
   translation: PropTypes.string,
   word: PropTypes.string,
@@ -198,5 +278,8 @@ WordCard.propTypes = {
   exampleSoundSrc: PropTypes.string,
   meaningSoundSrc: PropTypes.string,
   isChecked: PropTypes.object,
+  wordDifficulty: PropTypes.number,
+  pageNumber: PropTypes.number,
+  isHard: PropTypes.bool,
 };
 export default WordCard;

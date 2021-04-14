@@ -5,6 +5,7 @@ import GameLife from '../GameLife';
 import Stone from './components/Stone';
 import GameLoader from '../GameLoader';
 import throttleFunction from 'utils/throttleFunction';
+import GameOver from '../gameOver';
 
 const TIME_TO_CHANGE_WORDS = 1500;
 const URL = process.env.REACT_APP_APIURL;
@@ -13,7 +14,7 @@ const URL = process.env.REACT_APP_APIURL;
 // number range from 0 to 4 inclusively
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * max);
-}
+};
 
 const getSpecificWords = (wordOffsetValue) => {
   let currentWordOffsetValue = 0;
@@ -22,50 +23,45 @@ const getSpecificWords = (wordOffsetValue) => {
     const fallbackValue = { partOfWordsToShowOnScreen: null, guessWord: null };
     if (!words) return fallbackValue;
     const partOfWordsToShowOnScreen = words.slice(currentWordOffsetValue, wordOffsetValue + currentWordOffsetValue);
-    if (currentWordOffsetValue === 20) currentWordOffsetValue = 0;
     const rand = getRandomInt(wordOffsetValue);
     const guessWord = partOfWordsToShowOnScreen[rand];
     currentWordOffsetValue += wordOffsetValue;
     if (!partOfWordsToShowOnScreen.length && !guessWord) return fallbackValue;
     return { partOfWordsToShowOnScreen, guessWord };
   };
-}
+};
 
 const getWordsToGuessFrom = getSpecificWords(5);
-const throttle = throttleFunction(1000);
+const throttle = throttleFunction(TIME_TO_CHANGE_WORDS);
 
-const Index = ({ level }) => {
-  const [isFirstRender, setIsFirstRender] = useState(false);
+const Index = ({ level = 0 }) => {
   const [stopTimer, setStopTimer] = useState(false);
-  const [lives, setLives] = useState(5);
+  const [lives, setLives] = useState(4);
   const [wordsList, setWordList] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFailedToFetch, setIsFailedToFetch] = useState(false);
   const [score, setScore] = useState(-1);
-  const [{ partOfWordsToShowOnScreen, guessWord }, setSelectedWords] = useState({ partOfWordsToShowOnScreen: null, guessWord: null });
-  const [chosenButton, setChosenButton] = useState(false);
+  const [{ partOfWordsToShowOnScreen, guessWord }, setSelectedWords] = useState({
+    partOfWordsToShowOnScreen: null,
+    guessWord: null,
+  });
+  const [rightWords, setRightWords] = useState(0);
+  const [wrongWords, setWrongWords] = useState(0);
+  const [gameOverStat, setGameOverStat] = useState([]);
+  const [isGameOver, setGameOver] = useState(false);
+  const [wordsInRound, setWordsInRound] = useState(20);
 
   useEffect(() => {
-    fetch(`${URL}/words?group=${level}&page=1`)
+    fetch(`${URL}/words?group=${level}&page=${getRandomInt(5)}`)
       .then((res) => res.json())
       .then((words) => setWordList(words))
       .catch(() => setIsFailedToFetch(true))
-      .finally(() => {
-        setIsLoaded(true);
-        setIsFirstRender(true);
-      });
-  }, []);
+      .finally(() => setIsLoaded(true));
+  }, [level]);
 
   const onFinishTimer = () => {
     setStopTimer(true);
   };
-  //
-  // useEffect(() => {
-  //   console.log(wordsList);
-  //   return () => {
-  //     console.log(wordsList, 'unmount');
-  //   }
-  // }, [wordsList]);
 
   const { x } = useSpring({
     pause: !stopTimer,
@@ -77,25 +73,26 @@ const Index = ({ level }) => {
         setLives((lives) => lives - 1);
         setScore((score) => score === -1 ? -20 : score - 20);
       }
-    }
+    },
   });
 
   const AnimatedWord = a(SpecialWord);
 
-  const checkWord = ({ id }) => {
+  const checkWord = (word) => {
     return () => {
-        throttle(() => {
-          if (id === guessWord?.id) {
-            setScore((score) => score === -1 ? 20 : score + 20);
-          } else {
-            setLives((lives) => lives - 1);
-            setScore((score) => score === -1 ? -20 : score - 20);
-          }
-        });
-
-        if (!chosenButton) {
-          setChosenButton(id);
+      throttle(() => {
+        if (word?.id === guessWord?.id) {
+          setScore((score) => score === -1 ? 20 : score + 20);
+          setRightWords((rightWord) => rightWord + 1);
+          setGameOverStat((prevWords) => [...prevWords, { ...word, isCorrect: true }]);
+        } else {
+          setLives((lives) => lives - 1);
+          setScore((score) => score === -1 ? -20 : score - 20);
+          setWrongWords((wrongWord) => wrongWord + 1);
+          setGameOverStat((prevWords) => [...prevWords, { ...word, isCorrect: false }]);
         }
+        setWordsInRound((roundWords) => roundWords - 5);
+      });
     };
   };
 
@@ -106,25 +103,12 @@ const Index = ({ level }) => {
   }, [wordsList]);
 
   useEffect(() => {
-    if (isFirstRender && wordsList?.length > 0 && (partOfWordsToShowOnScreen === null && guessWord === null) && lives > 0) {
-      fetch(`${URL}/words?group=${level}&page=2`)
-        .then((res) => res.json())
-        .then((words) => setWordList(words))
-        .catch(() => setIsFailedToFetch(true))
-        .finally(() => {
-          setIsLoaded(true);
-          setIsFirstRender(false);
-        });
-    }
-  }, [isFirstRender, wordsList, partOfWordsToShowOnScreen, guessWord, lives]);
-
-  useEffect(() => {
     x.start({
-      pause: false,
+      pause: !stopTimer,
       from: { x: 0 },
       to: { x: 90 },
-    })
-  }, [partOfWordsToShowOnScreen, x]);
+    });
+  }, [stopTimer, partOfWordsToShowOnScreen, x]);
 
   useEffect(() => {
     if (score !== -1) {
@@ -135,6 +119,13 @@ const Index = ({ level }) => {
       return () => clearTimeout(ref);
     }
   }, [score, wordsList]);
+
+  useEffect(() => {
+    if (wordsInRound === 0) {
+      const ref = setTimeout(() => setGameOver(true), TIME_TO_CHANGE_WORDS);
+      return () => clearTimeout(ref);
+    }
+  }, [wordsInRound]);
 
   if (isFailedToFetch) {
     return <Container>Что-то пошло не так! Попробуйте перезагрузить страницу :)</Container>;
@@ -147,7 +138,8 @@ const Index = ({ level }) => {
   return (
     <Container>
       {!stopTimer && <GameLoader time={3} onFinish={onFinishTimer} />}
-      {stopTimer && <GameLife currentNumberOfLives={lives} />}
+      {stopTimer && <GameLife currentNumberOfLives={lives} totalLives={4} />}
+      {isGameOver && <GameOver gameOverStat={gameOverStat} rightAnswers={rightWords} wrongAnswers={wrongWords} />}
       <AnimatedWord
         style={{
           top: x.to((deltaX) => `${deltaX}%`),
@@ -157,7 +149,7 @@ const Index = ({ level }) => {
       </AnimatedWord>
       <Words>
         {partOfWordsToShowOnScreen?.map((word) => (
-          <Word key={word.id} style={{background: chosenButton === word.id ? '#135EA3' : '' }} onClick={checkWord(word)}>
+          <Word key={word.id} onClick={checkWord(word)}>
             {word.wordTranslate}
           </Word>
         ))}

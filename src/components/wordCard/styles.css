@@ -4,6 +4,7 @@
 .card {
   margin: 15px;
   width: calc((100% / 4) - 30px);
+  min-width: 262px;
   transition: all 0.2s ease-in-out;
 }
 @media screen and (max-width: 991px) {
@@ -99,7 +100,6 @@
   overflow: visible;
   margin-top: 30px;
   opacity: 1;
-  z-index: 1;
 }
 .card.is-expanded:hover .card__inner {
   transform: scale(1);
@@ -109,7 +109,6 @@
   opacity: 0.5;
 }
 .card.is-inactive:hover .card__inner {
-  background-color: #949fb0;
   transform: scale(1);
 }
 .card__image-inner {
@@ -162,15 +161,37 @@
   vertical-align: center;
   cursor: pointer;
 }
+
+.card__hard-word-icon {
+  display: inline-flex;
+  vertical-align: center;
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  color: red;
+}
+
+.hidden {
+  display: none;
+}
 .card__close-btn {
+  color: #fff !important;
   cursor: pointer;
   position: absolute;
   right: 20px;
   top: 5px;
 }
+
+.card__close-btn .fa-times {
+  color: #ffffff;
+}
+
 @media (max-width: 900px) {
   .card__close-btn {
     right: 10px;
+  }
+  .fa-times {
+    color: #ffffff !important;
   }
 }
 .card__transcription {

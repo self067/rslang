@@ -13,7 +13,6 @@ export const Auth = () => {
   const { userInfo, setUserInfo } = useContext(UserContext);
 
   useEffect(() => {
-    console.log(useEffect);
     setUserInfo(JSON.parse(sessionStorage.getItem(sessionName)));
   }, [setUserInfo]);
 

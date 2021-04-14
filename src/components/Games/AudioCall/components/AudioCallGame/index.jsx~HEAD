@@ -27,7 +27,7 @@ const audioWrongAnswer = new Audio('audio/wrong.mp3');
 const audioNoAnswer = new Audio('audio/noAnswer.wav');
 const baseUrl = process.env.REACT_APP_APIURL;
 
-export default function AudioCall({ level }) {
+export default function AudioСall({ level }) {
   const handle = useFullScreenHandle();
 
   const [error, setError] = useState(null);
@@ -43,6 +43,7 @@ export default function AudioCall({ level }) {
   const [isSoundPlay, setIsSoundPlay] = useState(true);
   const [gameOverStat, setGameOverStat] = useState([]);
   const [rightAnswers, setRightAnswers] = useState(0);
+  const [rightAnswersChain, setRightAnswersChain] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
 
   const fetchDataLink = (level, page) =>
@@ -97,10 +98,12 @@ export default function AudioCall({ level }) {
       setScore(score + 10);
       setRightAnswers(rightAnswers + 1);
       getGameOverStat(true);
+      setRightAnswersChain(rightAnswersChain + 1);
     } else {
       audioWrongAnswer.play();
       setWrongAnswers(wrongAnswers + 1);
       getGameOverStat(false);
+      setRightAnswersChain(0);
     }
     setWordsInRound(wordsInRound - 1);
     setIsAttemptToAnswer(true);
@@ -137,7 +140,10 @@ export default function AudioCall({ level }) {
   );
 
   useEffect(() => {
-    sessionStorage.setItem('audioStat', JSON.stringify(rightAnswers));
+    sessionStorage.setItem(
+      'audioStat',
+      JSON.stringify([rightAnswers, rightAnswersChain])
+    );
   });
 
   if (error) {
@@ -235,6 +241,7 @@ export default function AudioCall({ level }) {
                       setIsAttemptToAnswer(true);
                       setWordsInRound(wordsInRound - 1);
                       getGameOverStat(false);
+                      setWrongAnswers(wrongAnswers + 1);
                     }
                     !wordsInRound ? setGameOver(true) : setGameOver(false);
                   }}
@@ -250,10 +257,10 @@ export default function AudioCall({ level }) {
   }
 }
 
-AudioCall.defaultProps = {
+AudioСall.defaultProps = {
   level: '',
 };
 
-AudioCall.propTypes = {
+AudioСall.propTypes = {
   level: PropTypes.string,
 };

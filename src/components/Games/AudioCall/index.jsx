@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import StartPage from '../components/startPage';
-import AudioCall from './/components/AudioCallGame';
+import AudioCall from './components/AudioCallGame';
 
 export default function AudioCallStartPage() {
   const [isGame, setIsGame] = useState(false);

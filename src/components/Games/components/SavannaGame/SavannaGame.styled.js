@@ -13,7 +13,8 @@ const Container = styled.div`
 `;
 
 const Words = styled.ul`
-  max-width: 750px;
+  width: 850px;
+  max-width: 850px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

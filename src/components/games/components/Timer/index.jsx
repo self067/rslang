@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import moment from 'moment';
+import { TimerWrap } from './styled';
 import { TimerSVG } from './TimerSVG';
 
 function useInterval(callback, runTimer) {
@@ -14,13 +15,12 @@ function useInterval(callback, runTimer) {
       savedCallback.current();
     }
     if (runTimer) {
-      let id = setInterval(tick, 1000);
+      let id = setInterval(tick, 100);
 
       return () => {
         clearInterval(id);
       };
     }
-
     return undefined;
   }, [runTimer]);
 }
@@ -46,45 +46,6 @@ export const Timer = ({
   const goalTimeMilliseconds = timerCount * 1000;
   const degrees = 360 / (timerCount * 1000);
 
-  //  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    const getcounterText = () => {
-      const isTimerPositive = duration > goalTimeMilliseconds;
-      const getTimerDuration = () => {
-        return moment
-          .duration(
-            isTimerPositive
-              ? duration - goalTimeMilliseconds
-              : goalTimeMilliseconds - duration
-          )
-          .asMilliseconds();
-      };
-      let roundedMilliseconds = Math.round(getTimerDuration() / 1000) * 1000;
-      let prefix = isTimerPositive && roundedMilliseconds > 0 ? '+' : '';
-      return `${prefix}${moment.utc(roundedMilliseconds).format('mm:ss')}`;
-    };
-
-    setcounterText(getcounterText());
-  }, [duration, goalTimeMilliseconds]);
-
-  // useInterval(() => {
-  //   if (resetTimerRequested) {
-  //     reset();
-  //   }
-  // }, resetTimerRequested);
-
-  useInterval(() => {
-    setDuration(elapsedTime + moment(new Date()).diff(moment(startDateMoment)));
-    if (duration <= goalTimeMilliseconds) {
-      setDraw(drawCoord(duration * degrees));
-    } else {
-      setTimerIsRunning(false);
-      setDraw(drawCoord(359.99));
-      if (completeTimer) completeTimer(true);
-    }
-    if (timerDuration) timerDuration(duration);
-  }, timerIsRunning);
-
   const start = () => {
     setElapsedTime(duration);
     setStartDateMoment(moment(new Date()));
@@ -106,6 +67,46 @@ export const Timer = ({
     // resetTimer();
   };
 
+  useEffect(() => {
+    const getcounterText = () => {
+      const isTimerPositive = duration > goalTimeMilliseconds;
+      const getTimerDuration = () => {
+        return moment
+          .duration(
+            isTimerPositive
+              ? duration - goalTimeMilliseconds
+              : goalTimeMilliseconds - duration
+          )
+          .asMilliseconds();
+      };
+      let roundedMilliseconds = Math.round(getTimerDuration() / 1000) * 1000;
+      let prefix = isTimerPositive && roundedMilliseconds > 0 ? '+' : '';
+      return `${prefix}${moment.utc(roundedMilliseconds).format('mm:ss')}`;
+    };
+
+    setcounterText(getcounterText());
+  }, [duration, goalTimeMilliseconds]);
+
+  useEffect(() => start(), []);
+
+  useInterval(() => {
+    if (resetTimerRequested) {
+      reset();
+    }
+  }, resetTimerRequested);
+
+  useInterval(() => {
+    setDuration(elapsedTime + moment(new Date()).diff(moment(startDateMoment)));
+    if (duration <= goalTimeMilliseconds) {
+      setDraw(drawCoord(duration * degrees));
+    } else {
+      setTimerIsRunning(false);
+      setDraw(drawCoord(359.99));
+      if (completeTimer) completeTimer(true);
+    }
+    if (timerDuration) timerDuration(duration);
+  }, timerIsRunning);
+
   const drawCoord = (degrees) => {
     let radius = 60;
     let radians = (degrees * Math.PI) / 180;
@@ -121,7 +122,7 @@ export const Timer = ({
   };
 
   return (
-    <div style={{ userSelect: 'none', WebkitUserSelect: 'none' }}>
+    <TimerWrap>
       <TimerSVG
         timerText={counterText}
         draw={draw}
@@ -130,10 +131,8 @@ export const Timer = ({
         countdownColor={countdownColor}
         timerIsRunning={timerIsRunning}
         displayCountdown={displayCountdown}
-        clickStart={() =>
-          !completeTimer ? (timerIsRunning ? pause() : start()) : null
-        }
+        clickStart={() => (timerIsRunning ? pause() : start())}
       />
-    </div>
+    </TimerWrap>
   );
 };

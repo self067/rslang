@@ -9,7 +9,10 @@ import AudioCallStartPage from '../Games/AudioCall'; //открытие игры
 import AudioCall from '../Games/AudioCall/components/AudioCallGame'; //путь к самой игре
 import SavannahGame from 'components/Games/components/SavannaGame';
 import SavannahGameStartPage from 'components/Games/components/SavannaGame/SavannaGameStartPage';
-import { Sprint } from 'components/Games/Sprint';
+import OurGameStartPage from '../games/OurGame'; //открытие игры с выбором уровня сложности
+import Sprint from '../games/Sprint/components/SprintGame';
+import SprintStartPage from '../games/Sprint'; //открытие игры с выбором уровня сложности
+import OurGame from '../Games/OurGame/components/OurGame'; //путь к самой игре
 import UserContext from 'components/Auth/UserContext';
 
 export const App = () => {
@@ -22,12 +25,21 @@ export const App = () => {
           <Route exact path="/" component={Home} />
           <Route path="/dictionary" component={Dictionary} />
           <Route path="/games" component={Games} />
-          <Route path="/sprintGame" component={Sprint} />
+
           <Route path="/savannaGame" component={SavannahGame} />
           <Route path="/savannaGameStartPage" component={SavannahGameStartPage} />
-          <Route path="/statistic" component={Statistic} />
+
           <Route path="/audioGameStartPage" component={AudioCallStartPage} />
           <Route path="/audioGame" component={AudioCall} />
+
+          <Route path="/statistic" component={Statistic} />
+
+          <Route path="/sprintStartPage" component={SprintStartPage} />
+          <Route path="/sprintGame" component={Sprint} />
+
+          <Route path="/ourGameStartPage" component={OurGameStartPage} />
+          <Route path="/ourGame" component={OurGame} />
+
         </Switch>
       </Router>
     </UserContext.Provider>

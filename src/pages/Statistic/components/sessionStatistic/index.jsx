@@ -1,8 +1,7 @@
-import React, { useState, useMemo, useEffect, useContext } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 import { Button } from 'components/button';
 import { Link } from 'react-router-dom';
-import { StyledLoader } from 'components/loader';
 
 import {
   StyledStatRightPart,
@@ -21,67 +20,107 @@ import {
   StyledInfoLine,
   StyledImg,
 } from './styled';
-import UserContext from 'components/Auth/UserContext';
 
 function SessionStatistic() {
-  const { userInfo } = useContext(UserContext);
-  const baseUrl = process.env.REACT_APP_APIURL;
-  //const fetchDataLink = ` ${baseUrl}/users/${userId}/statistics`;
-  //const [error, setError] = useState(null);
-  //const [isLoaded, setIsLoaded] = useState(false);
-  //const [items, setItems] = useState([]);
-  const [i, setI] = useState([]);
-  useEffect(() => {
-    const gameOverStatistick = sessionStorage.getItem('audioStat');
-    if (gameOverStatistick) {
-      setI(JSON.parse(gameOverStatistick));
-    }
-  }, []);
+  const [audioStat, setAudioStat] = useState([]);
+  const [ourGameStat, setOurGameStat] = useState([]);
+  const [savannaStat, setSavannaStat] = useState([]);
+  const [sprintStat, setSprintStat] = useState([]);
 
-  /*useEffect(() => {
-    fetch(fetchDataLink)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setItems(result);
-          console.log(items);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  }, []);*/
+  useEffect(() => {
+    const audioStatistic = sessionStorage.getItem('audioStat');
+    if (audioStatistic) {
+      setAudioStat(JSON.parse(audioStatistic));
+    }
+
+    const ourGameStatistic = sessionStorage.getItem('ourGameStat');
+    if (ourGameStatistic) {
+      setOurGameStat(JSON.parse(ourGameStatistic));
+    }
+
+    const savannaStatistic = sessionStorage.getItem('');
+    if (savannaStatistic) {
+      setSavannaStat(JSON.parse(savannaStatistic));
+    }
+
+    const sprintStatistic = sessionStorage.getItem('');
+    if (sprintStatistic) {
+      setSprintStat(JSON.parse(sprintStatistic));
+    }
+  }, [audioStat, ourGameStat, savannaStat, sprintStat]);
+
+  const totalWords =
+    audioStat[0] + sprintStat[0] + audioStat[0] + savannaStat[0];
 
   const statInfo = useMemo(
     () => [
       {
         title: 'Выучено слов сегодня:',
-        value: /*learnedWords ||*/ 0,
+        value: totalWords ? totalWords : 0,
       },
       {
         title: 'Правильных ответов дано:',
-        value: /*Math.floor((rightAnswers * 100) / learnedWords) ||*/ 0,
+        value: 0 + '%' || Math.floor((totalWords * 100) / 50) + '%',
+      },
+      //---------------------//
+      {
+        title: 'Количество изученных слов в игре "Саванна"',
+        value: savannaStat[0] || 0,
       },
       {
-        title: 'Комбо правильных ответов в игре"Саванна"',
-        value: /*longestSeriesAnswersSavanna ||*/ 0,
+        title: 'Процент правильных ответов в игре "Саванна"',
+        value: 0 + '%' || Math.floor((savannaStat[0] * 100) / 10) + '%',
+      },
+      {
+        title: 'Комбо правильных ответов в игре "Саванна"',
+        value: savannaStat[1] || 0,
+      },
+
+      //---------------------//
+      {
+        title: 'Количество изученных слов в игре "Аудиовызов"',
+        value: audioStat[0] || 0,
+      },
+      {
+        title: 'Процент правильных ответов в игре "Аудиовызов"',
+        value: 0 + '%' || Math.floor((audioStat[0] * 100) / 10) + '%',
       },
       {
         title: 'Комбо правильных ответов в игре "Аудиовызов"',
-        value: /*longestSeriesAnswersAudioCall ||*/ 0,
+        value: audioStat[1] || 0,
+      },
+
+      //---------------------//
+
+      {
+        title: 'Количество изученных слов в игре "Спринт"',
+        value: sprintStat[0] || 0,
+      },
+      {
+        title: 'Процент правильных ответов в игре "Спринт"',
+        value: 0 + '%' || Math.floor((sprintStat[0] * 100) / 10) + '%',
       },
       {
         title: 'Комбо правильных ответов в игре "Спринт"',
-        value: /*longestSeriesAnswersSprint ||*/ 0,
+        value: sprintStat[1] || 0,
+      },
+
+      //---------------------//
+
+      {
+        title: 'Количество изученных слов в игре "Наводка"',
+        value: ourGameStat[0] || 0,
       },
       {
-        title: 'Комбо правильных ответов в игре "Своя игра"',
-        value: /*longestSeriesAnswersOurGame ||*/ 0,
+        title: 'Процент правильных ответов в игре "Наводка"',
+        value: 0 + '%' || Math.floor((ourGameStat[0] * 100) / 10) + '%',
+      },
+      {
+        title: 'Комбо правильных ответов в игре "Наводка"',
+        value: ourGameStat[1] || 0,
       },
     ],
-    []
+    [ourGameStat, sprintStat, audioStat, savannaStat, totalWords]
   );
 
   const todayInfo = useMemo(
@@ -98,11 +137,6 @@ function SessionStatistic() {
     [statInfo]
   );
 
-  /*if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <StyledLoader>Loading...</StyledLoader>;
-  } else {*/
   return (
     <StyledStatContainer>
       <StyledStatRightPart>
@@ -113,7 +147,9 @@ function SessionStatistic() {
       <StyledStatInfo>
         <StyledStatProgressContainer>
           <StyledStatProgress></StyledStatProgress>
-          <StyledInfoText>Выучено слов всего {i} из 3600</StyledInfoText>
+          <StyledInfoText>
+            Выучено слов всего {totalWords ? totalWords : 0} из 3600
+          </StyledInfoText>
         </StyledStatProgressContainer>
         <StyledInfoContainer>
           {todayInfo}

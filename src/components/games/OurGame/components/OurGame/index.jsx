@@ -1,40 +1,39 @@
 import React, { useState, useEffect, useCallback } from 'react';
+
 import {
-  Score,
   GameContent,
-  StyledContent,
   StyledWordsContainer,
-  StyledWord,
   StyledAnswerContent,
   StyledButtonBlock,
   StyledDescription,
   StyledHideDiv,
-} from './styled';
+} from 'components/Games/AudioCall/components/AudioCallGame/styled';
+import { StyledContent, StyledInput, Score } from './styled';
 import {
   StyledSection,
   StyledContainer,
   StyledVideo,
-} from 'components/Games/components/startPage/styled';
-import './styles.css';
+} from 'components/games/components/startPage/styled';
+import 'components/games/AudioСall/components/AudioCallGame/styles.css';
 import { Button } from 'components/button';
 import PropTypes from 'prop-types';
 import { StyledLoader } from 'components/loader';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
-import GameOver from 'components/Games/components/gameOver';
+import GameOver from 'components/games/components/gameOver';
 
 const audioCorrectAnswer = new Audio('audio/correct.mp3');
 const audioWrongAnswer = new Audio('audio/wrong.mp3');
 const audioNoAnswer = new Audio('audio/noAnswer.wav');
 const baseUrl = process.env.REACT_APP_APIURL;
 
-export default function AudioCall({ level }) {
+export default function OurGame({ level }) {
   const handle = useFullScreenHandle();
 
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
+
   const [score, setScore] = useState(0);
-  const [words, setWords] = useState(null); // список из 5 слов для игры
   const [rightWord, setRightWord] = useState(null); // произнесенное слово
   const [isAttemptToAnswer, setIsAttemptToAnswer] = useState(false); //ответ пользователя получен
   const [wordsInRound, setWordsInRound] = useState(10);
@@ -43,12 +42,15 @@ export default function AudioCall({ level }) {
   const [isSoundPlay, setIsSoundPlay] = useState(true);
   const [gameOverStat, setGameOverStat] = useState([]);
   const [rightAnswers, setRightAnswers] = useState(0);
+  const [rightAnswersChain, setRightAnswersChain] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
+  const [value, setValue] = useState('');
 
   const fetchDataLink = (level, page) =>
     `${baseUrl}/words?group=${level}&page=${page}`;
 
   const [url, setUrl] = useState(fetchDataLink(level, 1));
+  const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
 
   useEffect(() => {
     fetch(url)
@@ -65,16 +67,12 @@ export default function AudioCall({ level }) {
       );
   }, [url]);
 
-  const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
-
   useEffect(() => {
-    const listOfFiveWords = [...items]
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 5);
-    setWords(listOfFiveWords);
-    setRightWord(listOfFiveWords[getRandomInt(5)]);
+    const word = [...items].sort(() => Math.random() - 0.5).slice(0, 1);
+    setRightWord(word[0]);
     setIsAttemptToAnswer(false);
     setIsSoundPlay(true);
+    console.log(word);
   }, [items]);
 
   const gameOver = useCallback(() => {
@@ -87,20 +85,22 @@ export default function AudioCall({ level }) {
     }
   }, [isGameOver, wordsInRound, gameOver]);
 
-  function AttemptToAnswer(word) {
+  function AttemptToAnswer(tryWord) {
     if (isAttemptToAnswer) {
       return;
     }
-
-    if (word.id === rightWord.id) {
+    debugger;
+    if (tryWord.toLowerCase() === rightWord?.word.toLowerCase()) {
       audioCorrectAnswer.play();
       setScore(score + 10);
       setRightAnswers(rightAnswers + 1);
       getGameOverStat(true);
+      setRightAnswersChain(rightAnswersChain + 1);
     } else {
       audioWrongAnswer.play();
       setWrongAnswers(wrongAnswers + 1);
       getGameOverStat(false);
+      setRightAnswersChain(0);
     }
     setWordsInRound(wordsInRound - 1);
     setIsAttemptToAnswer(true);
@@ -137,7 +137,10 @@ export default function AudioCall({ level }) {
   );
 
   useEffect(() => {
-    sessionStorage.setItem('audioStat', JSON.stringify(rightAnswers));
+    sessionStorage.setItem(
+      'ourGameStat',
+      JSON.stringify([rightAnswers, rightAnswersChain])
+    );
   });
 
   if (error) {
@@ -167,7 +170,7 @@ export default function AudioCall({ level }) {
                 <i className="fas fa-expand-arrows-alt" />
               </button>
               <StyledDescription>
-                Выбери правильный перевод слова после воспроизведения аудио
+                Напиши слово, которое услышал.
               </StyledDescription>
 
               <Score> Очки: {score} из 100</Score>
@@ -179,7 +182,7 @@ export default function AudioCall({ level }) {
                     onClick={() => {
                       playSound();
                     }}
-                    src="images/volume.svg"
+                    src="images/volume_dark.png"
                     alt="volume_icon"
                   />
                   <img
@@ -191,36 +194,35 @@ export default function AudioCall({ level }) {
                     <img
                       onClick={() => playSound()}
                       className="volumeIconSmall"
-                      src="images/volume.svg"
+                      src="images/volume_dark.png"
                       alt="sound"
                     />
                     <StyledAnswerContent>
-                      {rightWord && rightWord.word}
+                      {rightWord && rightWord.word} <br />
+                      {rightWord && rightWord.transcription}
                     </StyledAnswerContent>
                   </div>
                 </StyledHideDiv>
 
                 <StyledWordsContainer>
-                  {words &&
-                    words.map((word, index) => {
-                      return (
-                        <StyledWord
-                          id={
-                            word.id !== rightWord.id && isAttemptToAnswer
-                              ? 'wrongAnswer'
-                              : ''
-                          }
-                          key={word.id}
-                          onClick={() => AttemptToAnswer(word)}
-                        >
-                          {word.id === rightWord.id && isAttemptToAnswer
-                            ? '☑'
-                            : index + 1}
-                          &nbsp;
-                          {word.wordTranslate}
-                        </StyledWord>
-                      );
-                    })}
+                  <label>
+                    <StyledInput
+                      onChange={(e) => setValue(e.target.value)}
+                      autoFocus
+                      autoComplete="off"
+                      type="text"
+                      value={value}
+                      placeholder="Напишите слово, которое услышал"
+                      required
+                    />
+                  </label>
+                  <Button
+                    buttonStyle="btn--light"
+                    buttonSize="btn--medium"
+                    onClick={() => AttemptToAnswer(value)}
+                  >
+                    Проверить
+                  </Button>
                 </StyledWordsContainer>
               </GameContent>
               <StyledButtonBlock>
@@ -230,11 +232,14 @@ export default function AudioCall({ level }) {
                   onClick={() => {
                     if (isAttemptToAnswer) {
                       setUrl(fetchDataLink(level, getRandomInt(30)));
+                      setValue('');
                     } else if (wordsInRound) {
                       audioNoAnswer.play();
                       setIsAttemptToAnswer(true);
                       setWordsInRound(wordsInRound - 1);
                       getGameOverStat(false);
+                      setWrongAnswers(wrongAnswers + 1);
+                      setValue('');
                     }
                     !wordsInRound ? setGameOver(true) : setGameOver(false);
                   }}
@@ -250,10 +255,10 @@ export default function AudioCall({ level }) {
   }
 }
 
-AudioCall.defaultProps = {
+OurGame.defaultProps = {
   level: '',
 };
 
-AudioCall.propTypes = {
+OurGame.propTypes = {
   level: PropTypes.string,
 };
