@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Timer } from 'components/games/components/Timer';
+import { Timer } from '../../../components/Timer';
 import { StyledLoader } from 'components/loader';
 import {
   Score,
@@ -22,34 +22,34 @@ import {
   ArrowImg,
   ResultImg,
 } from './styled';
-import {
-  StyledSection,
-  StyledVideo,
-} from 'components/games/components/startPage/styled';
 
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 
 let curWord = 0;
 
-export default function Sprint({ level }) {
+export default function Sprint() {
   const handle = useFullScreenHandle();
   const [score, setScore] = useState(0);
+  const [rightCount, setRightCount] = useState(0);
+  const [wrongCount, setWrongCount] = useState(0);
+
   const [resetTimerRequested, setResetTimer] = useState(false);
   const [words, setWords] = useState(null);
   const [wrongWords, setWrongWords] = useState(null);
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(Math.floor(Math.random() * 30));
   const [group, setGroup] = useState(0);
   const [error, setError] = useState(null);
   const [currentWord, setCurrentWord] = useState(0);
-  const [addScore, setAddScore] = useState(10);
+
+  const [addScore, setAddScore] = useState(0);
   const [checks, setChecks] = useState(0);
 
   const wrongPage = page > 15 ? page - 2 : page + 2;
+
   const truth = !!Math.floor(Math.random() * 2);
-
-  console.log('truth=', truth ? 'true' : 'false');
-
+  console.log(truth ? 'true' : 'false');
   const timerCount = 10;
 
   const apiurl = process.env.REACT_APP_APIURL;
@@ -57,33 +57,49 @@ export default function Sprint({ level }) {
   const wrongWordsUrl = `${apiurl}/words?group=${group}&page=${wrongPage}`;
 
   const nextWord = (rig) => {
+    console.log('Next', curWord, currentWord);
+
     setCurrentWord(++curWord);
+
+    console.log('score=', score, 'addScore=', addScore);
+
     if (rig) {
-      if (addScore < 80) setAddScore(addScore * 2);
-      if (checks < 3) setChecks(checks + 1);
+      setRightCount(rightCount + 1);
+      let ascore = addScore;
+      if (checks < 3 && ascore < 3) setChecks(checks + 1);
+      else {
+        if (addScore < 3) {
+          ascore = addScore + 1;
+          setAddScore(ascore);
+        }
+        setChecks(1);
+      }
+
+      setScore(score + 2 ** ascore * 10);
     } else {
-      setAddScore(10);
+      setWrongCount(wrongCount + 1);
+      setAddScore(0);
       setChecks(0);
     }
 
-    console.log(score, addScore);
-
-    setScore(score + addScore);
+    // setScore(score + addScore);
 
     if (curWord > 19) {
       setPage(page > 28 ? 0 : page + 1);
       curWord = 0;
       setCurrentWord(curWord);
     }
+
+    // console.log(rightCount, wrongCount);
   };
 
   const onLeft = () => {
-    console.log('onLeft', curWord, page);
+    console.log('onLeft', curWord, currentWord);
     nextWord(!truth);
   };
 
   const onRight = () => {
-    console.log('onRight', curWord, page);
+    console.log('onRight', curWord, currentWord);
     nextWord(truth);
   };
 
@@ -121,18 +137,16 @@ export default function Sprint({ level }) {
 
   useEffect(() => {
     const listener = (e) => {
-      console.log(e.key);
+      e.preventDefault();
       if (e.key === 'ArrowLeft') {
-        onLeft(currentWord);
+        onLeft();
       }
       if (e.key === 'ArrowRight') {
-        onRight(currentWord);
+        onRight();
       }
     };
 
-    // if (open) {
     document.addEventListener('keydown', listener);
-    // }
 
     return () => document.removeEventListener('keydown', listener);
   }, []);
@@ -158,72 +172,82 @@ export default function Sprint({ level }) {
     ? wrongWords[currentWord]?.wordTranslate
     : '';
 
+  const Checks = () => {
+    let res = [];
+    if (addScore < 3) {
+      for (let i = 0; i < checks; i++)
+        res.push(<Img2 key={i} src="images/sprint/CHECK1.png" alt="" />);
+      for (let i = checks; i < 3; i++)
+        res.push(<Img2 key={i} src="images/sprint/CHECK0.png" alt="" />);
+    } else res.push(<Img2 key={11} src="images/sprint/CHECK1.png" alt="" />);
+    return <>{res}</>;
+  };
+
+  const PandasImgs = () => {
+    let res = [];
+    for (let i = 0; i <= addScore; i++)
+      res.push(
+        <PandaImg
+          key={'panda' + i}
+          src={'images/sprint/panda' + i + '.png'}
+          alt=""
+        />
+      );
+    return <>{res}</>;
+  };
+
   return error ? (
     <div>Error: {error.message}</div>
   ) : !isLoaded ? (
     <StyledLoader>Loading...</StyledLoader>
   ) : (
-    <StyledSection>
-      <StyledVideo src="video/video.mp4" autoPlay loop muted />
-      <SprintSection>
-        <FullScreen handle={handle}>
-          <Score>{score}</Score>
+    <SprintSection>
+      <FullScreen handle={handle}>
+        <Score>{score}</Score>
 
-          <Card>
-            <PandaTop src="images/sprint/panda_pl.png" loading="lazy" alt="" />
+        <Card>
+          <PandaTop src="images/sprint/panda_pl.png" loading="lazy" alt="" />
 
-            <Wrapper>
-              <BoxColor>
-                <WordScore>+ {addScore} очков за слово</WordScore>
-                <CheckBoxes>
-                  {checks > 0 ? (
-                    <>
-                      <Img2 src="images/sprint/CHECK1.png" alt="" />
-                      <Img2 src="images/sprint/CHECK1.png" alt="" />
-                      <Img2 src="images/sprint/CHECK1.png" alt="" />
-                    </>
-                  ) : (
-                    <Img2 src="images/sprint/CHECK1.png" alt="" />
-                  )}
-                </CheckBoxes>
-              </BoxColor>
+          <Wrapper>
+            <BoxColor>
+              <WordScore>+ {2 ** addScore * 10} очков за слово</WordScore>
+              <CheckBoxes>
+                <Checks />
+              </CheckBoxes>
+            </BoxColor>
 
-              <PandaBox>
-                <PandaImg src="images/sprint/panda4.png" alt="" />
-                <PandaImg src="images/sprint/panda3.png" alt="" />
-                <PandaImg src="images/sprint/panda5.png" alt="" />
-                <PandaImg src="images/sprint/panda1.png" alt="" />
-              </PandaBox>
-              <WordsBox>
-                <TextCard>{word}</TextCard>
-                <TextCard>{wordTranslate}</TextCard>
-              </WordsBox>
-            </Wrapper>
-          </Card>
+            <PandaBox>
+              <PandasImgs />
+            </PandaBox>
+            <WordsBox>
+              <TextCard>{word}</TextCard>
+              <TextCard>{wordTranslate}</TextCard>
+            </WordsBox>
+          </Wrapper>
+        </Card>
 
-          <ButtonsBox>
-            <ArrowImg src="images/sprint/arrow_l.png" alt="" />
-            <NoButton onClick={() => onLeft()}>неверно</NoButton>
-            <ResultImg src="images/sprint/CHECK1.png" alt="" />
-            <YesButton onClick={() => onRight()}>верно</YesButton>
-            <ArrowImg src="images/sprint/arrow_r.png" alt="" />
-          </ButtonsBox>
+        <ButtonsBox>
+          <ArrowImg src="images/sprint/arrow_l.png" alt="" />
+          <NoButton onClick={() => onLeft()}>неверно</NoButton>
+          <ResultImg src="images/sprint/CHECK1.png" alt="" />
+          <YesButton onClick={() => onRight()}>верно</YesButton>
+          <ArrowImg src="images/sprint/arrow_r.png" alt="" />
+        </ButtonsBox>
 
-          <PandaBottom src="images/sprint/panda_r.png" alt="" />
+        <PandaBottom src="images/sprint/panda_r.png" alt="" />
 
-          <Timer
-            outerColor="#643949"
-            innerColor="#C3E1C9"
-            countdownColor="#643949"
-            timerCount={timerCount}
-            displayCountdown={true}
-            timerDuration={timerDuration}
-            resetTimerRequested={resetTimerRequested}
-            resetTimer={resetTimer}
-            completeTimer={completeTimer}
-          />
-        </FullScreen>
-      </SprintSection>
-    </StyledSection>
+        <Timer
+          outerColor="#643949"
+          innerColor="#C3E1C9"
+          countdownColor="#643949"
+          timerCount={timerCount} // количество секунд
+          displayCountdown={true}
+          timerDuration={timerDuration} // callback на каждый чих таймера
+          resetTimerRequested={resetTimerRequested}
+          resetTimer={resetTimer}
+          completeTimer={completeTimer} // callback на окончание таймера
+        />
+      </FullScreen>
+    </SprintSection>
   );
 }
