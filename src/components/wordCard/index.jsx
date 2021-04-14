@@ -102,17 +102,22 @@ const WordCard = ({
   useEffect(() => {
     if (sentCardInfo && userInfo) {
       const url = `https://rslangbe-team105.herokuapp.com/users/${userInfo.userId}/words/${sentCardInfo['id']}`;
-      console.log(`url on usEffect - ${url}`);
+      let optionParams = sentCardInfo.isDeleted
+        ? {
+            isDeleted: true,
+            page: pageNumber.toString(),
+          }
+        : sentCardInfo.isHard
+        ? {
+            isHard: true,
+            page: pageNumber.toString(),
+          }
+        : null;
       const data = JSON.stringify({
         difficulty: wordDifficulty.toString(),
-        optional: {
-          isDeleted: sentCardInfo.isDeleted ? sentCardInfo.isDeleted : false,
-          isHard: sentCardInfo.isHard ? sentCardInfo.isHard : false,
-          page: pageNumber.toString(),
-        },
+        optional: optionParams,
       });
-      console.log(`data in useEffect - `);
-      console.log(data);
+
       const options = {
         method: 'POST',
         headers: {
@@ -121,8 +126,6 @@ const WordCard = ({
         },
         body: data,
       };
-      console.log(`options in useEffect - `);
-      console.log(options);
       fetch(url, options).then((data) => {
         if (!data.ok) {
           throw new Error(data.statusText);
@@ -206,7 +209,7 @@ const WordCard = ({
                   id="addToHardBtn"
                   data-tip="Только для зарегистрированных пользователей"
                   onClick={(e) => {
-                    if (!userInfo) return;
+                    if (!userInfo || (userInfo && isHard)) return;
                     setSentCardInfo({
                       id: id,
                       isHard: true,
@@ -233,7 +236,7 @@ const WordCard = ({
                   className="card__add-to-btn red"
                   data-tip="Только для зарегистрированных пользователей"
                   onClick={(e) => {
-                    if (!userInfo) return;
+                    if (!userInfo || (userInfo && isHard)) return;
                     setSentCardInfo({
                       id: id,
                       isDeleted: true,
@@ -249,6 +252,11 @@ const WordCard = ({
                 {!userInfo ? (
                   <ReactTooltip type="error" isCapture="false">
                     <span>Только для зарегистрированных пользователей</span>
+                  </ReactTooltip>
+                ) : null}
+                {userInfo && isHard ? (
+                  <ReactTooltip type="error" isCapture="false">
+                    <span>Слово уже добавлено в словарь</span>
                   </ReactTooltip>
                 ) : null}
               </>
