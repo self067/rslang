@@ -72,7 +72,7 @@ const Index = ({ level = 0 }) => {
     onRest: ({ finished }) => {
       if (finished) {
         setLives((lives) => lives - 1);
-        setScore((score) => score === -1 ? -20 : score - 20);
+        setScore((score) => score === -1 ? -5 : score - 5);
       }
     },
   });
@@ -89,7 +89,7 @@ const Index = ({ level = 0 }) => {
           setRightAnswersChain((rightAnswerChain) => rightAnswerChain + 1);
         } else {
           setLives((lives) => lives - 1);
-          setScore((score) => score === -1 ? -20 : score - 20);
+          setScore((score) => score === -1 ? -5 : score - 5);
           setWrongWords((wrongWord) => wrongWord + 1);
           setGameOverStat((prevWords) => [...prevWords, { ...word, isCorrect: false }]);
           setRightAnswersChain(0);
@@ -150,7 +150,7 @@ const Index = ({ level = 0 }) => {
       {!stopTimer && <GameLoader time={3} onFinish={onFinishTimer} />}
       {stopTimer && <GameLife currentNumberOfLives={lives} totalLives={4} />}
       {isGameOver && <GameOver gameOverStat={gameOverStat} rightAnswers={rightWords} wrongAnswers={wrongWords} />}
-      <Score>Очки: {(score === -1 || score <= 0) ? 'Могло быть и лучше :)' : score}</Score>
+      <Score>Очки: {(score === -1) ? 0 : score <= 0 ? "Могло быть лучше :)" : score}</Score>
       <AnimatedWord
         style={{
           top: x.to((deltaX) => `${deltaX}%`),

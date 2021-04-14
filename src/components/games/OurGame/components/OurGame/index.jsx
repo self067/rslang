@@ -13,13 +13,13 @@ import {
   StyledSection,
   StyledContainer,
   StyledVideo,
-} from 'components/games/components/startPage/styled';
-import 'components/games/AudioСall/components/AudioCallGame/styles.css';
+} from 'components/Games/components/startPage/styled';
+import 'components/Games/AudioCall/components/AudioCallGame/styles.css';
 import { Button } from 'components/button';
 import PropTypes from 'prop-types';
 import { StyledLoader } from 'components/loader';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
-import GameOver from 'components/games/components/gameOver';
+import GameOver from 'components/Games/components/gameOver';
 
 const audioCorrectAnswer = new Audio('audio/correct.mp3');
 const audioWrongAnswer = new Audio('audio/wrong.mp3');
