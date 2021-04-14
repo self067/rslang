@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSpring, a } from 'react-spring';
-import { Container, Words, Word, SpecialWord } from './SavannaGame.styled';
+import { Container, Words, Word, SpecialWord, Score } from './SavannaGame.styled';
 import GameLife from '../GameLife';
 import Stone from './components/Stone';
 import GameLoader from '../GameLoader';
@@ -41,6 +41,7 @@ const Index = ({ level = 0 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFailedToFetch, setIsFailedToFetch] = useState(false);
   const [score, setScore] = useState(-1);
+  const [rightAnswersChain, setRightAnswersChain] = useState(0);
   const [{ partOfWordsToShowOnScreen, guessWord }, setSelectedWords] = useState({
     partOfWordsToShowOnScreen: null,
     guessWord: null,
@@ -85,16 +86,25 @@ const Index = ({ level = 0 }) => {
           setScore((score) => score === -1 ? 20 : score + 20);
           setRightWords((rightWord) => rightWord + 1);
           setGameOverStat((prevWords) => [...prevWords, { ...word, isCorrect: true }]);
+          setRightAnswersChain((rightAnswerChain) => rightAnswerChain + 1);
         } else {
           setLives((lives) => lives - 1);
           setScore((score) => score === -1 ? -20 : score - 20);
           setWrongWords((wrongWord) => wrongWord + 1);
           setGameOverStat((prevWords) => [...prevWords, { ...word, isCorrect: false }]);
+          setRightAnswersChain(0);
         }
         setWordsInRound((roundWords) => roundWords - 5);
       });
     };
   };
+
+  useEffect(() => {
+    sessionStorage.setItem(
+      'savannaStat',
+      JSON.stringify([rightWords, rightAnswersChain])
+  )
+  }, [rightWords, rightAnswersChain]);
 
   useEffect(() => {
     if (wordsList?.length > 0) {
@@ -140,6 +150,7 @@ const Index = ({ level = 0 }) => {
       {!stopTimer && <GameLoader time={3} onFinish={onFinishTimer} />}
       {stopTimer && <GameLife currentNumberOfLives={lives} totalLives={4} />}
       {isGameOver && <GameOver gameOverStat={gameOverStat} rightAnswers={rightWords} wrongAnswers={wrongWords} />}
+      <Score>Очки: {(score === -1 || score <= 0) ? 'Могло быть и лучше :)' : score}</Score>
       <AnimatedWord
         style={{
           top: x.to((deltaX) => `${deltaX}%`),

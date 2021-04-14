@@ -21,6 +21,15 @@ const Words = styled.ul`
   align-items: center;
 `;
 
+const Score = styled.h3`
+  position: absolute;
+  top: 100px;
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 500;
+`;
+
 const Word = styled.li`
   cursor: pointer;
   list-style: none;
@@ -44,4 +53,4 @@ const SpecialWord = styled.span`
   pointer-events: none;
 `;
 
-export { Container, Words, Word, SpecialWord };
+export { Container, Words, Word, SpecialWord, Score };
