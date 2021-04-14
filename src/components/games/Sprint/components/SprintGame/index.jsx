@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Timer } from '../../../components/Timer';
 import { StyledLoader } from 'components/loader';
 import {
@@ -22,34 +22,45 @@ import {
   ArrowImg,
   ResultImg,
 } from './styled';
+import {
+  StyledSection,
+  StyledVideo,
+} from 'components/games/components/startPage/styled';
 
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
+import GameOver from 'components/games/components/gameOver';
 
 let curWord = 0;
+
+const audioCorrectAnswer = new Audio('audio/correct.mp3');
+const audioWrongAnswer = new Audio('audio/wrong.mp3');
 
 export default function Sprint() {
   const handle = useFullScreenHandle();
   const [score, setScore] = useState(0);
   const [rightCount, setRightCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
-
   const [resetTimerRequested, setResetTimer] = useState(false);
   const [words, setWords] = useState(null);
   const [wrongWords, setWrongWords] = useState(null);
-
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(Math.floor(Math.random() * 30));
   const [group, setGroup] = useState(0);
   const [error, setError] = useState(null);
   const [currentWord, setCurrentWord] = useState(0);
-
   const [addScore, setAddScore] = useState(0);
   const [checks, setChecks] = useState(0);
+
+  const [rightAnswers, setRightAnswers] = useState(0);
+  const [rightAnswersChain, setRightAnswersChain] = useState(0);
+  const [wrongAnswers, setWrongAnswers] = useState(0);
+  const [isGameOver, setGameOver] = useState(false);
+  const [gameOverStat, setGameOverStat] = useState([]);
 
   const wrongPage = page > 15 ? page - 2 : page + 2;
 
   const truth = !!Math.floor(Math.random() * 2);
-  console.log(truth ? 'true' : 'false');
+
   const timerCount = 10;
 
   const apiurl = process.env.REACT_APP_APIURL;
@@ -57,14 +68,14 @@ export default function Sprint() {
   const wrongWordsUrl = `${apiurl}/words?group=${group}&page=${wrongPage}`;
 
   const nextWord = (rig) => {
-    console.log('Next', curWord, currentWord);
-
     setCurrentWord(++curWord);
-
-    console.log('score=', score, 'addScore=', addScore);
 
     if (rig) {
       setRightCount(rightCount + 1);
+      setRightAnswers(rightAnswers + 1);
+      setRightAnswersChain(rightAnswersChain + 1);
+      audioCorrectAnswer.play();
+      getGameOverStat(true);
       let ascore = addScore;
       if (checks < 3 && ascore < 3) setChecks(checks + 1);
       else {
@@ -80,26 +91,24 @@ export default function Sprint() {
       setWrongCount(wrongCount + 1);
       setAddScore(0);
       setChecks(0);
+      //setRightAnswersChain(0);
+      setWrongAnswers(wrongAnswers + 1);
+      audioWrongAnswer.play();
+      getGameOverStat(false);
     }
-
-    // setScore(score + addScore);
 
     if (curWord > 19) {
       setPage(page > 28 ? 0 : page + 1);
       curWord = 0;
       setCurrentWord(curWord);
     }
-
-    // console.log(rightCount, wrongCount);
   };
 
   const onLeft = () => {
-    console.log('onLeft', curWord, currentWord);
     nextWord(!truth);
   };
 
   const onRight = () => {
-    console.log('onRight', curWord, currentWord);
     nextWord(truth);
   };
 
@@ -196,58 +205,102 @@ export default function Sprint() {
     return <>{res}</>;
   };
 
+  useEffect(() => {
+    sessionStorage.setItem(
+      'sprintGameStat',
+      JSON.stringify([rightAnswers, rightAnswersChain])
+    );
+  });
+
+  const getGameOverStat = useCallback(
+    (isCorrect) => {
+      setGameOverStat([
+        ...gameOverStat,
+        {
+          word: word.word,
+          id: word.id,
+          audio: word.audio,
+          wordTranslate: word.wordTranslate,
+          isCorrect: isCorrect,
+        },
+      ]);
+    },
+    [gameOverStat, word]
+  );
+
+  const gameOver = useCallback(() => {
+    setGameOver(true);
+  }, []);
+
+  useEffect(() => {
+    /*if (wordsInRound === 0) {
+       gameOver();
+     }*/
+  }, [isGameOver, /*wordsInRound,*/ gameOver]);
+
   return error ? (
     <div>Error: {error.message}</div>
   ) : !isLoaded ? (
     <StyledLoader>Loading...</StyledLoader>
   ) : (
-    <SprintSection>
-      <FullScreen handle={handle}>
-        <Score>{score}</Score>
+    <StyledSection>
+      <StyledVideo src="video/video.mp4" autoPlay loop muted />
+      <SprintSection>
+        <FullScreen handle={handle}>
+          {isGameOver ? (
+            <GameOver
+              rightAnswers={rightAnswers}
+              wrongAnswers={wrongAnswers}
+              gameOverStat={gameOverStat}
+            />
+          ) : null}
 
-        <Card>
-          <PandaTop src="images/sprint/panda_pl.png" loading="lazy" alt="" />
+          <Score>{score}</Score>
 
-          <Wrapper>
-            <BoxColor>
-              <WordScore>+ {2 ** addScore * 10} очков за слово</WordScore>
-              <CheckBoxes>
-                <Checks />
-              </CheckBoxes>
-            </BoxColor>
+          <Card>
+            <PandaTop src="images/sprint/panda_pl.png" loading="lazy" alt="" />
 
-            <PandaBox>
-              <PandasImgs />
-            </PandaBox>
-            <WordsBox>
-              <TextCard>{word}</TextCard>
-              <TextCard>{wordTranslate}</TextCard>
-            </WordsBox>
-          </Wrapper>
-        </Card>
+            <Wrapper>
+              <BoxColor>
+                <WordScore>+ {2 ** addScore * 10} очков за слово</WordScore>
+                <CheckBoxes>
+                  <Checks />
+                </CheckBoxes>
+              </BoxColor>
 
-        <ButtonsBox>
-          <ArrowImg src="images/sprint/arrow_l.png" alt="" />
-          <NoButton onClick={() => onLeft()}>неверно</NoButton>
-          <ResultImg src="images/sprint/CHECK1.png" alt="" />
-          <YesButton onClick={() => onRight()}>верно</YesButton>
-          <ArrowImg src="images/sprint/arrow_r.png" alt="" />
-        </ButtonsBox>
+              <PandaBox>
+                <PandasImgs />
+              </PandaBox>
+              <WordsBox>
+                <TextCard>{word}</TextCard>
+                <TextCard>{wordTranslate}</TextCard>
+              </WordsBox>
+            </Wrapper>
+          </Card>
 
-        <PandaBottom src="images/sprint/panda_r.png" alt="" />
+          <ButtonsBox>
+            <ArrowImg src="images/sprint/arrow_l.png" alt="" />
+            <NoButton onClick={() => onLeft()}>неверно</NoButton>
+            <ResultImg src="images/sprint/CHECK1.png" alt="" />
+            <YesButton onClick={() => onRight()}>верно</YesButton>
+            <ArrowImg src="images/sprint/arrow_r.png" alt="" />
+          </ButtonsBox>
 
-        <Timer
-          outerColor="#643949"
-          innerColor="#C3E1C9"
-          countdownColor="#643949"
-          timerCount={timerCount} // количество секунд
-          displayCountdown={true}
-          timerDuration={timerDuration} // callback на каждый чих таймера
-          resetTimerRequested={resetTimerRequested}
-          resetTimer={resetTimer}
-          completeTimer={completeTimer} // callback на окончание таймера
-        />
-      </FullScreen>
-    </SprintSection>
+          <PandaBottom src="images/sprint/panda_r.png" alt="" />
+
+          <Timer
+            outerColor="#643949"
+            innerColor="#C3E1C9"
+            countdownColor="#643949"
+            timerCount={timerCount} // количество секунд
+            displayCountdown={true}
+            timerDuration={timerDuration} // callback на каждый чих таймера
+            resetTimerRequested={resetTimerRequested}
+            resetTimer={resetTimer}
+            completeTimer={completeTimer} // callback на окончание таймера
+          />
+        </FullScreen>
+      </SprintSection>
+    </StyledSection>
   );
 }

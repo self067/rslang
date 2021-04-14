@@ -43,7 +43,7 @@ function SessionStatistic() {
       setSavannaStat(JSON.parse(savannaStatistic));
     }
 
-    const sprintStatistic = sessionStorage.getItem('');
+    const sprintStatistic = sessionStorage.getItem('sprintGameStat');
     if (sprintStatistic) {
       setSprintStat(JSON.parse(sprintStatistic));
     }
