@@ -17,7 +17,7 @@ export const SprintSection = styled.section`
 `;
 
 export const Card = styled.div`
-  width: 600px;
+  max-width: 600px;
   margin-right: auto;
   margin-left: auto;
 `;
@@ -44,15 +44,16 @@ export const BoxColor = styled.div`
 export const CheckBoxes = styled.div`
   display: flex;
   width: 20%;
+  height: 25px;
   margin-top: 10px;
   margin-right: auto;
   margin-left: auto;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
 export const ButtonsBox = styled.div`
   display: flex;
-  width: 50%;
+  /* width: 50%; */
   max-width: 550px;
   margin-top: 5vh;
   margin-right: auto;
@@ -67,7 +68,7 @@ export const PandaBox = styled.div`
   margin-right: auto;
   margin-left: auto;
   padding-top: 15px;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 export const PandaBottom = styled.img`
   position: absolute;
@@ -76,6 +77,9 @@ export const PandaBottom = styled.img`
   right: 0%;
   bottom: 0%;
   width: 250px;
+  @media screen and (max-width: 991px) {
+    display: none;
+  }
 `;
 
 export const PandaImg = styled.img`
