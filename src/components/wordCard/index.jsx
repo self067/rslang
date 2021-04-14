@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import UserContext from '../Auth/UserContext';
+import ReactTooltip from 'react-tooltip';
 import './styles.css';
 import {
   SoundOnIcon,
@@ -101,17 +102,22 @@ const WordCard = ({
   useEffect(() => {
     if (sentCardInfo && userInfo) {
       const url = `https://rslangbe-team105.herokuapp.com/users/${userInfo.userId}/words/${sentCardInfo['id']}`;
-      console.log(`url on usEffect - ${url}`);
+      let optionParams = sentCardInfo.isDeleted
+        ? {
+            isDeleted: true,
+            page: pageNumber.toString(),
+          }
+        : sentCardInfo.isHard
+        ? {
+            isHard: true,
+            page: pageNumber.toString(),
+          }
+        : null;
       const data = JSON.stringify({
         difficulty: wordDifficulty.toString(),
-        optional: {
-          isDeleted: sentCardInfo.isDeleted ? sentCardInfo.isDeleted : false,
-          isHard: sentCardInfo.isHard ? sentCardInfo.isHard : false,
-          page: pageNumber.toString(),
-        },
+        optional: optionParams,
       });
-      console.log(`data in useEffect - `);
-      console.log(data);
+
       const options = {
         method: 'POST',
         headers: {
@@ -120,8 +126,6 @@ const WordCard = ({
         },
         body: data,
       };
-      console.log(`options in useEffect - `);
-      console.log(options);
       fetch(url, options).then((data) => {
         if (!data.ok) {
           throw new Error(data.statusText);
@@ -198,41 +202,64 @@ const WordCard = ({
           </div>
 
           <div className="card__section">
-            {isChecked['difficultWords'] && userInfo ? (
-              <button
-                className="card__add-to-btn blue"
-                id="addToHardBtn"
-                onClick={(e) => {
-                  setSentCardInfo({
-                    id: id,
-                    isHard: true,
-                  });
-                  setTimeout(() => {
-                    toggleCardState();
-                    setPageReload(!pageReload);
-                  }, 2000);
-                }}
-              >
-                В сложные слова
-              </button>
+            {isChecked['difficultWords'] ? (
+              <>
+                <button
+                  className="card__add-to-btn blue"
+                  id="addToHardBtn"
+                  data-tip="Только для зарегистрированных пользователей"
+                  onClick={(e) => {
+                    if (!userInfo || (userInfo && isHard)) return;
+                    setSentCardInfo({
+                      id: id,
+                      isHard: true,
+                    });
+                    setTimeout(() => {
+                      toggleCardState();
+                      setPageReload(!pageReload);
+                    }, 2000);
+                  }}
+                >
+                  В сложные слова
+                </button>
+                {!userInfo ? (
+                  <ReactTooltip type="error" isCapture="false">
+                    <span>Только для зарегистрированных пользователей</span>
+                  </ReactTooltip>
+                ) : null}
+              </>
             ) : null}
-            {isChecked['deleteWords'] && userInfo ? (
-              <button
-                id="addToDeletedBtn"
-                className="card__add-to-btn red"
-                onClick={(e) => {
-                  setSentCardInfo({
-                    id: id,
-                    isDeleted: true,
-                  });
-                  setTimeout(() => {
-                    toggleCardState();
-                    setPageReload(!pageReload);
-                  }, 1000);
-                }}
-              >
-                В удаленные слова
-              </button>
+            {isChecked['deleteWords'] ? (
+              <>
+                <button
+                  id="addToDeletedBtn"
+                  className="card__add-to-btn red"
+                  data-tip="Только для зарегистрированных пользователей"
+                  onClick={(e) => {
+                    if (!userInfo || (userInfo && isHard)) return;
+                    setSentCardInfo({
+                      id: id,
+                      isDeleted: true,
+                    });
+                    setTimeout(() => {
+                      toggleCardState();
+                      setPageReload(!pageReload);
+                    }, 1000);
+                  }}
+                >
+                  В удаленные слова
+                </button>
+                {!userInfo ? (
+                  <ReactTooltip type="error" isCapture="false">
+                    <span>Только для зарегистрированных пользователей</span>
+                  </ReactTooltip>
+                ) : null}
+                {userInfo && isHard ? (
+                  <ReactTooltip type="error" isCapture="false">
+                    <span>Слово уже добавлено в словарь</span>
+                  </ReactTooltip>
+                ) : null}
+              </>
             ) : null}
           </div>
         </div>

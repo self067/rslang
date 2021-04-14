@@ -102,7 +102,6 @@ function Dictionary() {
         .then((res) => res.json())
         .then(
           (words) => {
-            console.log(delWordsUrl);
             setDeletedUserWords(words);
           },
           (error) => {
@@ -126,7 +125,6 @@ function Dictionary() {
   } else if (!isLoaded) {
     return <StyledLoader>Loading...</StyledLoader>;
   } else {
-    console.log(deletedUserWords);
     const cardsContainer =
       userInfo && !deletedUserWords ? (
         <StyledLoader>Loading...</StyledLoader>
@@ -221,7 +219,6 @@ function Dictionary() {
                 pageRangeDisplayed={2}
                 marginPagesDisplayed={3}
                 onPageChange={(page) => {
-                  console.log(page.selected);
                   setCard(null);
                   if (userInfo) setDeletedUserWords(null);
                   setPage(page.selected);

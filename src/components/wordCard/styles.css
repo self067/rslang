@@ -7,6 +7,12 @@
   min-width: 262px;
   transition: all 0.2s ease-in-out;
 }
+@media screen and (max-width: 1260px) {
+  .card {
+    width: calc((100% / 3) - 30px);
+  }
+}
+
 @media screen and (max-width: 991px) {
   .card {
     width: calc((100% / 2) - 30px);
@@ -260,7 +266,7 @@
 .blue:hover {
   background-color: #173b67;
 }
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 1261px) {
   .card:nth-of-type(n + 2) .card__expander {
     margin-left: calc(-100% - 30px);
   }
@@ -275,6 +281,28 @@
   }
   .card__expander {
     width: calc(400% + 90px);
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1260px){
+  .card:nth-of-type(2n + 1) .card__expander {
+    margin-left: calc(-100% - 30px);
+  }
+
+  .card:nth-of-type(3n) .card__expander {
+    margin-left: calc(-200% - 60px);
+  }
+
+  .card:nth-of-type(3n + 1) .card__expander {
+    margin-left: 0px;
+  }
+
+  .card:nth-of-type(3n + 2) .card__expander {
+    margin-left: calc(-100% - 30px);
+  }
+
+  .card__expander {
+    width: calc(300% + 60px);
   }
 }
 @media screen and (min-width: 768px) and (max-width: 991px) {

@@ -1,9 +1,8 @@
 /* ====================== WORD LIST ==================== */
 
 .cards__wrapper {
-  margin: 30px auto;
+  margin: 30px 20px;
   max-width: 1200px;
-  min-width: 87%;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 10px;
 }
