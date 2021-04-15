@@ -198,9 +198,29 @@ export default function Sprint() {
   };
 
   useEffect(() => {
-    sessionStorage.setItem(
+    let totalAmount, rightAnswersAmount, totalRightAnswersChain;
+    if (localStorage.getItem('sprintGameStat')) {
+      let gameStat = JSON.parse(localStorage.getItem('sprintGameStat'));
+      totalAmount =
+        +rightAnswers + +wrongAnswers + +gameStat.rightAnswersAmount;
+      rightAnswersAmount = +rightAnswers + +gameStat.rightAnswersAmount;
+      totalRightAnswersChain =
+        rightAnswersChain > gameStat.totalRightAnswersChain
+          ? rightAnswersChain
+          : gameStat.totalRightAnswersChain;
+    } else {
+      totalAmount = +rightAnswers + +wrongAnswers;
+      rightAnswersAmount = +rightAnswers;
+      totalRightAnswersChain = +rightAnswersChain;
+    }
+    console.log(totalAmount);
+    localStorage.setItem(
       'sprintGameStat',
-      JSON.stringify([rightAnswers, rightAnswersChain])
+      JSON.stringify({
+        totalAmount: totalAmount,
+        rightAnswersAmount: rightAnswersAmount,
+        totalRightAnswersChain: totalRightAnswersChain,
+      })
     );
   });
 
