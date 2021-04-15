@@ -5,14 +5,14 @@ import Home from 'pages/Home';
 import Dictionary from 'pages/Dictionary';
 import Games from 'pages/Games';
 import Statistic from 'pages/Statistic';
-import AudioCallStartPage from '../Games/AudioCall'; //открытие игры с выбором уровня сложности
-import AudioCall from '../Games/AudioCall/components/AudioCallGame'; //путь к самой игре
-import SavannahGame from 'components/Games/components/SavannaGame';
-import SavannahGameStartPage from 'components/Games/components/SavannaGame/SavannaGameStartPage';
-import OurGameStartPage from '../Games/OurGame'; //открытие игры с выбором уровня сложности
-import Sprint from '../Games/Sprint/components/SprintGame';
-import SprintStartPage from '../Games/Sprint'; //открытие игры с выбором уровня сложности
-import OurGame from '../Games/OurGame/components/OurGame'; //путь к самой игре
+import AudioCallStartPage from '../games/AudioCall'; //открытие игры с выбором уровня сложности
+import AudioCall from '../games/AudioCall/components/AudioCallGame'; //путь к самой игре
+import SavannahGame from 'components/games/components/SavannaGame';
+import SavannahGameStartPage from 'components/games/components/SavannaGame/SavannaGameStartPage';
+import OurGameStartPage from '../games/OurGame'; //открытие игры с выбором уровня сложности
+import Sprint from '../games/Sprint/components/SprintGame';
+import SprintStartPage from '../games/Sprint'; //открытие игры с выбором уровня сложности
+import OurGame from '../games/OurGame/components/OurGame'; //путь к самой игре
 import UserContext from 'components/Auth/UserContext';
 
 export const App = () => {
