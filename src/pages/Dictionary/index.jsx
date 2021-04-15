@@ -32,8 +32,8 @@ function Dictionary() {
     definitionTranslate: true,
     sentenceTranslate: true,
     transcription: true,
-    difficultWords: true,
-    deleteWords: true,
+    difficultWords: false,
+    deleteWords: false,
   });
 
   const fetchDataLink = `${baseUrl}words?group=${group}&page=${page.toString()}`;
