@@ -28,7 +28,6 @@ import {
 } from 'components/games/components/startPage/styled';
 
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
-import GameOver from 'components/games/components/gameOver';
 
 let curWord = 0;
 
@@ -54,14 +53,13 @@ export default function Sprint() {
   const [rightAnswers, setRightAnswers] = useState(0);
   const [rightAnswersChain, setRightAnswersChain] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
-  const [isGameOver, setGameOver] = useState(false);
   const [gameOverStat, setGameOverStat] = useState([]);
 
   const wrongPage = page > 15 ? page - 2 : page + 2;
 
   const truth = !!Math.floor(Math.random() * 2);
 
-  const timerCount = 10;
+  let timerCount = 60;
 
   const apiurl = process.env.REACT_APP_APIURL;
   const wordsUrl = `${apiurl}/words?group=${group}&page=${page}`;
@@ -160,17 +158,11 @@ export default function Sprint() {
     return () => document.removeEventListener('keydown', listener);
   }, []);
 
-  const completeTimer = () => {
-    console.log('completeTimer');
-  };
+  const completeTimer = () => {};
 
-  const resetTimer = () => {
-    console.log('resetTimer');
-  };
+  const resetTimer = () => {};
 
-  const timerDuration = () => {
-    console.log('timerDuration');
-  };
+  const timerDuration = () => {};
 
   const word = words ? words[currentWord]?.word : '';
   const wordTranslate = truth
@@ -217,26 +209,16 @@ export default function Sprint() {
       setGameOverStat([
         ...gameOverStat,
         {
-          word: word.word,
-          id: word.id,
-          audio: word.audio,
-          wordTranslate: word.wordTranslate,
+          word: word,
+          id: words[currentWord]?.id,
+          audio: words[currentWord]?.audio,
+          wordTranslate: wordTranslate,
           isCorrect: isCorrect,
         },
       ]);
     },
-    [gameOverStat, word]
+    [gameOverStat, word, words, currentWord]
   );
-
-  const gameOver = useCallback(() => {
-    setGameOver(true);
-  }, []);
-
-  useEffect(() => {
-    /*if (wordsInRound === 0) {
-       gameOver();
-     }*/
-  }, [isGameOver, /*wordsInRound,*/ gameOver]);
 
   return error ? (
     <div>Error: {error.message}</div>
@@ -247,14 +229,6 @@ export default function Sprint() {
       <StyledVideo src="video/video.mp4" autoPlay loop muted />
       <SprintSection>
         <FullScreen handle={handle}>
-          {isGameOver ? (
-            <GameOver
-              rightAnswers={rightAnswers}
-              wrongAnswers={wrongAnswers}
-              gameOverStat={gameOverStat}
-            />
-          ) : null}
-
           <Score>{score}</Score>
 
           <Card>
@@ -298,6 +272,9 @@ export default function Sprint() {
             resetTimerRequested={resetTimerRequested}
             resetTimer={resetTimer}
             completeTimer={completeTimer} // callback на окончание таймера
+            rightAnswers={rightAnswers}
+            wrongAnswers={wrongAnswers}
+            gameOverStat={gameOverStat}
           />
         </FullScreen>
       </SprintSection>

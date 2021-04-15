@@ -69,7 +69,7 @@ function SessionStatistic() {
       },
       {
         title: 'Процент правильных ответов в игре "Саванна"',
-        value: 0 + '%' || Math.floor((savannaStat[0] * 100) / 10) + '%',
+        value: 0 + '%' || Math.floor((+savannaStat[0] * 100) / 10) + '%',
       },
       {
         title: 'Комбо правильных ответов в игре "Саванна"',
@@ -83,7 +83,7 @@ function SessionStatistic() {
       },
       {
         title: 'Процент правильных ответов в игре "Аудиовызов"',
-        value: 0 + '%' || Math.floor((audioStat[0] * 100) / 10) + '%',
+        value: 0 + '%' || Math.floor((+audioStat[0] * 100) / 10) + '%',
       },
       {
         title: 'Комбо правильных ответов в игре "Аудиовызов"',
@@ -98,7 +98,7 @@ function SessionStatistic() {
       },
       {
         title: 'Процент правильных ответов в игре "Спринт"',
-        value: 0 + '%' || Math.floor((sprintStat[0] * 100) / 10) + '%',
+        value: Math.floor((+sprintStat[0] * 100) / 20) + '%' || 0 + '%',
       },
       {
         title: 'Комбо правильных ответов в игре "Спринт"',
@@ -113,7 +113,7 @@ function SessionStatistic() {
       },
       {
         title: 'Процент правильных ответов в игре "Наводка"',
-        value: 0 + '%' || Math.floor((ourGameStat[0] * 100) / 10) + '%',
+        value: 0 + '%' || Math.floor((+ourGameStat[0] * 100) / 10) + '%',
       },
       {
         title: 'Комбо правильных ответов в игре "Наводка"',
@@ -162,7 +162,7 @@ function SessionStatistic() {
       </StyledStatInfo>
     </StyledStatContainer>
   );
-  //}
+  
 }
 
 export default SessionStatistic;
