@@ -12,8 +12,8 @@ const URL = process.env.REACT_APP_APIURL;
 
 // example getRandomInt(5)
 // number range from 0 to 4 inclusively
-const getRandomInt = (max) => {
-  return Math.floor(Math.random() * max);
+const getRandomInt = (max, from = 0) => {
+  return Math.floor(Math.random() * max + from);
 };
 
 const getSpecificWords = (wordOffsetValue) => {
@@ -37,7 +37,7 @@ const throttle = throttleFunction(TIME_TO_CHANGE_WORDS);
 const Index = ({ level = 0 }) => {
   const [stopTimer, setStopTimer] = useState(false);
   const [lives, setLives] = useState(4);
-  const [wordsList, setWordList] = useState(null);
+  const [wordsList, setWordList] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFailedToFetch, setIsFailedToFetch] = useState(false);
   const [score, setScore] = useState(-1);
@@ -50,12 +50,18 @@ const Index = ({ level = 0 }) => {
   const [wrongWords, setWrongWords] = useState(0);
   const [gameOverStat, setGameOverStat] = useState([]);
   const [isGameOver, setGameOver] = useState(false);
-  const [wordsInRound, setWordsInRound] = useState(20);
+  const [wordsInRound, setWordsInRound] = useState(35);
 
   useEffect(() => {
     fetch(`${URL}/words?group=${level}&page=${getRandomInt(5)}`)
       .then((res) => res.json())
       .then((words) => setWordList(words))
+      .catch(() => setIsFailedToFetch(true))
+      .finally(() => setIsLoaded(true));
+
+    fetch(`${URL}/words?group=${level}&page=${getRandomInt(10, 5)}`)
+      .then((res) => res.json())
+      .then((words) => setWordList((prevWords) => [...prevWords, ...words]))
       .catch(() => setIsFailedToFetch(true))
       .finally(() => setIsLoaded(true));
   }, [level]);
@@ -69,12 +75,6 @@ const Index = ({ level = 0 }) => {
     to: { x: 90 },
     from: { x: 0 },
     config: { duration: 10000 },
-    onRest: ({ finished }) => {
-      if (finished) {
-        setLives((lives) => lives - 1);
-        setScore((score) => score === -1 ? -5 : score - 5);
-      }
-    },
   });
 
   const AnimatedWord = a(SpecialWord);
@@ -117,6 +117,12 @@ const Index = ({ level = 0 }) => {
       pause: !stopTimer,
       from: { x: 0 },
       to: { x: 90 },
+      onRest: ({ finished }) => {
+        if (finished) {
+          setLives((lives) => lives - 1);
+          setScore((score) => score === -1 ? -5 : score - 5);
+        }
+      },
     });
   }, [stopTimer, partOfWordsToShowOnScreen, x]);
 
@@ -131,11 +137,11 @@ const Index = ({ level = 0 }) => {
   }, [score, wordsList]);
 
   useEffect(() => {
-    if (wordsInRound === 0) {
+    if (wordsInRound === 0 || lives === 0) {
       const ref = setTimeout(() => setGameOver(true), TIME_TO_CHANGE_WORDS);
       return () => clearTimeout(ref);
     }
-  }, [wordsInRound]);
+  }, [wordsInRound, lives]);
 
   if (isFailedToFetch) {
     return <Container>Что-то пошло не так! Попробуйте перезагрузить страницу :)</Container>;

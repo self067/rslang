@@ -24,10 +24,13 @@ const Words = styled.ul`
 const Score = styled.h3`
   position: absolute;
   top: 100px;
-  width: 100%;
   text-align: center;
   font-size: 2rem;
   font-weight: 500;
+  
+  color: white;
+  border: 2px dashed tomato; 
+  padding: .5rem 1rem;
 `;
 
 const Word = styled.li`
