@@ -72,7 +72,6 @@ export default function OurGame({ level }) {
     setRightWord(word[0]);
     setIsAttemptToAnswer(false);
     setIsSoundPlay(true);
-    console.log(word);
   }, [items]);
 
   const gameOver = useCallback(() => {
@@ -89,7 +88,7 @@ export default function OurGame({ level }) {
     if (isAttemptToAnswer) {
       return;
     }
-    debugger;
+    
     if (tryWord.toLowerCase() === rightWord?.word.toLowerCase()) {
       audioCorrectAnswer.play();
       setScore(score + 10);

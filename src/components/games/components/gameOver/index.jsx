@@ -25,7 +25,18 @@ export default function GameOver({ rightAnswers, wrongAnswers, gameOverStat }) {
   }
 
   return (
-    <SModal id='jedv' isOpen={true} contentLabel="Game over Modal" ariaHideApp={false}>
+    <SModal
+      id="test"
+      isOpen={true}
+      contentLabel="Game over Modal"
+      ariaHideApp={false}
+      style={{
+        overlay: {
+          position: 'absolute',
+          height: '2000px',
+        },
+      }}
+    >
       <ModalTitle>Твои результаты</ModalTitle>
       <ModalInfo>
         <ModalSubtitle>

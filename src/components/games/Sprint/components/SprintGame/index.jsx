@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Timer } from '../../../components/Timer';
 import { StyledLoader } from 'components/loader';
 import {
@@ -22,49 +22,58 @@ import {
   ArrowImg,
   ResultImg,
 } from './styled';
+import {
+  StyledSection,
+  StyledVideo,
+} from 'components/games/components/startPage/styled';
 
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 
 let curWord = 0;
+
+const audioCorrectAnswer = new Audio('audio/correct.mp3');
+const audioWrongAnswer = new Audio('audio/wrong.mp3');
 
 export default function Sprint() {
   const handle = useFullScreenHandle();
   const [score, setScore] = useState(0);
   const [rightCount, setRightCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
-
   const [resetTimerRequested, setResetTimer] = useState(false);
   const [words, setWords] = useState(null);
   const [wrongWords, setWrongWords] = useState(null);
-
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(Math.floor(Math.random() * 30));
   const [group, setGroup] = useState(0);
   const [error, setError] = useState(null);
   const [currentWord, setCurrentWord] = useState(0);
-
   const [addScore, setAddScore] = useState(0);
   const [checks, setChecks] = useState(0);
+
+  const [rightAnswers, setRightAnswers] = useState(0);
+  const [rightAnswersChain, setRightAnswersChain] = useState(0);
+  const [wrongAnswers, setWrongAnswers] = useState(0);
+  const [gameOverStat, setGameOverStat] = useState([]);
 
   const wrongPage = page > 15 ? page - 2 : page + 2;
 
   const truth = !!Math.floor(Math.random() * 2);
-  console.log(truth ? 'true' : 'false');
-  const timerCount = 10;
+
+  let timerCount = 60;
 
   const apiurl = process.env.REACT_APP_APIURL;
   const wordsUrl = `${apiurl}/words?group=${group}&page=${page}`;
   const wrongWordsUrl = `${apiurl}/words?group=${group}&page=${wrongPage}`;
 
   const nextWord = (rig) => {
-    console.log('Next', curWord, currentWord);
-
     setCurrentWord(++curWord);
-
-    console.log('score=', score, 'addScore=', addScore);
 
     if (rig) {
       setRightCount(rightCount + 1);
+      setRightAnswers(rightAnswers + 1);
+      setRightAnswersChain(rightAnswersChain + 1);
+      audioCorrectAnswer.play();
+      getGameOverStat(true);
       let ascore = addScore;
       if (checks < 3 && ascore < 3) setChecks(checks + 1);
       else {
@@ -80,26 +89,24 @@ export default function Sprint() {
       setWrongCount(wrongCount + 1);
       setAddScore(0);
       setChecks(0);
+      //setRightAnswersChain(0);
+      setWrongAnswers(wrongAnswers + 1);
+      audioWrongAnswer.play();
+      getGameOverStat(false);
     }
-
-    // setScore(score + addScore);
 
     if (curWord > 19) {
       setPage(page > 28 ? 0 : page + 1);
       curWord = 0;
       setCurrentWord(curWord);
     }
-
-    // console.log(rightCount, wrongCount);
   };
 
   const onLeft = () => {
-    console.log('onLeft', curWord, currentWord);
     nextWord(!truth);
   };
 
   const onRight = () => {
-    console.log('onRight', curWord, currentWord);
     nextWord(truth);
   };
 
@@ -151,17 +158,11 @@ export default function Sprint() {
     return () => document.removeEventListener('keydown', listener);
   }, []);
 
-  const completeTimer = () => {
-    console.log('completeTimer');
-  };
+  const completeTimer = () => {};
 
-  const resetTimer = () => {
-    console.log('resetTimer');
-  };
+  const resetTimer = () => {};
 
-  const timerDuration = () => {
-    console.log('timerDuration');
-  };
+  const timerDuration = () => {};
 
   const word = words ? words[currentWord]?.word : '';
   const wordTranslate = truth
@@ -196,58 +197,107 @@ export default function Sprint() {
     return <>{res}</>;
   };
 
+  useEffect(() => {
+    let totalAmount, rightAnswersAmount, totalRightAnswersChain;
+    if (localStorage.getItem('sprintGameStat')) {
+      let gameStat = JSON.parse(localStorage.getItem('sprintGameStat'));
+      totalAmount =
+        +rightAnswers + +wrongAnswers + +gameStat.rightAnswersAmount;
+      rightAnswersAmount = +rightAnswers + +gameStat.rightAnswersAmount;
+      totalRightAnswersChain =
+        rightAnswersChain > gameStat.totalRightAnswersChain
+          ? rightAnswersChain
+          : gameStat.totalRightAnswersChain;
+    } else {
+      totalAmount = +rightAnswers + +wrongAnswers;
+      rightAnswersAmount = +rightAnswers;
+      totalRightAnswersChain = +rightAnswersChain;
+    }
+    console.log(totalAmount);
+    localStorage.setItem(
+      'sprintGameStat',
+      JSON.stringify({
+        totalAmount: totalAmount,
+        rightAnswersAmount: rightAnswersAmount,
+        totalRightAnswersChain: totalRightAnswersChain,
+      })
+    );
+  });
+
+  const getGameOverStat = useCallback(
+    (isCorrect) => {
+      setGameOverStat([
+        ...gameOverStat,
+        {
+          word: word,
+          id: words[currentWord]?.id,
+          audio: words[currentWord]?.audio,
+          wordTranslate: wordTranslate,
+          isCorrect: isCorrect,
+        },
+      ]);
+    },
+    [gameOverStat, word, words, currentWord]
+  );
+
   return error ? (
     <div>Error: {error.message}</div>
   ) : !isLoaded ? (
     <StyledLoader>Loading...</StyledLoader>
   ) : (
-    <SprintSection>
-      <FullScreen handle={handle}>
-        <Score>{score}</Score>
+    <StyledSection>
+      <StyledVideo src="video/video.mp4" autoPlay loop muted />
+      <SprintSection>
+        <FullScreen handle={handle}>
+          <Score>{score}</Score>
 
-        <Card>
-          <PandaTop src="images/sprint/panda_pl.png" loading="lazy" alt="" />
+          <Card>
+            <PandaTop src="images/sprint/panda_pl.png" loading="lazy" alt="" />
 
-          <Wrapper>
-            <BoxColor>
-              <WordScore>+ {2 ** addScore * 10} очков за слово</WordScore>
-              <CheckBoxes>
-                <Checks />
-              </CheckBoxes>
-            </BoxColor>
+            <Wrapper>
+              <BoxColor>
+                <WordScore>+ {2 ** addScore * 10} очков за слово</WordScore>
+                <CheckBoxes>
+                  <Checks />
+                </CheckBoxes>
+              </BoxColor>
 
-            <PandaBox>
-              <PandasImgs />
-            </PandaBox>
-            <WordsBox>
-              <TextCard>{word}</TextCard>
-              <TextCard>{wordTranslate}</TextCard>
-            </WordsBox>
-          </Wrapper>
-        </Card>
+              <PandaBox>
+                <PandasImgs />
+              </PandaBox>
+              <WordsBox>
+                <TextCard>{word}</TextCard>
+                <TextCard>{wordTranslate}</TextCard>
+              </WordsBox>
+            </Wrapper>
+          </Card>
 
-        <ButtonsBox>
-          <ArrowImg src="images/sprint/arrow_l.png" alt="" />
-          <NoButton onClick={() => onLeft()}>неверно</NoButton>
-          <ResultImg src="images/sprint/CHECK1.png" alt="" />
-          <YesButton onClick={() => onRight()}>верно</YesButton>
-          <ArrowImg src="images/sprint/arrow_r.png" alt="" />
-        </ButtonsBox>
+          <ButtonsBox>
+            <ArrowImg src="images/sprint/arrow_l.png" alt="" />
+            <NoButton onClick={() => onLeft()}>неверно</NoButton>
+            <ResultImg src="images/sprint/CHECK1.png" alt="" />
+            <YesButton onClick={() => onRight()}>верно</YesButton>
+            <ArrowImg src="images/sprint/arrow_r.png" alt="" />
+          </ButtonsBox>
 
-        <PandaBottom src="images/sprint/panda_r.png" alt="" />
+          <PandaBottom src="images/sprint/panda_r.png" alt="" />
 
-        <Timer
-          outerColor="#643949"
-          innerColor="#C3E1C9"
-          countdownColor="#643949"
-          timerCount={timerCount} // количество секунд
-          displayCountdown={true}
-          timerDuration={timerDuration} // callback на каждый чих таймера
-          resetTimerRequested={resetTimerRequested}
-          resetTimer={resetTimer}
-          completeTimer={completeTimer} // callback на окончание таймера
-        />
-      </FullScreen>
-    </SprintSection>
+          <Timer
+            outerColor="#643949"
+            innerColor="#C3E1C9"
+            countdownColor="#643949"
+            timerCount={timerCount} // количество секунд
+            displayCountdown={true}
+            timerDuration={timerDuration} // callback на каждый чих таймера
+            resetTimerRequested={resetTimerRequested}
+            resetTimer={resetTimer}
+            completeTimer={completeTimer} // callback на окончание таймера
+            rightAnswers={rightAnswers}
+            wrongAnswers={wrongAnswers}
+            gameOverStat={gameOverStat}
+          />
+        </FullScreen>
+      </SprintSection>
+    </StyledSection>
   );
 }

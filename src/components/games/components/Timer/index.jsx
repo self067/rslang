@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import moment from 'moment';
 import { TimerWrap } from './styled';
 import { TimerSVG } from './TimerSVG';
+import GameOver from 'components/games/components/gameOver';
 
 function useInterval(callback, runTimer) {
   const savedCallback = useRef();
@@ -33,8 +34,11 @@ export const Timer = ({
   timerDuration,
   resetTimerRequested,
   resetTimer,
-  timerCount = 60,
+  timerCount,
   completeTimer,
+  rightAnswers,
+  wrongAnswers,
+  gameOverStat,
 }) => {
   let [draw, setDraw] = useState('');
   let [timerIsRunning, setTimerIsRunning] = useState(false);
@@ -45,6 +49,18 @@ export const Timer = ({
 
   const goalTimeMilliseconds = timerCount * 1000;
   const degrees = 360 / (timerCount * 1000);
+
+  const [isGameOver, setGameOver] = useState(false);
+
+  const gameOver = useCallback(() => {
+    setGameOver(true);
+  }, []);
+
+  useEffect(() => {
+    if (counterText === '00:00' || timerCount === 0) {
+      gameOver();
+    }
+  }, [isGameOver, counterText, timerCount, gameOver]);
 
   const start = () => {
     setElapsedTime(duration);
@@ -122,17 +138,26 @@ export const Timer = ({
   };
 
   return (
-    <TimerWrap>
-      <TimerSVG
-        timerText={counterText}
-        draw={draw}
-        outerColor={outerColor}
-        innerColor={innerColor}
-        countdownColor={countdownColor}
-        timerIsRunning={timerIsRunning}
-        displayCountdown={displayCountdown}
-        clickStart={() => (timerIsRunning ? pause() : start())}
-      />
-    </TimerWrap>
+    <>
+      {isGameOver ? (
+        <GameOver
+          rightAnswers={rightAnswers}
+          wrongAnswers={wrongAnswers}
+          gameOverStat={gameOverStat}
+        />
+      ) : null}
+      <TimerWrap>
+        <TimerSVG
+          timerText={counterText}
+          draw={draw}
+          outerColor={outerColor}
+          innerColor={innerColor}
+          countdownColor={countdownColor}
+          timerIsRunning={timerIsRunning}
+          displayCountdown={displayCountdown}
+          clickStart={() => (timerIsRunning ? pause() : start())}
+        />
+      </TimerWrap>
+    </>
   );
 };

@@ -8,7 +8,7 @@ const animate = keyframes`
 
 export const SModal = styled(Modal)`
   position: absolute;
-  top: 15%;
+  top: 5%;
   left: 25%;
   width: 50%;
   background: linear-gradient(90deg, var(--blue-light) 0%, var(--light) 100%);
@@ -18,7 +18,7 @@ export const SModal = styled(Modal)`
   text-align: center;
   outline: none;
   @media (max-width: 960px) {
-    top: 15%;
+    top: 5%;
     left: 10%;
     width: 80%;
   }
