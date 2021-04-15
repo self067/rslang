@@ -25,8 +25,9 @@ export default function StartPage({
   rules,
   path,
   setIsGame,
+  setLevel,
+  level
 }) {
-  const [level, setLevel] = useState(0);
   const skillLevels = [
     'Beginner',
     'Elementary',
@@ -50,11 +51,7 @@ export default function StartPage({
       <StyledContainer>
         <StyledTitle>Добро пожаловать в игру {name}</StyledTitle>
         <StyledContent>
-          <Tabs
-            onSelect={(index) => {
-              setLevel(index);
-            }}
-          >
+          <Tabs onSelect={(index) => setLevel(index)}>
             <StyledTabHeader>
               <StyledImg src={img[level]} alt="img" />
               <p>Выберите уровень сложности игры </p>
@@ -97,17 +94,21 @@ export default function StartPage({
 }
 
 StartPage.defaultProps = {
+  level: 0,
   name: '',
   description: '',
   rules: '',
   path: '/',
   setIsGame: () => {},
+  setLevel: () => {},
 };
 
 StartPage.propTypes = {
+  level: PropTypes.number,
   name: PropTypes.string,
   description: PropTypes.string,
   rules: PropTypes.string,
   path: PropTypes.string,
   setIsGame: PropTypes.func,
+  setLevel: PropTypes.func,
 };

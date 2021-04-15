@@ -1,39 +1,40 @@
 import React, { useState, useEffect, useCallback } from 'react';
-
 import {
+  Score,
   GameContent,
+  StyledContent,
   StyledWordsContainer,
+  StyledWord,
   StyledAnswerContent,
   StyledButtonBlock,
   StyledDescription,
   StyledHideDiv,
-} from 'components/games/AudioCall/components/AudioCallGame/styled';
-import { StyledContent, StyledInput, Score } from './styled';
+} from './styled';
 import {
   StyledSection,
   StyledContainer,
   StyledVideo,
-} from 'components/games/components/startPage/styled';
-import 'components/games/AudioCall/components/AudioCallGame/styles.css';
+} from 'components/Games/components/startPage/styled';
+import './styles.css';
 import { Button } from 'components/button';
 import PropTypes from 'prop-types';
 import { StyledLoader } from 'components/loader';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
-import GameOver from 'components/games/components/gameOver';
+import GameOver from 'components/Games/components/gameOver';
 
 const audioCorrectAnswer = new Audio('audio/correct.mp3');
 const audioWrongAnswer = new Audio('audio/wrong.mp3');
 const audioNoAnswer = new Audio('audio/noAnswer.wav');
 const baseUrl = process.env.REACT_APP_APIURL;
 
-export default function OurGame({ level }) {
+export default function AudioСall({ level }) {
   const handle = useFullScreenHandle();
 
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
-
   const [score, setScore] = useState(0);
+  const [words, setWords] = useState(null); // список из 5 слов для игры
   const [rightWord, setRightWord] = useState(null); // произнесенное слово
   const [isAttemptToAnswer, setIsAttemptToAnswer] = useState(false); //ответ пользователя получен
   const [wordsInRound, setWordsInRound] = useState(10);
@@ -44,13 +45,11 @@ export default function OurGame({ level }) {
   const [rightAnswers, setRightAnswers] = useState(0);
   const [rightAnswersChain, setRightAnswersChain] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
-  const [value, setValue] = useState('');
 
   const fetchDataLink = (level, page) =>
     `${baseUrl}/words?group=${level}&page=${page}`;
 
   const [url, setUrl] = useState(fetchDataLink(level, 1));
-  const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
 
   useEffect(() => {
     fetch(url)
@@ -67,9 +66,14 @@ export default function OurGame({ level }) {
       );
   }, [url]);
 
+  const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
+
   useEffect(() => {
-    const word = [...items].sort(() => Math.random() - 0.5).slice(0, 1);
-    setRightWord(word[0]);
+    const listOfFiveWords = [...items]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 5);
+    setWords(listOfFiveWords);
+    setRightWord(listOfFiveWords[getRandomInt(5)]);
     setIsAttemptToAnswer(false);
     setIsSoundPlay(true);
   }, [items]);
@@ -84,12 +88,12 @@ export default function OurGame({ level }) {
     }
   }, [isGameOver, wordsInRound, gameOver]);
 
-  function AttemptToAnswer(tryWord) {
+  function AttemptToAnswer(word) {
     if (isAttemptToAnswer) {
       return;
     }
-    
-    if (tryWord.toLowerCase() === rightWord?.word.toLowerCase()) {
+
+    if (word.id === rightWord.id) {
       audioCorrectAnswer.play();
       setScore(score + 10);
       setRightAnswers(rightAnswers + 1);
@@ -137,7 +141,7 @@ export default function OurGame({ level }) {
 
   useEffect(() => {
     sessionStorage.setItem(
-      'ourGameStat',
+      'audioStat',
       JSON.stringify([rightAnswers, rightAnswersChain])
     );
   });
@@ -169,7 +173,7 @@ export default function OurGame({ level }) {
                 <i className="fas fa-expand-arrows-alt" />
               </button>
               <StyledDescription>
-                Напиши слово, которое услышал.
+                Выбери правильный перевод слова после воспроизведения аудио
               </StyledDescription>
 
               <Score> Очки: {score} из 100</Score>
@@ -181,7 +185,7 @@ export default function OurGame({ level }) {
                     onClick={() => {
                       playSound();
                     }}
-                    src="images/volume_dark.png"
+                    src="images/volume.svg"
                     alt="volume_icon"
                   />
                   <img
@@ -193,35 +197,36 @@ export default function OurGame({ level }) {
                     <img
                       onClick={() => playSound()}
                       className="volumeIconSmall"
-                      src="images/volume_dark.png"
+                      src="images/volume.svg"
                       alt="sound"
                     />
                     <StyledAnswerContent>
-                      {rightWord && rightWord.word} <br />
-                      {rightWord && rightWord.transcription}
+                      {rightWord && rightWord.word}
                     </StyledAnswerContent>
                   </div>
                 </StyledHideDiv>
 
                 <StyledWordsContainer>
-                  <label>
-                    <StyledInput
-                      onChange={(e) => setValue(e.target.value)}
-                      autoFocus
-                      autoComplete="off"
-                      type="text"
-                      value={value}
-                      placeholder="Напишите слово, которое услышал"
-                      required
-                    />
-                  </label>
-                  <Button
-                    buttonStyle="btn--light"
-                    buttonSize="btn--medium"
-                    onClick={() => AttemptToAnswer(value)}
-                  >
-                    Проверить
-                  </Button>
+                  {words &&
+                    words.map((word, index) => {
+                      return (
+                        <StyledWord
+                          id={
+                            word.id !== rightWord.id && isAttemptToAnswer
+                              ? 'wrongAnswer'
+                              : ''
+                          }
+                          key={word.id}
+                          onClick={() => AttemptToAnswer(word)}
+                        >
+                          {word.id === rightWord.id && isAttemptToAnswer
+                            ? '☑'
+                            : index + 1}
+                          &nbsp;
+                          {word.wordTranslate}
+                        </StyledWord>
+                      );
+                    })}
                 </StyledWordsContainer>
               </GameContent>
               <StyledButtonBlock>
@@ -231,14 +236,12 @@ export default function OurGame({ level }) {
                   onClick={() => {
                     if (isAttemptToAnswer) {
                       setUrl(fetchDataLink(level, getRandomInt(30)));
-                      setValue('');
                     } else if (wordsInRound) {
                       audioNoAnswer.play();
                       setIsAttemptToAnswer(true);
                       setWordsInRound(wordsInRound - 1);
                       getGameOverStat(false);
                       setWrongAnswers(wrongAnswers + 1);
-                      setValue('');
                     }
                     !wordsInRound ? setGameOver(true) : setGameOver(false);
                   }}
@@ -254,10 +257,10 @@ export default function OurGame({ level }) {
   }
 }
 
-OurGame.defaultProps = {
+AudioСall.defaultProps = {
   level: '',
 };
 
-OurGame.propTypes = {
+AudioСall.propTypes = {
   level: PropTypes.string,
 };

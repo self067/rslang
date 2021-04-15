@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import StartPage from '../components/startPage';
-import AudioСall from '../AudioСall/components/AudioCallGame';
+import AudioCall from './components/AudioCallGame';
 
-export default function AudioСallStartPage() {
+export default function AudioCallStartPage() {
   const [isGame, setIsGame] = useState(false);
   return (
     <>
@@ -23,7 +23,7 @@ export default function AudioСallStartPage() {
           path="/audioGame"
         />
       ) : (
-        <AudioСall />
+        <AudioCall />
       )}
     </>
   );
