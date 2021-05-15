@@ -1,0 +1,111 @@
+/* ====================== WORD LIST ==================== */
+
+.cards__wrapper {
+  margin: 30px 20px;
+  max-width: 1200px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+}
+.cards {
+  padding: 15px;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+/* ================== PAGINATION ==================== */
+
+.pagination {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  text-align: center;
+  background-color: rgba(148,159,176,0.5);
+  user-select: none;
+}
+.pagination ul {
+  padding: 5px 0;
+}
+.pagination li {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 3px;
+  margin: 0 10px;
+  font-size: 1.3rem;
+}
+.pagination li a {
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  outline: none;
+}
+li.selected {
+  background-color: #fff;
+}
+li.previous,
+li.next {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* =============== TABS ====================== */
+
+.react-tabs {
+  -webkit-tap-highlight-color: transparent;
+}
+.react-tabs__tab-list {
+  border-bottom: 1px solid #aaa;
+  margin: 0 0 10px;
+  padding: 0;
+  text-align: center;
+  background-color: rgba(148,159,176,0.5);
+}
+.react-tabs__tab {
+  display: inline-block;
+  border: 1px solid transparent;
+  border-bottom: none;
+  bottom: -1px;
+  position: relative;
+  list-style: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+.react-tabs__tab:first-child {
+  margin-left: 0;
+}
+.react-tabs__tab--selected {
+  border-color: #aaa;
+  color: black;
+  border-radius: 5px 5px 0 0;
+}
+.react-tabs__tab--disabled {
+  color: GrayText;
+  cursor: default;
+}
+.react-tabs__tab:focus {
+  box-shadow: 0 0 5px #0188fe;
+  border-color: #0188fe;
+  outline: none;
+}
+.react-tabs__tab:focus:after {
+  content: '';
+  position: absolute;
+  height: 5px;
+  left: -4px;
+  right: -4px;
+  bottom: -5px;
+  background: #fff;
+}
+.react-tabs__tab-panel {
+  display: none;
+}
+.react-tabs__tab-panel--selected {
+  display: block;
+}
+
+.tabs-header {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  text-align: center;
+  padding: 10px 0 20px;
+  background-color: rgba(148,159,176,0.5);
+  color: #fff;
+}
